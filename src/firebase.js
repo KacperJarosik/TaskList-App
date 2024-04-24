@@ -1,21 +1,17 @@
-import firebase from "firebase/app"
-import firebase from "firebase/auth"
+import {initializeApp} from "firebase/app"
 import {getFirestore} from "@firebase/firestore"
-import { getAnalytics } from "firebase/analytics"
 
 //configuracja kluczy do firebase'a
-const firebaseApp = firebase.initializeApp({
-    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.REACT_APP_FIREBASE__STORAGE_BUCKET,
-    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.REACT_APP_FIREBASE_APP_ID,
-    measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
-})
+const firebaseConfig = {
+    apiKey: "AIzaSyCUEKsdhhfwm5MN_4tO6yPB1hVJoHBmyZE",
+    authDomain: "tasklistapp-deddb.firebaseapp.com",
+    projectId: "tasklistapp-deddb",
+    storageBucket: "tasklistapp-deddb.appspot.com",
+    messagingSenderId: "1012734704162",
+    appId: "1:1012734704162:web:3af62a55791eb052f8a87b",
+    measurementId: "G-S0L825FK7Z"
+  };
+  //inicjalizacja firebase'a i bazy firestore
+const app = initializeApp(firebaseConfig);
+export const firestore = getFirestore(app);
 
-//inicjalizacja firebase'a i bazy firestore
-export const auth = firebaseApp.auth();
-const firestore = getFirestore(firebaseApp);
-const analytics = getAnalytics(firebaseApp);
-export default firebaseApp
