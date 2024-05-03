@@ -2,152 +2,173 @@ import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-function listsToText(lists) {
-  let text = '';
-  lists.forEach(list => {
-    text += `${list.title}\n`;
-    list.items.forEach(item => {
-      text += `${item.text},${item.date}\n`;
-    });
-    text += '\n';
-  });
-  return text;
+class Category {
+  constructor(id, title) {
+    this.id = id;
+    this.title = title;
+    this.tasks = [];
+  }
+
+  addTask(task) {
+    this.tasks.push(task);
+    this.tasks.sort((a, b) => new Date(a.date) - new Date(b.date)); // Sort tasks by date
+  }
+
+  removeTask(taskId) {
+    this.tasks = this.tasks.filter(task => task.id !== taskId);
+  }
+
+  updateTaskText(taskId, newText) {
+    const task = this.tasks.find(task => task.id === taskId);
+    if (task) {
+      task.text = newText;
+    }
+  }
+
+  updateTaskDate(taskId, newDate) {
+    const task = this.tasks.find(task => task.id === taskId);
+    if (task) {
+      task.date = newDate;
+      this.tasks.sort((a, b) => new Date(a.date) - new Date(b.date)); // Sort tasks by date
+    }
+  }
 }
 
-function textToLists(text) {
-  const lines = text.trim().split('\n');
-  const lists = [];
-  let currentList = null;
-  lines.forEach(line => {
-    if (line.trim() === '') {
-      currentList = null;
-    } else if (!currentList) {
-      currentList = { title: line.trim(), items: [] };
-      lists.push(currentList);
-    } else {
-      const [text, date] = line.split(',');
-      currentList.items.push({ text, date });
-    }
-  });
-  return lists;
+class Task {
+  constructor(id, text, date) {
+    this.id = id;
+    this.text = text;
+    this.date = date;
+  }
 }
 
 function App() {
-  const [lists, setLists] = useState([]);
-  const [nextId, setNextId] = useState(1);
+  const [categories, setCategories] = useState([]);
+  const [nextCategoryId, setNextCategoryId] = useState(1);
+  const [nextTaskId, setNextTaskId] = useState(1);
 
   useEffect(() => {
-    const savedLists = localStorage.getItem('lists');
-    if (savedLists) {
-      setLists(textToLists(savedLists));
-      setNextId(textToLists(savedLists).reduce((maxId, list) => Math.max(maxId, Math.max(...list.items.map(item => item.id))), 0) + 1);
+    const savedCategories = localStorage.getItem('categories');
+    if (savedCategories) {
+      setCategories(JSON.parse(savedCategories).map(categoryData => {
+        const category = new Category(categoryData.id, categoryData.title);
+        categoryData.tasks.forEach(taskData => {
+          category.addTask(new Task(taskData.id, taskData.text, taskData.date));
+        });
+        return category;
+      }));
+      const maxTaskId = JSON.parse(savedCategories).reduce((maxId, categoryData) => {
+        return Math.max(maxId, Math.max(...categoryData.tasks.map(task => task.id)));
+      }, 0);
+      setNextTaskId(maxTaskId + 1);
+      const maxCategoryId = Math.max(...JSON.parse(savedCategories).map(categoryData => categoryData.id));
+      setNextCategoryId(maxCategoryId + 1);
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('lists', listsToText(lists));
-  }, [lists]);
+    localStorage.setItem('categories', JSON.stringify(categories));
+  }, [categories]);
 
-  const addItem = (listId, itemText, itemDate) => {
-    const newLists = lists.map(list => {
-      if (list.id === listId) {
-        return { ...list, items: [...list.items, { id: nextId, text: itemText, date: itemDate }] };
+  const addCategory = (title) => {
+    const newCategory = new Category(nextCategoryId, title || `Kategoria ${nextCategoryId}`);
+    setCategories([...categories, newCategory]);
+    setNextCategoryId(prevId => prevId + 1);
+  };
+
+  const removeCategory = (categoryId) => {
+    const newCategories = categories.filter(category => category.id !== categoryId);
+    setCategories(newCategories);
+  };
+
+  const updateCategoryTitle = (categoryId, newTitle) => {
+    const newCategories = categories.map(category => {
+      if (category.id === categoryId) {
+        category.title = newTitle;
       }
-      return list;
+      return category;
     });
-    setLists(newLists);
-    setNextId(prevId => prevId + 1);
+    setCategories(newCategories);
   };
 
-  const removeItem = (listId, itemId) => {
-    const newLists = lists.map(list => {
-      if (list.id === listId) {
-        const updatedItems = list.items.filter(item => item.id !== itemId);
-        return { ...list, items: updatedItems };
-      }
-      return list;
-    });
-    setLists(newLists);
+  const addTask = (categoryId, taskText, taskDate) => {
+    const category = categories.find(category => category.id === categoryId);
+    if (category) {
+      const newTask = new Task(nextTaskId, taskText, taskDate);
+      category.addTask(newTask);
+      setNextTaskId(prevId => prevId + 1);
+    }
   };
 
-  const updateItemText = (listId, itemId, newText) => {
-    const newLists = lists.map(list => {
-      if (list.id === listId) {
-        const updatedItems = list.items.map(item => {
-          if (item.id === itemId) {
-            return { ...item, text: newText };
-          }
-          return item;
-        });
-        return { ...list, items: updatedItems };
-      }
-      return list;
-    });
-    setLists(newLists);
+  const removeTask = (categoryId, taskId) => {
+    const category = categories.find(category => category.id === categoryId);
+    if (category) {
+      category.removeTask(taskId);
+    }
   };
 
-  const updateItemDate = (listId, itemId, newDate) => {
-    const newLists = lists.map(list => {
-      if (list.id === listId) {
-        const updatedItems = list.items.map(item => {
-          if (item.id === itemId) {
-            return { ...item, date: newDate };
-          }
-          return item;
-        });
-        return { ...list, items: updatedItems };
-      }
-      return list;
-    });
-    setLists(newLists);
+  const updateTaskText = (categoryId, taskId, newText) => {
+    const category = categories.find(category => category.id === categoryId);
+    if (category) {
+      category.updateTaskText(taskId, newText);
+    }
   };
 
-  const addList = (title) => {
-    const newList = {
-      id: nextId,
-      title: title || `Lista ${nextId}`,
-      items: []
-    };
-    setNextId(prevId => prevId + 1);
-    setLists([...lists, newList]);
+  const updateTaskDate = (categoryId, taskId, newDate) => {
+    const category = categories.find(category => category.id === categoryId);
+    if (category) {
+      category.updateTaskDate(taskId, newDate);
+    }
   };
 
-  const removeList = (listId) => {
-    const newLists = lists.filter(list => list.id !== listId);
-    setLists(newLists);
-  };
-
-  const updateListTitle = (listId, newTitle) => {
-    const newLists = lists.map(list => {
-      if (list.id === listId) {
-        return { ...list, title: newTitle };
-      }
-      return list;
-    });
-    setLists(newLists);
-  };
-
-  const sortListByDate = (list) => {
-    return list.items.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
-  };
-
-  const importListsFromFile = (file) => {
+  const importCategoriesFromFile = (file) => {
     const reader = new FileReader();
     reader.onload = (event) => {
       const text = event.target.result;
-      setLists(textToLists(text));
-      setNextId(textToLists(text).reduce((maxId, list) => Math.max(maxId, Math.max(...list.items.map(item => item.id))), 0) + 1);
+      setCategories(textToCategories(text)); // Define textToCategories function
     };
     reader.readAsText(file);
   };
 
-  const exportListsToFile = () => {
+  const exportCategoriesToFile = () => {
     const element = document.createElement('a');
-    const file = new Blob([listsToText(lists)], { type: 'text/plain' });
+    const file = new Blob([categoriesToText(categories)], { type: 'text/plain' });
     element.href = URL.createObjectURL(file);
-    element.download = 'lists.txt';
+    element.download = 'categories.txt';
     document.body.appendChild(element);
     element.click();
+  };
+
+  const categoriesToText = (categories) => {
+    let text = '';
+    categories.forEach(category => {
+      text += `${category.title}\n`;
+      category.tasks.forEach(task => {
+        text += `${task.text},${task.date}\n`;
+      });
+      text += '\n';
+    });
+    return text;
+  };
+
+  const textToCategories = (text) => {
+    const lines = text.trim().split('\n');
+    const categories = [];
+    let currentCategory = null;
+    lines.forEach(line => {
+      if (line.trim() === '') {
+        currentCategory = null;
+      } else if (!currentCategory) {
+        currentCategory = new Category(nextCategoryId, line.trim());
+        categories.push(currentCategory);
+        setNextCategoryId(prevId => prevId + 1);
+      } else {
+        const [text, date] = line.split(',');
+        currentCategory.addTask(new Task(nextTaskId, text, date));
+        setNextTaskId(prevId => prevId + 1);
+      }
+    });
+    return categories;
   };
 
   return (
@@ -155,47 +176,47 @@ function App() {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1>Rozwijana lista</h1>
-          {lists.map(list => (
-              <div key={list.id}>
+          {categories.map(category => (
+              <div key={category.id}>
                 <h2>
                   <input
                       type="text"
-                      value={list.title}
-                      onChange={(e) => updateListTitle(list.id, e.target.value)}
+                      value={category.title}
+                      onChange={(e) => updateCategoryTitle(category.id, e.target.value)}
                   />
                 </h2>
                 <ul>
-                  {sortListByDate(list).map((item, index) => (
-                      <li key={item.id}>
+                  {category.tasks.map(task => (
+                      <li key={task.id}>
                         <input
                             type="text"
-                            value={item.text}
-                            onChange={(e) => updateItemText(list.id, item.id, e.target.value)}
+                            value={task.text}
+                            onChange={(e) => updateTaskText(category.id, task.id, e.target.value)}
                         />
                         <input
                             type="date"
-                            value={item.date}
-                            onChange={(e) => updateItemDate(list.id, item.id, e.target.value)}
+                            value={task.date}
+                            onChange={(e) => updateTaskDate(category.id, task.id, e.target.value)}
                         />
-                        <button onClick={() => removeItem(list.id, item.id)}>Usuń</button>
+                        <button onClick={() => removeTask(category.id, task.id)}>Usuń</button>
                       </li>
                   ))}
                 </ul>
                 <div>
-                  <input type="text" placeholder="Nowy punkt" id={`newItem-${list.id}`} />
-                  <input type="date" id={`newItemDate-${list.id}`} />
-                  <button onClick={() => addItem(list.id, document.getElementById(`newItem-${list.id}`).value, document.getElementById(`newItemDate-${list.id}`).value)}>Dodaj punkt</button>
+                  <input type="text" placeholder="Nowe zadanie" id={`newTask-${category.id}`} />
+                  <input type="date" id={`newTaskDate-${category.id}`} />
+                  <button onClick={() => addTask(category.id, document.getElementById(`newTask-${category.id}`).value, document.getElementById(`newTaskDate-${category.id}`).value)}>Dodaj zadanie</button>
                 </div>
-                <button onClick={() => removeList(list.id)}>Usuń listę</button>
+                <button onClick={() => removeCategory(category.id)}>Usuń kategorię</button>
               </div>
           ))}
           <div>
-            <input type="text" placeholder="Nazwa listy" id="newListTitle" />
-            <button onClick={() => addList(document.getElementById('newListTitle').value)}>Dodaj nową listę</button>
+            <input type="text" placeholder="Nowa kategoria" id="newCategoryTitle" />
+            <button onClick={() => addCategory(document.getElementById('newCategoryTitle').value)}>Dodaj nową kategorię</button>
           </div>
           <div>
-            <input type="file" onChange={(e) => importListsFromFile(e.target.files[0])} />
-            <button onClick={exportListsToFile}>Exportuj listy</button>
+            <input type="file" onChange={(e) => importCategoriesFromFile(e.target.files[0])} />
+            <button onClick={exportCategoriesToFile}>Exportuj kategorie</button>
           </div>
         </header>
       </div>
