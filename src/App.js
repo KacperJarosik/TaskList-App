@@ -1,8 +1,17 @@
-import logo from './logo.svg';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import TestDatabase from './testDatabase';
+import LoginSignup from './Components/LoginSignup/LoginSignup';
+import { AfterLogin } from './Components/LoginSignup/AfterLogin';
 function App() {
-  return (<TestDatabase></TestDatabase>);
+  return (
+  <div>
+<Routes>
+  <Route path='/' element={<LoginSignup/>}/>
+  <Route path='/after' element={<AfterLogin/>}/>
+</Routes>
+
+  </div>
+  );
 }
 
 export default App;
