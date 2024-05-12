@@ -1,0 +1,224 @@
+* {
+    background-color: #1b2230;
+    color: #f1f1e6;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.leftSide {
+    display: block;
+    width: 20%;
+    height: 100vh;
+    float: left;
+    position: relative;
+    padding: 0.5%;
+}
+
+.AppLogo {
+    display: block;
+    height: 20%;
+    position: relative;
+
+    padding-top: 14%;
+    padding-left: 14%;
+}
+
+.AppLogo > h1 {
+    font-size: 60px;
+}
+
+.NavigationBar {
+    display: block;
+    height: 70%;
+    position: relative;
+}
+
+.NavigationBar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.NavigationBar li {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: #f1f1e6;
+    background-color: #0d4d8d;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+
+.NavigationBar li:hover {
+    background-color: #4192d9;
+}
+
+.NavigationBar li:active {
+    background-color: #77aaf0;
+}
+
+.NavigationBar li::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.LogOut {
+    display: block;
+    height: 10%;
+    position: relative;
+}
+
+.LogOut > p {
+    position: relative;
+    text-align: center;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 18px;
+}
+
+.LogOut > p:hover {
+    background-color: #4192d9;
+    border-radius: 5px;
+}
+
+.LogOut > p:active {
+    background-color: #77aaf0;
+}
+
+.centerSide {
+    display: block;
+    width: 55%;
+    height: 100vh;
+    float: left;
+    position: relative;
+    padding: 0.5%;
+}
+
+.SayHello {
+    display: block;
+    height: 20%;
+    position: relative;
+    margin-top: 2%;
+    margin-left: 3%;
+}
+
+.SayHello h3 {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.SayHello p {
+    font-size: 20px;
+    font-style: italic;
+}
+
+.TasksList {
+    display: block;
+    height: 76%;
+    position: relative;
+    margin: 10px;
+    border: 1px solid #0d4d8d;
+    background-color: #0d4d8d;
+
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.TasksList > h3 {
+    background-color: #0d4d8d;
+}
+
+.SearchButton,
+.FilteringButton {
+    background-color: #4192d9;
+    float: left;
+    border: 2px solid #4192d9;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    color: #f1f1e6;
+    font-size: 18px;
+    width: calc(50% - 15px);
+    text-align: center;
+}
+
+.TasksList table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.TasksList th {
+    border-bottom: 2px solid #1b2230;
+    padding: 15px;
+    background-color: #0d4d8d;
+}
+
+.TasksList td {
+    border-bottom: 1px solid #1b2230;
+    padding: 20px;
+    background-color: #0d4d8d;
+}
+
+.rightSide {
+    display: block;
+    width: 25%;
+    height: 100vh;
+    float: left;
+    position: relative;
+}
+
+.UserMenu {
+    display: block;
+    height: 20%;
+    position: relative;
+    margin: 10px;
+}
+
+.UserMenu p {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px;
+}
+
+.UserMenu p:hover {
+    border: 1px solid #4192d9;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.CategoriesList {
+    display: block;
+    height: 76%;
+    position: relative;
+    margin: 10px;
+    border: 1px solid #0d4d8d;
+    background-color: #0d4d8d;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.CategoriesList table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.CategoriesList > h3 {
+    background-color: #0d4d8d;
+}
+
+.CategoriesList th {
+    border-bottom: 2px solid #1b2230;
+    padding: 15px;
+    background-color: #0d4d8d;
+}
+
+.CategoriesList td {
+    border-bottom: 1px solid #1b2230;
+    padding: 20px;
+    background-color: #0d4d8d;
+}
