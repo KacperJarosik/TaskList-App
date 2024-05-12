@@ -23,7 +23,9 @@ function signup(email, password,name) {
     return createUserWithEmailAndPassword(authInstance,email, password)
     .then((userCredential)=>{
       const user = userCredential.user;
-      return setDoc(doc(collection(db,"users"),user.uid),{
+      const uid = user.uid;
+      return setDoc(doc(collection(db,"users"),uid),{
+        uid: uid,
         name: name,
         email: email
       });
