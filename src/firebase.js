@@ -1,7 +1,7 @@
-import {initializeApp} from "firebase/app"
-import {getFirestore} from "@firebase/firestore"
-import {getAuth} from "firebase/auth"
-import "firebase/auth"
+import {initializeApp} from "firebase/app";
+import { getFirestore, collection, doc, setDoc } from "firebase/firestore";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+
 //konfiguracja kluczy do firebase'a
 const firebaseConfig = {
     apiKey: "AIzaSyCUEKsdhhfwm5MN_4tO6yPB1hVJoHBmyZE",
@@ -14,7 +14,10 @@ const firebaseConfig = {
   };
   //inicjalizacja firebase'a, bazy firestore, auth
 const app = initializeApp(firebaseConfig);
-export const firestore = getFirestore(app);
-export const auth = getAuth(app);
+const firestore = getFirestore(app);
+const auth = getAuth(app);
+export { auth, firestore, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, collection, doc, setDoc };
 export default app;
+
+
 
