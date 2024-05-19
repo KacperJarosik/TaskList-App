@@ -1,8 +1,17 @@
+// Import the TaskManager
+import TaskManager from '../../Classes.js';
+
+// Load data from storage
+TaskManager.loadFromStorage();
+
+// Get categories from the TaskManager
+const categories = TaskManager.categories;
+
+// Render the CategoriesList component
 function CategoriesList() {
     return (
         <>
             <h3>Lista kategorii</h3>
-
             <table className="table">
                 <thead>
                 <tr>
@@ -11,20 +20,12 @@ function CategoriesList() {
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>...</td>
-                    <td>...</td>
-                </tr>
-
-                <tr>
-                    <td>...</td>
-                    <td>...</td>
-                </tr>
-
-                <tr>
-                    <td>...</td>
-                    <td>...</td>
-                </tr>
+                {categories.map(category => (
+                    <tr key={category.id}>
+                        <td>{category.title}</td>
+                        <td>{category.tasks.length}</td>
+                    </tr>
+                ))}
                 </tbody>
             </table>
         </>
