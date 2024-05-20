@@ -1,7 +1,8 @@
-import {initializeApp} from "firebase/app"
-import {getFirestore} from "@firebase/firestore"
+import {initializeApp} from "firebase/app";
+import { getFirestore, collection, doc, setDoc } from "firebase/firestore";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 
-//configuracja kluczy do firebase'a
+//konfiguracja kluczy do firebase'a
 const firebaseConfig = {
     apiKey: "AIzaSyCUEKsdhhfwm5MN_4tO6yPB1hVJoHBmyZE",
     authDomain: "tasklistapp-deddb.firebaseapp.com",
@@ -11,7 +12,12 @@ const firebaseConfig = {
     appId: "1:1012734704162:web:3af62a55791eb052f8a87b",
     measurementId: "G-S0L825FK7Z"
   };
-  //inicjalizacja firebase'a i bazy firestore
+  //inicjalizacja firebase'a, bazy firestore, auth
 const app = initializeApp(firebaseConfig);
-export const firestore = getFirestore(app);
+const firestore = getFirestore(app);
+const auth = getAuth(app);
+export { auth, firestore, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, collection, doc, setDoc };
+export default app;
+
+
 
