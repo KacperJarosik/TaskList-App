@@ -10,10 +10,10 @@ const categories = TaskManager.categories;
 function TasksList({tasks}) {
     return (
         <>
-            <div className="buttons">
+            <div className="taskButtons">
                 <button className="SearchButton" type="submit">Wyszukaj</button>
                 <button className="FilteringButton" type="submit">Filtruj</button>
-                <button className="AddTaskButton" type="submit">Dodaj</button>
+                <button className="AddButton" type="submit">Dodaj</button>
             </div>
             <table className="TasksListTable">
                 <thead>
@@ -33,13 +33,13 @@ function TasksList({tasks}) {
                         <td>{task.date}</td>
                         <td>{task.status}</td>
                         <td className="TaskDetails">
-                            <span className="DetailsText">Szczegóły</span>
+                            <span>Szczegóły</span>
                             {/*Do zrobienia jako wyświetlanie szczegółów po kliknięciu w "Szczegóły"*/}
                             {/*Jeśli istnieje potrzeba sprawdzenia poprawności szczegółów to:*/}
                             {/*ująć powyższe w komentarz, a poniższe odkomentować*/}
                             {/*<i>{task.details}</i>*/}
-                            <button className="DeleteTaskButton" type="submit">Usuń</button>
-                            <button className="EditTaskButton" type="submit">Edytuj</button>
+                            <button className="DeleteButton" type="submit">Usuń</button>
+                            <button className="EditButton" type="submit">Edytuj</button>
                         </td>
                     </tr>
                 ))}
