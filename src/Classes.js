@@ -1,3 +1,8 @@
+// TO DO
+// EDYTOWANIE / USUWANIE STATUSU
+// EDYTOWANIE / USUWANIE OPISÓW
+
+
 export class Category {
     constructor(id, title) {
         this.id = id;
@@ -48,9 +53,12 @@ export class TaskManager {
     }
 
     loadFromStorage() {
+        //Tutaj Ola powinna zamienić na czytanie danych z Fire Base
         const savedCategories = localStorage.getItem('categories');
         if (savedCategories) {
-            this.categories = JSON.parse(savedCategories).map(categoryData => {
+
+
+            /*this.categories = JSON.parse(savedCategories).map(categoryData => {
                 const category = new Category(categoryData.id, categoryData.title);
                 categoryData.tasks.forEach(taskData => {
                     category.addTask(new Task(taskData.id, taskData.text, taskData.date, taskData.status, taskData.details));
@@ -61,13 +69,75 @@ export class TaskManager {
                 return Math.max(maxId, Math.max(...categoryData.tasks.map(task => task.id)));
             }, 0) + 1;
             this.nextCategoryId = Math.max(...JSON.parse(savedCategories).map(categoryData => categoryData.id)) + 1;
+            */
         } else {
             this.initializeExampleData();
         }
     }
-
+        //Tutaj Ola powinna zamienić na czytanie danych z Fire Base
     saveToStorage() {
         localStorage.setItem('categories', JSON.stringify(this.categories));
+    }
+
+    addCategory(title) {
+        const newCategory = new Category(this.nextCategoryId, title || `Kategoria ${this.nextCategoryId}`);
+        this.categories.push(newCategory);
+        this.nextCategoryId += 1;
+    }
+
+    removeCategory(categoryId) {
+        this.categories = this.categories.filter(category => category.id !== categoryId);
+    }
+
+    updateCategoryTitle(categoryId, newTitle) {
+        const category = this.categories.find(category => category.id === categoryId);
+        if (category) {
+            category.title = newTitle;
+        }
+    }
+
+    addTask(categoryId, taskText, taskDate, status = 'To Do', details = '') {
+        const category = this.categories.find(category => category.id === categoryId);
+        if (category) {
+            const newTask = new Task(this.nextTaskId, taskText, taskDate, status, details);
+            category.addTask(newTask);
+            this.nextTaskId += 1;
+        }
+    }
+
+    removeTask(categoryId, taskId) {
+        const category = this.categories.find(category => category.id === categoryId);
+        if (category) {
+            category.removeTask(taskId);
+        }
+    }
+
+    updateTaskText(categoryId, taskId, newText) {
+        const category = this.categories.find(category => category.id === categoryId);
+        if (category) {
+            category.updateTaskText(taskId, newText);
+        }
+    }
+
+    updateTaskDate(categoryId, taskId, newDate) {
+        const category = this.categories.find(category => category.id === categoryId);
+        if (category) {
+            category.updateTaskDate(taskId, newDate);
+        }
+    }
+
+    updateTaskStatus(taskId, newStatus) {
+        const task = this.tasks.find(task => task.id === taskId);
+        if (task) {
+            task.status = newStatus;
+        }
+    }
+
+    updateTaskDetails(taskId, newDetails) {
+        const task = this.tasks.find(task => task.id === taskId);
+        if (task) {
+            task.details = newDetails;
+        }
     }
 
     initializeExampleData() {
@@ -170,52 +240,6 @@ export class TaskManager {
         this.nextTaskId = 26; // Update the ID for the next task
     }
 
-    addCategory(title) {
-        const newCategory = new Category(this.nextCategoryId, title || `Kategoria ${this.nextCategoryId}`);
-        this.categories.push(newCategory);
-        this.nextCategoryId += 1;
-    }
-
-    removeCategory(categoryId) {
-        this.categories = this.categories.filter(category => category.id !== categoryId);
-    }
-
-    updateCategoryTitle(categoryId, newTitle) {
-        const category = this.categories.find(category => category.id === categoryId);
-        if (category) {
-            category.title = newTitle;
-        }
-    }
-
-    addTask(categoryId, taskText, taskDate, status = 'To Do', details = '') {
-        const category = this.categories.find(category => category.id === categoryId);
-        if (category) {
-            const newTask = new Task(this.nextTaskId, taskText, taskDate, status, details);
-            category.addTask(newTask);
-            this.nextTaskId += 1;
-        }
-    }
-
-    removeTask(categoryId, taskId) {
-        const category = this.categories.find(category => category.id === categoryId);
-        if (category) {
-            category.removeTask(taskId);
-        }
-    }
-
-    updateTaskText(categoryId, taskId, newText) {
-        const category = this.categories.find(category => category.id === categoryId);
-        if (category) {
-            category.updateTaskText(taskId, newText);
-        }
-    }
-
-    updateTaskDate(categoryId, taskId, newDate) {
-        const category = this.categories.find(category => category.id === categoryId);
-        if (category) {
-            category.updateTaskDate(taskId, newDate);
-        }
-    }
 }
 
 export default new TaskManager();
