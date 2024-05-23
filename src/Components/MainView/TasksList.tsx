@@ -7,15 +7,15 @@ TaskManager.loadFromStorage();
 // Get categories from the TaskManager
 const categories = TaskManager.categories;
 
-function TasksList({ tasks }) {
+function TasksList({tasks}) {
     return (
         <>
-            <h3>Lista zadań</h3>
             <div className="buttons">
-                <p className="SearchButton">Wyszukaj</p>
-                <p className="FilteringButton">Filtruj</p>
+                <button className="SearchButton" type="submit">Wyszukaj</button>
+                <button className="FilteringButton" type="submit">Filtruj</button>
+                <button className="AddTaskButton" type="submit">Dodaj</button>
             </div>
-            <table className="table" id="TasksListTable">
+            <table className="TasksListTable">
                 <thead>
                 <tr>
                     <th>Kategoria</th>
@@ -32,7 +32,15 @@ function TasksList({ tasks }) {
                         <td>{task.text}</td>
                         <td>{task.date}</td>
                         <td>{task.status}</td>
-                        <td>{task.details}</td>
+                        <td className="TaskDetails">
+                            <span className="DetailsText">Szczegóły</span>
+                            {/*Do zrobienia jako wyświetlanie szczegółów po kliknięciu w "Szczegóły"*/}
+                            {/*Jeśli istnieje potrzeba sprawdzenia poprawności szczegółów to:*/}
+                            {/*ująć powyższe w komentarz, a poniższe odkomentować*/}
+                            {/*<i>{task.details}</i>*/}
+                            <button className="DeleteTaskButton" type="submit">Usuń</button>
+                            <button className="EditTaskButton" type="submit">Edytuj</button>
+                        </td>
                     </tr>
                 ))}
                 </tbody>
@@ -44,10 +52,10 @@ function TasksList({ tasks }) {
 function CategoriesList() {
     return (
         <>
-            <h3>Lista kategorii</h3>
+            <h3>Zadania do wykonania</h3>
             {categories.map(category => (
-                <div key={category.id}>
-                    <h4>{category.title}</h4>
+                <div key={category.id} className="TaskListActionsBlock">
+                    <h4 className="TaskListCategoryTitleBlock">{category.title}</h4>
                     <TasksList tasks={category.tasks.map(task => ({
                         id: task.id,
                         text: task.text,
@@ -55,7 +63,7 @@ function CategoriesList() {
                         status: task.status,
                         details: task.details,
                         category: category.title // Add category title to each task
-                    }))} />
+                    }))}/>
                 </div>
             ))}
         </>
