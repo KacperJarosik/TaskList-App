@@ -12,6 +12,10 @@ function CategoriesList() {
     return (
         <>
             <h3>Lista kategorii</h3>
+            <div className="categoryButtons">
+                <button className="SearchButton" type="submit">Wyszukaj</button>
+                <button className="AddButton" type="submit">Dodaj</button>
+            </div>
             <table className="table">
                 <thead>
                 <tr>
@@ -23,7 +27,11 @@ function CategoriesList() {
                 {categories.map(category => (
                     <tr key={category.id}>
                         <td>{category.title}</td>
-                        <td>{category.tasks.length}</td>
+                        <td className="CategoryModifiers">
+                            {category.tasks.length}
+                            <button className="DeleteButton" type="submit">Usuń</button>
+                            <button className="EditButton" type="submit">Edytuj</button>
+                        </td>
                     </tr>
                 ))}
                 </tbody>
