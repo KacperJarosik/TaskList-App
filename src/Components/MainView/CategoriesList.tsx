@@ -1,4 +1,5 @@
 // Import the TaskManager
+import React from 'react';
 import TaskManager from '../../Classes.js';
 
 // Load data from storage

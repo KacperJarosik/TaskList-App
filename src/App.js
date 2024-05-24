@@ -7,6 +7,8 @@ import Categories from './Tabs/Categories';
 import Groups from './Tabs/Groups';
 import Opinions from './Tabs/Opinions';
 import Settings from './Tabs/Settings';
+import CategorisViev from './Tabs/CategorisViev';
+import TaskInCat from './Tabs/TaskVievInCategories';
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
         <Route path='/groups' element={<Groups/>}/>
         <Route path='/opinions' element={<Opinions/>}/>
         <Route path='/settings' element={<Settings/>}/>
+        <Route path="/categories" element={<CategorisViev />} />
+        <Route path="/categories/tasks/:categoryId" element={<TaskInCat />} />
 
       </Routes>
     </AuthProvider>

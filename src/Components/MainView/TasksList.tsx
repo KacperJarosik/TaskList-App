@@ -1,4 +1,5 @@
 //import React from 'react';
+import React, { useState } from 'react';
 import TaskManager from '../../Classes.js';
 
 // Load data from storage
@@ -8,6 +9,7 @@ TaskManager.loadFromStorage();
 const categories = TaskManager.categories;
 
 function TasksList({ tasks }) {
+
     return (
         <>
             <h3>Lista zadań</h3>

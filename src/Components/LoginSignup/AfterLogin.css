@@ -123,10 +123,10 @@
     margin: 10px;
     border: 1px solid #0d4d8d;
     background-color: #0d4d8d;
-
     border-radius: 10px;
     padding: 10px;
 }
+
 
 .TasksList > h3 {
     background-color: #0d4d8d;
@@ -195,7 +195,7 @@
     display: block;
     height: 76%;
     position: relative;
-    margin: 10px;
+    margin-top: 10px;
     border: 1px solid #0d4d8d;
     background-color: #0d4d8d;
     border-radius: 10px;
@@ -222,3 +222,49 @@
     padding: 20px;
     background-color: #0d4d8d;
 }
+
+
+.CategorisViev {
+    display: block;
+    height: 85%;
+    position: relative;
+    margin-top: 180px;
+    border: 1px solid #0d4d8d;
+    background-color: #0d4d8d;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.CategorisViev table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.CategorisViev > h3 {
+    background-color: #0d4d8d;
+}
+
+.CategorisViev th {
+    border-bottom: 2px solid #1b2230;
+    padding: 15px;
+    background-color: #0d4d8d;
+}
+
+.CategorisViev td {
+    border-bottom: 1px solid #1b2230;
+    padding: 20px;
+    background-color: #0d4d8d;
+}
+
+
+.CategorisViev button {
+    background: none;
+    border: none;
+    color: white;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    font: inherit;
+}
+
+
