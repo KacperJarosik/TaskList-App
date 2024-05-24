@@ -27,7 +27,7 @@ function TasksList({ tasks, categoryId }) {
             <div className="taskButtons">
                 <button className="SearchButton" type="submit">Wyszukaj</button>
                 <button className="FilteringButton" type="submit">Filtruj</button>
-                <button className="AddTaskButton" type="button" onClick={handleAddTask}>Dodaj</button>
+                <button className="AddButton" type="button" onClick={handleAddTask}>Dodaj</button>
             </div>
             <table className="TasksListTable">
                 <thead>
@@ -47,9 +47,9 @@ function TasksList({ tasks, categoryId }) {
                         <td>{task.date}</td>
                         <td>{task.status}</td>
                         <td className="TaskDetails">
-                            <span className="DetailsText">Szczegóły</span>
-                            <button className="DeleteTaskButton" type="button" onClick={() => handleDeleteTask(task.id)}>Usuń</button>
-                            <button className="EditTaskButton" type="submit">Edytuj</button>
+                            <span>Szczegóły</span>
+                            <button className="DeleteButton" type="button" onClick={() => handleDeleteTask(task.id)}>Usuń</button>
+                            <button className="EditButton" type="submit">Edytuj</button>
                         </td>
                     </tr>
                 ))}
