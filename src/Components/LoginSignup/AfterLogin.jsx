@@ -11,12 +11,12 @@ import TaskManager from '../../Classes.js'; // Assuming Classes.js contains your
 
 export const AfterLogin = () => {
 
-
+    /*
     //test data
     useEffect(() => {
         TaskManager.loadFromStorage(); // Load data upon component mount
     }, []); // Empty dependency array ensures the effect runs only once after mount
-    // do wywalenia potem
+    //do usunięcia potem*/
     return (
         <>
             <div className="leftSide">
