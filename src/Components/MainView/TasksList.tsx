@@ -1,4 +1,4 @@
-//import React from 'react';
+import { useState } from 'react';
 import TaskManager from '../../Classes.js';
 
 // Load data from storage
@@ -7,13 +7,28 @@ TaskManager.loadFromStorage();
 // Get categories from the TaskManager
 const categories = TaskManager.categories;
 
-function TasksList({tasks}) {
+function TasksList({ tasks, categoryId }) {
+    const [taskList, setTaskList] = useState(tasks); // State to manage tasks
+
+    const handleAddTask = () => {
+        TaskManager.addTask(categoryId, 'New Task', '-', 'To Do', '');
+        const updatedTasks = TaskManager.categories.find(cat => cat.id === categoryId).tasks;
+        setTaskList([...updatedTasks]); // Update the task list state
+    };
+
+    const handleDeleteTask = (taskId) => {
+        TaskManager.removeTask(categoryId, taskId);
+        const updatedTasks = TaskManager.categories.find(cat => cat.id === categoryId).tasks;
+        setTaskList([...updatedTasks]); // Update the task list state
+    };
+
     return (
         <>
             <div className="taskButtons">
                 <button className="SearchButton" type="submit">Wyszukaj</button>
                 <button className="FilteringButton" type="submit">Filtruj</button>
-                <button className="AddButton" type="submit">Dodaj</button>
+                <button className="AddButton" type="button" onClick={handleAddTask}>Dodaj</button>
+
             </div>
             <table className="TasksListTable">
                 <thead>
@@ -26,7 +41,7 @@ function TasksList({tasks}) {
                 </tr>
                 </thead>
                 <tbody>
-                {tasks.map(task => (
+                {taskList.map(task => (
                     <tr key={task.id}>
                         <td>{task.category}</td>
                         <td>{task.text}</td>
@@ -34,11 +49,7 @@ function TasksList({tasks}) {
                         <td>{task.status}</td>
                         <td className="TaskDetails">
                             <span>Szczegóły</span>
-                            {/*Do zrobienia jako wyświetlanie szczegółów po kliknięciu w "Szczegóły"*/}
-                            {/*Jeśli istnieje potrzeba sprawdzenia poprawności szczegółów to:*/}
-                            {/*ująć powyższe w komentarz, a poniższe odkomentować*/}
-                            {/*<i>{task.details}</i>*/}
-                            <button className="DeleteButton" type="submit">Usuń</button>
+                            <button className="DeleteButton" type="button" onClick={() => handleDeleteTask(task.id)}>Usuń</button>
                             <button className="EditButton" type="submit">Edytuj</button>
                         </td>
                     </tr>
@@ -63,7 +74,7 @@ function CategoriesList() {
                         status: task.status,
                         details: task.details,
                         category: category.title // Add category title to each task
-                    }))}/>
+                    }))} categoryId={category.id} />
                 </div>
             ))}
         </>
