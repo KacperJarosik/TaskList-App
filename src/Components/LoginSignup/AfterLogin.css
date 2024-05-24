@@ -2,33 +2,41 @@
     background-color: #1b2230;
     color: #f1f1e6;
     font-family: 'Ubuntu', sans-serif;
+    padding: 0;
+    margin: 0;
 }
 
 .leftSide {
     display: block;
-    width: 20%;
+    width: 17.5%;
     height: 100vh;
-    float: left;
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
     padding: 0.5%;
+    z-index: 1000;
 }
 
 .AppLogo {
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 20%;
     position: relative;
-
-    padding-top: 14%;
-    padding-left: 14%;
+    text-align: center;
 }
 
 .AppLogo > h1 {
     font-size: 60px;
 }
 
+.AppLogo span {
+    color: #4192d9;
+}
+
 .NavigationBar {
     display: block;
-    height: 70%;
+    height: 65%;
     position: relative;
 }
 
@@ -65,19 +73,21 @@
 }
 
 .LogOut {
-    display: block;
-    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 15%;
     position: relative;
 }
 
 .LogOut > p {
-    position: relative;
     text-align: center;
-    padding-top: 3%;
-    padding-bottom: 3%;
+    padding: 4% 30%;
     cursor: pointer;
     transition: background-color 0.3s ease;
     font-size: 18px;
+    border-radius: 5px;
+    margin: 0;
 }
 
 .LogOut > p:hover {
@@ -87,33 +97,38 @@
 
 .LogOut > p:active {
     background-color: #77aaf0;
+    border-radius: 5px;
 }
 
 .centerSide {
     display: block;
-    width: 55%;
+    width: 60%;
     height: 100vh;
     float: left;
     position: relative;
     padding: 0.5%;
+    margin-left: 17.5%;
 }
 
 .SayHello {
     display: block;
     height: 20%;
-    position: relative;
-    margin-top: 2%;
-    margin-left: 3%;
 }
 
 .SayHello h3 {
     font-size: 32px;
     font-weight: bold;
+    position: relative;
+    top: 25%;
+    left: 4%;
 }
 
 .SayHello p {
     font-size: 20px;
     font-style: italic;
+    position: relative;
+    top: 25%;
+    left: 4%;
 }
 
 .TasksList {
@@ -131,23 +146,36 @@
     margin-bottom: 10px;
 }
 
-.buttons {
-    background-color: #4192d9;
+.taskButtons {
+    display: flex;
+    justify-content: center;
+    background-color: #0d4d8d;
+    gap: 2px;
 }
 
-.SearchButton,
-.FilteringButton, .AddTaskButton {
+.taskButtons .SearchButton,
+.taskButtons .FilteringButton, .taskButtons .AddButton {
     background-color: #4192d9;
-    float: left;
-    border: 2px solid #4192d9;
+    border: 2px solid transparent;
     border-radius: 5px;
     margin: 5px;
-    padding: 8px 15px;
+    padding: 8px 8px;
     cursor: pointer;
     color: #f1f1e6;
     font-size: 18px;
-    width: calc(33% - 15px);
+    width: calc(33% - 8px);
     text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.SearchButton:hover,
+.FilteringButton:hover, .AddButton:hover {
+    background-color: #77aaf0;
+}
+
+.SearchButton:active,
+.FilteringButton:active, .AddButton:active {
+    background-color: #77aaff;
 }
 
 .TasksListTable {
@@ -185,29 +213,37 @@
 .TaskDetails span {
     background-color: #0d4d8d;
     font-style: italic;
+    color: #4192d9;
     margin-right: 50px;
 }
 
 .TaskDetails span:hover {
     text-decoration: underline;
+    color: #77aaf0;
 }
 
-.EditTaskButton, .DeleteTaskButton {
+.TaskDetails span:active {
+    text-decoration: underline;
+    color: #f1f1e6;
+}
+
+.TaskDetails .EditButton, .TaskDetails .DeleteButton {
     background-color: #4192d9;
     float: right;
-    border: 2px solid #4192d9;
+    border: 2px solid transparent;
     border-radius: 5px;
-    margin-left: 10px;
+    margin-left: 8px;
     cursor: pointer;
     color: #f1f1e6;
     font-size: 14px;
-    width: calc(22% - 5px);
+    width: calc(23% - 8px);
     text-align: center;
+    transition: background-color 0.3s ease;
 }
 
 .rightSide {
     display: block;
-    width: 25%;
+    width: 22.5%;
     height: 100vh;
     float: left;
     position: relative;
@@ -216,30 +252,57 @@
 .UserMenu {
     display: block;
     height: 20%;
-    position: relative;
-    margin: 10px;
 }
 
 .UserMenu p {
-    font-size: 18px;
+    font-size: 26px;
     font-weight: bold;
-    margin: 10px;
-}
-
-.UserMenu p:hover {
-    border: 1px solid #4192d9;
-    border-radius: 5px;
-    padding: 5px;
+    margin: 0 10px;
+    font-style: italic;
+    position: relative;
+    top: 35%;
+    left: 25%;
 }
 
 .CategoriesList {
     display: block;
     position: relative;
-    margin: 2px 10px;
+    margin: 1% 10px;
     border: 1px solid #0d4d8d;
     background-color: #0d4d8d;
     border-radius: 10px;
     padding: 8px 10px;
+}
+
+.categoryButtons {
+    display: flex;
+    justify-content: center;
+    background-color: #0d4d8d;
+    gap: 2px;
+}
+
+.categoryButtons .SearchButton, .categoryButtons .AddButton {
+    background-color: #4192d9;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 8px 8px;
+    cursor: pointer;
+    color: #f1f1e6;
+    font-size: 18px;
+    width: calc(50% - 8px);
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.SearchButton:hover,
+.FilteringButton:hover, .AddButton:hover {
+    background-color: #77aaf0;
+}
+
+.SearchButton:active,
+.FilteringButton:active, .AddButton:active {
+    background-color: #77aaff;
 }
 
 .CategoriesList table {
@@ -253,12 +316,36 @@
 
 .CategoriesList th {
     border-bottom: 2px solid #1b2230;
-    padding: 15px;
+    padding: 10px;
     background-color: #0d4d8d;
 }
 
 .CategoriesList td {
     border-bottom: 1px solid #1b2230;
-    padding: 20px;
+    padding: 20px 1px;
     background-color: #0d4d8d;
+}
+
+.CategoryModifiers .EditButton, .CategoryModifiers .DeleteButton {
+    background-color: #4192d9;
+    float: right;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+    color: #f1f1e6;
+    font-size: 14px;
+    width: calc(40% - 2px);
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.EditButton:hover,
+.DeleteButton:hover {
+    background-color: #77aaf0;
+}
+
+.EditButton:active,
+.DeleteButton:active {
+    background-color: #77aaff;
 }

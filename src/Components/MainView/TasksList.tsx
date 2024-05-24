@@ -28,6 +28,7 @@ function TasksList({ tasks, categoryId }) {
                 <button className="SearchButton" type="submit">Wyszukaj</button>
                 <button className="FilteringButton" type="submit">Filtruj</button>
                 <button className="AddButton" type="button" onClick={handleAddTask}>Dodaj</button>
+
             </div>
             <table className="TasksListTable">
                 <thead>

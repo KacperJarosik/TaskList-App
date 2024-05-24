@@ -1,6 +1,6 @@
 function AppLogo() {
     return (
-        <h1>TaskList</h1>
+        <h1><span>Task</span>List</h1>
     );
 }
 
