@@ -9,11 +9,17 @@ const categories = TaskManager.categories;
 
 function TasksList({ tasks, categoryId }) {
     const [taskList, setTaskList] = useState(tasks); // State to manage tasks
-    //na razie dodaje 1 max element zobaczymy jak zadziała z bazą (czasem doda więcej po jakimś czasie)
+
     const handleAddTask = () => {
-        TaskManager.addTask(categoryId, '-', '-');
+        TaskManager.addTask(categoryId, 'New Task', '-', 'To Do', '');
         const updatedTasks = TaskManager.categories.find(cat => cat.id === categoryId).tasks;
-        setTaskList(updatedTasks);
+        setTaskList([...updatedTasks]); // Update the task list state
+    };
+
+    const handleDeleteTask = (taskId) => {
+        TaskManager.removeTask(categoryId, taskId);
+        const updatedTasks = TaskManager.categories.find(cat => cat.id === categoryId).tasks;
+        setTaskList([...updatedTasks]); // Update the task list state
     };
 
     return (
@@ -42,11 +48,7 @@ function TasksList({ tasks, categoryId }) {
                         <td>{task.status}</td>
                         <td className="TaskDetails">
                             <span className="DetailsText">Szczegóły</span>
-                            {/* Do zrobienia jako wyświetlanie szczegółów po kliknięciu w "Szczegóły" */}
-                            {/* Jeśli istnieje potrzeba sprawdzenia poprawności szczegółów to: */}
-                            {/* ująć powyższe w komentarz, a poniższe odkomentować */}
-                            {/* <i>{task.details}</i> */}
-                            <button className="DeleteTaskButton" type="submit">Usuń</button>
+                            <button className="DeleteTaskButton" type="button" onClick={() => handleDeleteTask(task.id)}>Usuń</button>
                             <button className="EditTaskButton" type="submit">Edytuj</button>
                         </td>
                     </tr>
