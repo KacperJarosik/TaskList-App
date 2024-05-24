@@ -10,46 +10,37 @@ import CategoriesList from "../MainView/CategoriesList.tsx";
 import TaskManager from '../../Classes.js'; // Assuming Classes.js contains your TaskManager class
 
 export const AfterLogin = () => {
-
-    /*
-    //test data
     useEffect(() => {
-        TaskManager.loadFromStorage(); // Load data upon component mount
+        TaskManager.loadFromStorage(); // Dane testowe
     }, []); // Empty dependency array ensures the effect runs only once after mount
-    //do usunięcia potem*/
+
     return (
         <>
             <div className="leftSide">
                 <div className="AppLogo">
-                    <AppLogo/>
+                    <AppLogo />
                 </div>
-
                 <div className="NavigationBar">
-                    <NavigationBar/>
+                    <NavigationBar />
                 </div>
-
                 <div className="LogOut">
-                    <LogOut/>
+                    <LogOut />
                 </div>
             </div>
-
             <div className="centerSide">
                 <div className="SayHello">
-                    <SayHello/>
+                    <SayHello />
                 </div>
-
                 <div className="TasksList">
-                    <TasksList/>
+                    <TasksList />
                 </div>
             </div>
-
             <div className="rightSide">
                 <div className="UserMenu">
-                    <UserMenu/>
+                    <UserMenu />
                 </div>
-
                 <div className="CategoriesList">
-                    <CategoriesList/>
+                    <CategoriesList />
                 </div>
             </div>
         </>
