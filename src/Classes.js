@@ -1,8 +1,3 @@
-// TO DO
-// EDYTOWANIE / USUWANIE STATUSU
-// EDYTOWANIE / USUWANIE OPISÓW
-
-
 export class Category {
     constructor(id, title) {
         this.id = id;
@@ -53,12 +48,9 @@ export class TaskManager {
     }
 
     loadFromStorage() {
-        //Tutaj Ola powinna zamienić na czytanie danych z Fire Base
         const savedCategories = localStorage.getItem('categories');
         if (savedCategories) {
-
-
-            /*this.categories = JSON.parse(savedCategories).map(categoryData => {
+            this.categories = JSON.parse(savedCategories).map(categoryData => {
                 const category = new Category(categoryData.id, categoryData.title);
                 categoryData.tasks.forEach(taskData => {
                     category.addTask(new Task(taskData.id, taskData.text, taskData.date, taskData.status, taskData.details));
@@ -69,12 +61,11 @@ export class TaskManager {
                 return Math.max(maxId, Math.max(...categoryData.tasks.map(task => task.id)));
             }, 0) + 1;
             this.nextCategoryId = Math.max(...JSON.parse(savedCategories).map(categoryData => categoryData.id)) + 1;
-            */
         } else {
             this.initializeExampleData();
         }
     }
-        //Tutaj Ola powinna zamienić na czytanie danych z Fire Base
+
     saveToStorage() {
         localStorage.setItem('categories', JSON.stringify(this.categories));
     }
@@ -102,6 +93,7 @@ export class TaskManager {
             const newTask = new Task(this.nextTaskId, taskText, taskDate, status, details);
             category.addTask(newTask);
             this.nextTaskId += 1;
+            this.saveToStorage(); // Save updated categories to storage
         }
     }
 
@@ -109,6 +101,7 @@ export class TaskManager {
         const category = this.categories.find(category => category.id === categoryId);
         if (category) {
             category.removeTask(taskId);
+            this.saveToStorage(); // Save updated categories to storage
         }
     }
 
@@ -116,6 +109,7 @@ export class TaskManager {
         const category = this.categories.find(category => category.id === categoryId);
         if (category) {
             category.updateTaskText(taskId, newText);
+            this.saveToStorage(); // Save updated categories to storage
         }
     }
 
@@ -123,6 +117,7 @@ export class TaskManager {
         const category = this.categories.find(category => category.id === categoryId);
         if (category) {
             category.updateTaskDate(taskId, newDate);
+            this.saveToStorage(); // Save updated categories to storage
         }
     }
 
@@ -130,6 +125,7 @@ export class TaskManager {
         const task = this.tasks.find(task => task.id === taskId);
         if (task) {
             task.status = newStatus;
+            this.saveToStorage(); // Save updated categories to storage
         }
     }
 
@@ -137,6 +133,7 @@ export class TaskManager {
         const task = this.tasks.find(task => task.id === taskId);
         if (task) {
             task.details = newDetails;
+            this.saveToStorage(); // Save updated categories to storage
         }
     }
 
@@ -162,7 +159,6 @@ export class TaskManager {
                     { id: 8, text: 'zadanie_6', date: '2024-05-24', status: 'In Progress', details: 'Task in progress' }
                 ]
             },
-            // Add three more categories
             {
                 id: 3,
                 title: 'Groceries',
@@ -187,7 +183,6 @@ export class TaskManager {
                     { id: 14, text: 'Fix the leaking faucet', date: '2024-05-30', status: 'To Do', details: '' }
                 ]
             },
-            // Add three empty categories
             {
                 id: 6,
                 title: 'Empty Category 1',
@@ -203,7 +198,6 @@ export class TaskManager {
                 title: 'Empty Category 3',
                 tasks: []
             },
-            // Add a category with one sentence and a category with 10 tasks
             {
                 id: 9,
                 title: 'Category with One Sentence',
@@ -239,8 +233,6 @@ export class TaskManager {
         this.nextCategoryId = 11; // Update the ID for the next category
         this.nextTaskId = 26; // Update the ID for the next task
     }
-
 }
 
 export default new TaskManager();
-
