@@ -4,11 +4,10 @@ import "../Components/LoginSignup/AfterLogin.css";
 import AppLogo from '../Components/MainView/AppLogo.tsx'
 import NavigationBar from '../Components/MainView/NavigationBar.tsx'
 import LogOut from '../Components/MainView/LogOut.tsx';
-import SayHello from "../Components/MainView/SayHello.tsx";
-import TasksList from "../Components/MainView/TasksList.tsx";
 import CategorisViev from './CategorisViev.jsx';
-import { Task } from '../Classes.js';
 import TaskInCat from './TaskVievInCategories.jsx';
+import UserMenu from '../Components/MainView/UserMenu.tsx';
+
 const Categories = () => {
     return (
         <>
@@ -30,12 +29,14 @@ const Categories = () => {
             <div className="centerSide">
                 <div className="CategorisViev">
                     <CategorisViev/>
-                    <TaskInCat>
-                        
-                    </TaskInCat>
                 </div>
             </div>
 
+            <div className="rightSide">
+                <div className="UserMenu">
+                    <UserMenu/>
+                </div>
+            </div>
 
         </>
     )

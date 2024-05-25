@@ -8,11 +8,12 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
 export const LoginSignup = () => {
-  const [action, setAction, resetPassword ] = useState("Login");
+  const [action, setAction, resetPassword] = useState("Login");
   const { login, signup } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   async function handleLogin() {
@@ -33,9 +34,8 @@ export const LoginSignup = () => {
     }
   }
 
-
-
   function clickSign() {
+    setError(""); // Clear error message
     if (action === "Login") {
       setAction("Sign Up");
     } else {
@@ -44,6 +44,7 @@ export const LoginSignup = () => {
   }
 
   function clickLogin() {
+    setError(""); // Clear error message
     if (action === "Sign Up") {
       setAction("Login");
     } else {
@@ -109,11 +110,18 @@ export const LoginSignup = () => {
             />
           </div>
         )}
+        {action === "Sign Up" && (
+
+          <div className="password-requirement">
+            Uwaga! Hasło musi składać się z conajmniej 6 znaków!
+          </div>
+        )}
         {action === "Login" && (
           <div className="forgot-password">
             Lost Password? <span onClick={handleLostPasswordClick}>Click Here!</span>
           </div>
         )}
+        {error && <div className="error-message">{error}</div>}
         <div className="submit-container">
           {action === "Reset Password" && (
             <>
@@ -124,7 +132,7 @@ export const LoginSignup = () => {
                 <div onClick={handleResetPassword}>Reset Password</div>
               </div>
             </>
-        )}
+          )}
         </div>
         <div className="submit-container">
           {action !== "Reset Password" && (

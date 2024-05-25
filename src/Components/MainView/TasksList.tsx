@@ -1,5 +1,5 @@
 //import React from 'react';
-import React, { useState } from 'react';
+import React from 'react';
 import TaskManager from '../../Classes.js';
 
 // Load data from storage

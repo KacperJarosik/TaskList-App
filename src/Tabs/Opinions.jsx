@@ -4,6 +4,10 @@ import "../Components/LoginSignup/AfterLogin.css";
 import AppLogo from '../Components/MainView/AppLogo.tsx'
 import NavigationBar from '../Components/MainView/NavigationBar.tsx'
 import LogOut from '../Components/MainView/LogOut.tsx';
+import UserMenu from '../Components/MainView/UserMenu.tsx';
+import CategoriesList from '../Components/MainView/CategoriesList.tsx';
+import OpinionsViev from './OpinionsViev.jsx';
+import CategorisViev from './CategorisViev.jsx';
 
 const Opinions = () => {
     return (
@@ -19,6 +23,25 @@ const Opinions = () => {
 
                 <div className="LogOut">
                     <LogOut/>
+                </div>
+            </div>
+
+            <div className="centerSide">
+                <div className="CategorisViev">
+                    <OpinionsViev>
+                        
+                    </OpinionsViev>
+                </div>
+
+            </div>
+
+            <div className="rightSide">
+                <div className="UserMenu">
+                    <UserMenu/>
+                </div>
+
+                <div className="CategorisVievOnRight">
+                    <CategorisViev></CategorisViev>
                 </div>
             </div>
 

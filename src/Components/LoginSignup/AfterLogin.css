@@ -17,7 +17,6 @@
     display: block;
     height: 20%;
     position: relative;
-
     padding-top: 14%;
     padding-left: 14%;
 }
@@ -120,7 +119,7 @@
     display: block;
     height: 76%;
     position: relative;
-    margin: 10px;
+    margin-top: -20px;
     border: 1px solid #0d4d8d;
     background-color: #0d4d8d;
     border-radius: 10px;
@@ -133,7 +132,8 @@
 }
 
 .SearchButton,
-.FilteringButton {
+.FilteringButton,
+.submit-button {
     background-color: #4192d9;
     float: left;
     border: 2px solid #4192d9;
@@ -195,7 +195,7 @@
     display: block;
     height: 76%;
     position: relative;
-    margin-top: 10px;
+    margin-top: -15px;
     border: 1px solid #0d4d8d;
     background-color: #0d4d8d;
     border-radius: 10px;
@@ -268,3 +268,69 @@
 }
 
 
+.CategorisVievOnRight button {
+    background: none;
+    border: none;
+    color: white;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    font: inherit;
+}
+
+.CategorisVievOnRight table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.CategorisVievOnRight td {
+    border-bottom: 1px solid #1b2230;
+    padding: 20px;
+    background-color: #0d4d8d;
+}
+
+.CategorisVievOnRight > h3 {
+    background-color: #0d4d8d;
+}
+
+.CategorisVievOnRight th {
+    border-bottom: 2px solid #1b2230;
+    padding: 15px;
+    background-color: #0d4d8d;
+}
+
+.CategorisVievOnRight {
+    display: block;
+    height: 85%;
+    position: relative;
+    border: 1px solid #0d4d8d;
+    background-color: #0d4d8d;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: -14px;
+}
+
+.back {
+    background-color: #0d4d8d;
+}
+
+.opinion-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    background-color: #0d4d8d;
+
+  }
+  
+  .opinion-input {
+    width: 80%;
+    height: 200px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #0d4d8d;
+
+  }
