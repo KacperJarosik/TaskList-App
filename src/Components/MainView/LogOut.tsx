@@ -1,6 +1,12 @@
+// @ts-ignore
+import logout from "../Assets/wylogowanie.png"
+
 function LogOut() {
-    return(
-        <p>Wyloguj się</p>
+    return (
+        <div>
+            <img src={logout} alt="Wylogowanie" className="LogOutIcon"/>
+            <p>Wyloguj się</p>
+        </div>
     );
 }
 
