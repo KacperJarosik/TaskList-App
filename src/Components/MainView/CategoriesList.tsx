@@ -1,6 +1,5 @@
-// Import the TaskManager
 import TaskManager from '../../Classes.js';
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Load data from storage
 TaskManager.loadFromStorage();
@@ -37,6 +36,12 @@ function CategoriesList() {
         };
     }, [isSearchInputVisible]);
 
+    const handleDeleteCategory = (categoryId) => {
+        TaskManager.removeCategory(categoryId);
+        TaskManager.saveToStorage();
+        window.location.reload(); // Refresh the page to update the list
+    };
+
     return (
         <>
             <h3>Lista kategorii</h3>
@@ -62,7 +67,7 @@ function CategoriesList() {
                         <td>{category.title}</td>
                         <td className="CategoryModifiers">
                             {category.tasks.length}
-                            <button className="DeleteButton" type="submit">Usuń</button>
+                            <button className="DeleteButton" type="button" onClick={() => handleDeleteCategory(category.id)}>Usuń</button>
                             <button className="EditButton" type="submit">Edytuj</button>
                         </td>
                     </tr>
