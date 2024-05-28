@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef} from 'react';
+import { useState, useEffect, useRef } from 'react';
 import TaskManager from '../../Classes.js';
 
 // Load data from storage
@@ -7,9 +7,10 @@ TaskManager.loadFromStorage();
 // Get categories from the TaskManager
 const categories = TaskManager.categories;
 
-function TasksList({tasks, categoryId}) {
+function TasksList({ tasks, categoryId }) {
     const [taskList, setTaskList] = useState(tasks); // State to manage tasks
     const [isSearchInputVisible, setIsSearchInputVisible] = useState(false); // State to manage search input visibility
+    const [hoveredTaskId, setHoveredTaskId] = useState(null); // State to manage hovered task ID
     const searchInputRef = useRef(null); // Reference to the search input
 
     const handleAddTask = () => {
@@ -77,11 +78,19 @@ function TasksList({tasks, categoryId}) {
                         <td className="TaskDeadline">{task.date}</td>
                         <td className="TaskStatus">{task.status}</td>
                         <td className="TaskDetails">
-                            <span>Szczegóły</span>
+                            <span
+                                onMouseEnter={() => setHoveredTaskId(task.id)}
+                                onMouseLeave={() => setHoveredTaskId(null)}
+                            >Szczegóły</span>
                             <button className="DeleteButton" type="button"
                                     onClick={() => handleDeleteTask(task.id)}>Usuń
                             </button>
                             <button className="EditButton" type="submit">Edytuj</button>
+                            {hoveredTaskId === task.id && (
+                                <div className="TaskDetailsPopup">
+                                    {task.details}
+                                </div>
+                            )}
                         </td>
                     </tr>
                 ))}
