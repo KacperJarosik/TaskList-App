@@ -461,3 +461,107 @@
 .DeleteButton:active {
     background-color: #77aaff;
 }
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #1d2230;
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 2000;
+    width: 20%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.popup h3 {
+    margin-top: 0;
+    text-align: center;
+    color: #f1f1e6;
+}
+
+.popup input {
+    color: white;
+}
+
+.popup label {
+    display: block;
+    margin: 5px 0;
+    width: 100%;
+}
+
+.popup div {
+    display: block;
+    margin: 5px 0;
+    width: 100%;
+}
+
+.popup .sortByContainer {
+    border: 1px solid transparent;
+    border-radius: 5px;
+    background-color: #0d4d8d;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.popup .sortByContainer label {
+    background-color: #0d4d8d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.popup .sortByContainer label span {
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.popup .sortByContainer label input {
+    display: none;
+}
+
+.popup .sortByContainer label input:checked + span {
+    background-color: #4192d9;
+    color: white;
+}
+
+.popup input, .popup textarea, .popup select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.popup button {
+    background-color: #4192d9;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px 5px;
+    color: #f1f1e6;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.popup button:hover {
+    background-color: #77aaf0;
+}
+
+.popup button:active {
+    background-color: #77aaff;
+}
+
+.popup .buttons-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
