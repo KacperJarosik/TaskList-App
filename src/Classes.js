@@ -49,7 +49,7 @@ export class TaskManager {
 
     loadFromStorage() {
         const savedCategories = localStorage.getItem('categories');
-        if (savedCategories) {
+        /*if (savedCategories) {
             this.categories = JSON.parse(savedCategories).map(categoryData => {
                 const category = new Category(categoryData.id, categoryData.title);
                 categoryData.tasks.forEach(taskData => {
@@ -61,9 +61,9 @@ export class TaskManager {
                 return Math.max(maxId, Math.max(...categoryData.tasks.map(task => task.id)));
             }, 0) + 1;
             this.nextCategoryId = Math.max(...JSON.parse(savedCategories).map(categoryData => categoryData.id)) + 1;
-        } else {
+        } else {*/
             this.initializeExampleData();
-        }
+        //}
     }
 
     saveToStorage() {
@@ -145,7 +145,7 @@ export class TaskManager {
                 tasks: [
                     { id: 1, text: 'przed1', date: '2024-05-20', status: 'To Do', details: 'Ciupaga od maga' },
                     { id: 2, text: 'przed2', date: '2024-05-21', status: 'In Progress', details: 'Marek bez marek' },
-                    { id: 3, text: 'przed3', date: '2024-05-22', status: 'Done', details: 'Moja dusza ulatuje' }
+                    { id: 3, text: 'przed3', date: '2024-05-22', status: 'Done', details: 'Moja dusza ulatujeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' }
                 ]
             },
             {
@@ -163,24 +163,24 @@ export class TaskManager {
                 id: 3,
                 title: 'Groceries',
                 tasks: [
-                    { id: 9, text: 'Buy milk', date: '2024-05-25', status: 'To Do', details: '' },
-                    { id: 10, text: 'Buy bread', date: '2024-05-26', status: 'To Do', details: '' }
+                    { id: 9, text: 'Buy milk', date: '2024-05-25', status: 'To Do', details: '1' },
+                    { id: 10, text: 'Buy bread', date: '2024-05-26', status: 'To Do', details: '2' }
                 ]
             },
             {
                 id: 4,
                 title: 'Fitness',
                 tasks: [
-                    { id: 11, text: 'Go to gym', date: '2024-05-27', status: 'To Do', details: '' },
-                    { id: 12, text: 'Do yoga', date: '2024-05-28', status: 'To Do', details: '' }
+                    { id: 11, text: 'Go to gym', date: '2024-05-27', status: 'To Do', details: '3' },
+                    { id: 12, text: 'Do yoga', date: '2024-05-28', status: 'To Do', details: '4' }
                 ]
             },
             {
                 id: 5,
                 title: 'Home Improvement',
                 tasks: [
-                    { id: 13, text: 'Paint the walls', date: '2024-05-29', status: 'To Do', details: '' },
-                    { id: 14, text: 'Fix the leaking faucet', date: '2024-05-30', status: 'To Do', details: '' }
+                    { id: 13, text: 'Paint the walls', date: '2024-05-29', status: 'To Do', details: '5' },
+                    { id: 14, text: 'Fix the leaking faucet', date: '2024-05-30', status: 'To Do', details: '6' }
                 ]
             },
             {
@@ -202,23 +202,23 @@ export class TaskManager {
                 id: 9,
                 title: 'Category with One Sentence',
                 tasks: [
-                    { id: 15, text: 'Write a single sentence', date: '2024-06-01', status: 'To Do', details: '' }
+                    { id: 15, text: 'Write a single sentence', date: '2024-06-01', status: 'To Do', details: '7' }
                 ]
             },
             {
                 id: 10,
                 title: 'Category with 10 Tasks',
                 tasks: [
-                    { id: 16, text: 'Task 1', date: '2024-06-01', status: 'To Do', details: '' },
-                    { id: 17, text: 'Task 2', date: '2024-06-02', status: 'To Do', details: '' },
-                    { id: 18, text: 'Task 3', date: '2024-06-03', status: 'To Do', details: '' },
-                    { id: 19, text: 'Task 4', date: '2024-06-04', status: 'To Do', details: '' },
-                    { id: 20, text: 'Task 5', date: '2024-06-05', status: 'To Do', details: '' },
-                    { id: 21, text: 'Task 6', date: '2024-06-06', status: 'To Do', details: '' },
-                    { id: 22, text: 'Task 7', date: '2024-06-07', status: 'To Do', details: '' },
-                    { id: 23, text: 'Task 8', date: '2024-06-08', status: 'To Do', details: '' },
-                    { id: 24, text: 'Task 9', date: '2024-06-09', status: 'To Do', details: '' },
-                    { id: 25, text: 'Task 10', date: '2024-06-10', status: 'To Do', details: '' }
+                    { id: 16, text: 'Task 1', date: '2024-06-01', status: 'To Do', details: '1' },
+                    { id: 17, text: 'Task 2', date: '2024-06-02', status: 'To Do', details: '2' },
+                    { id: 18, text: 'Task 3', date: '2024-06-03', status: 'To Do', details: '3' },
+                    { id: 19, text: 'Task 4', date: '2024-06-04', status: 'To Do', details: '4' },
+                    { id: 20, text: 'Task 5', date: '2024-06-05', status: 'To Do', details: '5' },
+                    { id: 21, text: 'Task 6', date: '2024-06-06', status: 'To Do', details: '6' },
+                    { id: 22, text: 'Task 7', date: '2024-06-07', status: 'To Do', details: '7' },
+                    { id: 23, text: 'Task 8', date: '2024-06-08', status: 'To Do', details: '8' },
+                    { id: 24, text: 'Task 9', date: '2024-06-09', status: 'To Do', details: '9' },
+                    { id: 25, text: 'Task 10', date: '2024-06-10', status: 'To Do', details: '10' }
                 ]
             }
         ];
