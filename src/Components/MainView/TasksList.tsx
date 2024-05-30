@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef} from 'react';
+import { useState, useEffect, useRef } from 'react';
 import TaskManager from '../../Classes.js';
 
 // Load data from storage
@@ -7,7 +7,7 @@ TaskManager.loadFromStorage();
 // Get categories from the TaskManager
 const categories = TaskManager.categories;
 
-function TasksList({tasks, categoryId}) {
+function TasksList({ tasks, categoryId }) {
     const [taskList, setTaskList] = useState(tasks); // State to manage tasks
     const [isSearchInputVisible, setIsSearchInputVisible] = useState(false); // State to manage search input visibility
     const searchInputRef = useRef(null); // Reference to the search input
@@ -18,13 +18,21 @@ function TasksList({tasks, categoryId}) {
     const [isFiltering, setIsFiltering] = useState(false);
     const [isSorting, setIsSorting] = useState(false);
     const [isAdding, setIsAdding] = useState(false);
+    const [taskName, setTaskName] = useState('');
+    const [taskDate, setTaskDate] = useState('');
+    const [taskDetails, setTaskDetails] = useState('');
 
-    //Dodawanie zadania "na sztywno"
-    // const handleAddTask = () => {
-    //     TaskManager.addTask(categoryId, 'New Task', '-', 'To Do', '');
-    //     const updatedTasks = TaskManager.categories.find(cat => cat.id === categoryId).tasks;
-    //     setTaskList([...updatedTasks]); // Update the task list state
-    // };
+    // Adding a task
+    const handleAddTask = () => {
+        const name = taskName || 'New Task';
+        const date = taskDate || '-';
+        const details = taskDetails || '';
+
+        TaskManager.addTask(categoryId, name, date, 'To Do', details);
+        const updatedTasks = TaskManager.categories.find(cat => cat.id === categoryId).tasks;
+        setTaskList([...updatedTasks]); // Update the task list state
+        setIsAdding(false); // Close the adding mode
+    };
 
     const handleDeleteTask = (taskId) => {
         TaskManager.removeTask(categoryId, taskId);
@@ -85,12 +93,11 @@ function TasksList({tasks, categoryId}) {
                     <button className="SearchButton" type="button" onClick={handleSearchButtonClick}>Wyszukaj</button>
                 )}
                 {isSearchInputVisible && (
-                    <input ref={searchInputRef} type="text" className="SearchInput"/>
+                    <input ref={searchInputRef} type="text" className="SearchInput" />
                 )}
                 <button className="FilteringButton" onClick={handleFilteringClick}>Filtruj</button>
                 <button className="SortingButton" onClick={handleSortingClick}>Sortuj</button>
                 <button className="AddButton" onClick={handleAddClick}>Dodaj</button>
-                {/*<button className="AddButton" type="button" onClick={handleAddTask}>Dodaj</button>*/}
             </div>
             <table className="TasksListTable">
                 <thead>
@@ -109,9 +116,7 @@ function TasksList({tasks, categoryId}) {
                         <td className="TaskStatus">{task.status}</td>
                         <td className="TaskDetails">
                             <span onClick={() => handleDetailsClick(task)}>Szczegóły</span>
-                            <button className="DeleteButton" type="button"
-                                    onClick={() => handleDeleteTask(task.id)}>Usuń
-                            </button>
+                            <button className="DeleteButton" type="button" onClick={() => handleDeleteTask(task.id)}>Usuń</button>
                             <button className="EditButton" onClick={() => handleEditClick(task)}>Edytuj</button>
                         </td>
                     </tr>
@@ -134,18 +139,15 @@ function TasksList({tasks, categoryId}) {
                     <h3>Edycja zadania</h3>
                     <label>
                         Nazwa:
-                        <input type="text" value={editingTask.text}
-                               onChange={(e) => setEditingTask({...editingTask, text: e.target.value})}/>
+                        <input type="text" value={editingTask.text} onChange={(e) => setEditingTask({ ...editingTask, text: e.target.value })} />
                     </label>
                     <label>
                         Data:
-                        <input type="date" value={editingTask.date}
-                               onChange={(e) => setEditingTask({...editingTask, date: e.target.value})}/>
+                        <input type="date" value={editingTask.date} onChange={(e) => setEditingTask({ ...editingTask, date: e.target.value })} />
                     </label>
                     <label>
                         Status:
-                        <select value={editingTask.status}
-                                onChange={(e) => setEditingTask({...editingTask, status: e.target.value})}>
+                        <select value={editingTask.status} onChange={(e) => setEditingTask({ ...editingTask, status: e.target.value })}>
                             <option value="To Do">To Do</option>
                             <option value="In Progress">In Progress</option>
                             <option value="Done">Done</option>
@@ -153,8 +155,7 @@ function TasksList({tasks, categoryId}) {
                     </label>
                     <label>
                         Szczegóły:
-                        <textarea value={editingTask.details}
-                                  onChange={(e) => setEditingTask({...editingTask, details: e.target.value})}/>
+                        <textarea value={editingTask.details} onChange={(e) => setEditingTask({ ...editingTask, details: e.target.value })} />
                     </label>
                     <div className="buttons-container">
                         <button onClick={() => setIsEditing(false)}>Save</button>
@@ -168,11 +169,11 @@ function TasksList({tasks, categoryId}) {
                     <h3>Filtruj zadania</h3>
                     <div>
                         Data od:
-                        <input type="date"/>
+                        <input type="date" />
                     </div>
                     <div>
                         Data do:
-                        <input type="date"/>
+                        <input type="date" />
                     </div>
                     <div>
                         Status:
@@ -192,46 +193,43 @@ function TasksList({tasks, categoryId}) {
             {isSorting && !isAdding && !isEditing && !isFiltering && (
                 <div className="popup">
                     <h3>Sortuj zadania</h3>
-
                     <div className="sortByContainer">
                         <label>
-                            <input type="radio" name="sort" value="nameASC"
-                                   defaultChecked={true}/><span>Nazwa (rosnąco)</span>
+                            <input type="radio" name="sort" value="nameASC" defaultChecked={true} /><span>Nazwa (rosnąco)</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="nameDESC"/><span>Nazwa (malejąco)</span>
+                            <input type="radio" name="sort" value="nameDESC" /><span>Nazwa (malejąco)</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="dateASC"/><span>Data (rosnąco)</span>
+                            <input type="radio" name="sort" value="dateASC" /><span>Data (rosnąco)</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="dateDESC"/><span>Data (malejąco)</span>
+                            <input type="radio" name="sort" value="dateDESC" /><span>Data (malejąco)</span>
                         </label>
                     </div>
-
                     <div className="buttons-container">
                         <button onClick={() => setIsSorting(false)}>Zastosuj sortowanie</button>
                     </div>
                 </div>
             )}
 
-            {isAdding && !isEditing && !isSorting && !isFiltering && (
+            {isAdding && (
                 <div className="popup">
                     <h3>Dodaj zadanie</h3>
                     <label>
                         Nazwa:
-                        <input type="text" placeholder="Nazwa zadania..."/>
+                        <input type="text" placeholder="Nazwa zadania..." value={taskName} onChange={(e) => setTaskName(e.target.value)} />
                     </label>
                     <label>
                         Data:
-                        <input type="date"/>
+                        <input type="date" value={taskDate} onChange={(e) => setTaskDate(e.target.value)} />
                     </label>
                     <label>
                         Szczegóły:
-                        <textarea placeholder="Szczegóły zadania..."/>
+                        <textarea placeholder="Szczegóły zadania..." value={taskDetails} onChange={(e) => setTaskDetails(e.target.value)} />
                     </label>
                     <div className="buttons-container">
-                        <button onClick={() => setIsAdding(false)}>Dodaj</button>
+                        <button onClick={handleAddTask}>Dodaj</button>
                         <button onClick={() => setIsAdding(false)}>Anuluj</button>
                     </div>
                 </div>
@@ -266,7 +264,7 @@ function CategoriesList() {
                             status: task.status,
                             details: task.details,
                             category: category.title // Add category title to each task
-                        }))} categoryId={category.id}/>
+                        }))} categoryId={category.id} />
                     )}
                 </div>
             ))}
