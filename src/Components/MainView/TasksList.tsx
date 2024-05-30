@@ -34,6 +34,14 @@ function TasksList({ tasks, categoryId }) {
         setIsAdding(false); // Close the adding mode
     };
 
+    // Editing a task
+    const handleSaveEditTask = () => {
+        TaskManager.updateTask(categoryId, editingTask.id, editingTask);
+        const updatedTasks = TaskManager.categories.find(cat => cat.id === categoryId).tasks;
+        setTaskList([...updatedTasks]); // Update the task list state
+        setIsEditing(false); // Close the editing mode
+    };
+
     const handleDeleteTask = (taskId) => {
         TaskManager.removeTask(categoryId, taskId);
         const updatedTasks = TaskManager.categories.find(cat => cat.id === categoryId).tasks;
@@ -158,7 +166,7 @@ function TasksList({ tasks, categoryId }) {
                         <textarea value={editingTask.details} onChange={(e) => setEditingTask({ ...editingTask, details: e.target.value })} />
                     </label>
                     <div className="buttons-container">
-                        <button onClick={() => setIsEditing(false)}>Save</button>
+                        <button onClick={handleSaveEditTask}>Save</button>
                         <button onClick={() => setIsEditing(false)}>Cancel</button>
                     </div>
                 </div>
