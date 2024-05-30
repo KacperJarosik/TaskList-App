@@ -23,6 +23,11 @@ function TasksList({ tasks, categoryId }) {
     const [taskDetails, setTaskDetails] = useState('');
     const [sortOption, setSortOption] = useState(''); // New state for sort option
 
+    // States for filtering
+    const [filterStartDate, setFilterStartDate] = useState('');
+    const [filterEndDate, setFilterEndDate] = useState('');
+    const [filterStatus, setFilterStatus] = useState('');
+
     // Adding a task
     const handleAddTask = () => {
         const name = taskName || 'New Task';
@@ -121,6 +126,20 @@ function TasksList({ tasks, categoryId }) {
         setIsSorting(false); // Close the sorting mode
     };
 
+    const applyFiltering = () => {
+        const updatedTasks = tasks.filter(task => {
+            const taskDate = new Date(task.date);
+            const startDate = filterStartDate ? new Date(filterStartDate) : null;
+            const endDate = filterEndDate ? new Date(filterEndDate) : null;
+            const matchesStatus = filterStatus ? task.status === filterStatus : true;
+            const matchesStartDate = startDate ? taskDate >= startDate : true;
+            const matchesEndDate = endDate ? taskDate <= endDate : true;
+            return matchesStatus && matchesStartDate && matchesEndDate;
+        });
+        setTaskList(updatedTasks);
+        setIsFiltering(false); // Close the filtering mode
+    };
+
     return (
         <>
             <div className="taskButtons">
@@ -204,22 +223,23 @@ function TasksList({ tasks, categoryId }) {
                     <h3>Filtruj zadania</h3>
                     <div>
                         Data od:
-                        <input type="date" />
+                        <input type="date" value={filterStartDate} onChange={(e) => setFilterStartDate(e.target.value)} />
                     </div>
                     <div>
                         Data do:
-                        <input type="date" />
+                        <input type="date" value={filterEndDate} onChange={(e) => setFilterEndDate(e.target.value)} />
                     </div>
                     <div>
                         Status:
-                        <select>
+                        <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
+                            <option value="">Wszystkie</option>
                             <option value="To Do">To Do</option>
                             <option value="In Progress">In Progress</option>
                             <option value="Done">Done</option>
                         </select>
                     </div>
                     <div className="buttons-container">
-                        <button onClick={() => setIsFiltering(false)}>Zastosuj filtry</button>
+                        <button onClick={applyFiltering}>Zastosuj filtry</button>
                         <button onClick={() => setIsFiltering(false)}>Zamknij</button>
                     </div>
                 </div>
