@@ -11,6 +11,7 @@ function TasksList({ tasks, categoryId }) {
     const [taskList, setTaskList] = useState(tasks); // State to manage tasks
     const [isSearchInputVisible, setIsSearchInputVisible] = useState(false); // State to manage search input visibility
     const searchInputRef = useRef(null); // Reference to the search input
+    const [searchQuery, setSearchQuery] = useState(''); // State to store search query
     const [showDetails, setShowDetails] = useState(false);
     const [currentTask, setCurrentTask] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -77,6 +78,14 @@ function TasksList({ tasks, categoryId }) {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [isSearchInputVisible]);
+
+    const handleSearchInputChange = (event) => {
+        setSearchQuery(event.target.value);
+    };
+
+    const filteredTasks = taskList.filter(task =>
+        task.text.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     const handleDetailsClick = (task) => {
         setCurrentTask(task);
@@ -147,7 +156,7 @@ function TasksList({ tasks, categoryId }) {
                     <button className="SearchButton" type="button" onClick={handleSearchButtonClick}>Wyszukaj</button>
                 )}
                 {isSearchInputVisible && (
-                    <input ref={searchInputRef} type="text" className="SearchInput" />
+                    <input ref={searchInputRef} type="text" className="SearchInput" value={searchQuery} onChange={handleSearchInputChange} />
                 )}
                 <button className="FilteringButton" onClick={handleFilteringClick}>Filtruj</button>
                 <button className="SortingButton" onClick={handleSortingClick}>Sortuj</button>
@@ -163,7 +172,7 @@ function TasksList({ tasks, categoryId }) {
                 </tr>
                 </thead>
                 <tbody>
-                {taskList.map(task => (
+                {filteredTasks.map(task => (
                     <tr key={task.id}>
                         <td className="TaskName">{task.text}</td>
                         <td className="TaskDeadline">{task.date}</td>
