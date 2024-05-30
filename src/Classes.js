@@ -14,6 +14,14 @@ export class Category {
         this.tasks = this.tasks.filter(task => task.id !== taskId);
     }
 
+    updateTask(taskId, updatedTask) {
+        const taskIndex = this.tasks.findIndex(task => task.id === taskId);
+        if (taskIndex !== -1) {
+            this.tasks[taskIndex] = { ...this.tasks[taskIndex], ...updatedTask };
+            this.tasks.sort((a, b) => new Date(a.date) - new Date(b.date)); // Sort tasks by date
+        }
+    }
+
     updateTaskText(taskId, newText) {
         const task = this.tasks.find(task => task.id === taskId);
         if (task) {
@@ -28,7 +36,27 @@ export class Category {
             this.tasks.sort((a, b) => new Date(a.date) - new Date(b.date)); // Sort tasks by date
         }
     }
+    // New method to sort tasks by date in ascending order
+    sortTasksByDateASC() {
+        this.tasks.sort((a, b) => new Date(a.date) - new Date(b.date));
+    }
+
+    // New method to sort tasks by date in descending order
+    sortTasksByDateDESC() {
+        this.tasks.sort((a, b) => new Date(b.date) - new Date(a.date));
+    }
+
+    // New method to sort tasks by name in ascending order
+    sortTasksByNameASC() {
+        this.tasks.sort((a, b) => a.text.localeCompare(b.text));
+    }
+
+    // New method to sort tasks by name in descending order
+    sortTasksByNameDESC() {
+        this.tasks.sort((a, b) => b.text.localeCompare(a.text));
+    }
 }
+
 
 export class Task {
     constructor(id, text, date, status, details) {
@@ -49,7 +77,7 @@ export class TaskManager {
 
     loadFromStorage() {
         const savedCategories = localStorage.getItem('categories');
-        /*if (savedCategories) {
+        if (savedCategories) {
             this.categories = JSON.parse(savedCategories).map(categoryData => {
                 const category = new Category(categoryData.id, categoryData.title);
                 categoryData.tasks.forEach(taskData => {
@@ -61,9 +89,9 @@ export class TaskManager {
                 return Math.max(maxId, Math.max(...categoryData.tasks.map(task => task.id)));
             }, 0) + 1;
             this.nextCategoryId = Math.max(...JSON.parse(savedCategories).map(categoryData => categoryData.id)) + 1;
-        } else {*/
+        } else {
             this.initializeExampleData();
-        //}
+        }
     }
 
     saveToStorage() {
@@ -101,6 +129,14 @@ export class TaskManager {
         const category = this.categories.find(category => category.id === categoryId);
         if (category) {
             category.removeTask(taskId);
+            this.saveToStorage(); // Save updated categories to storage
+        }
+    }
+
+    updateTask(categoryId, taskId, updatedTask) {
+        const category = this.categories.find(category => category.id === categoryId);
+        if (category) {
+            category.updateTask(taskId, updatedTask);
             this.saveToStorage(); // Save updated categories to storage
         }
     }
