@@ -21,11 +21,12 @@ function TasksList({ tasks, categoryId }) {
     const [taskName, setTaskName] = useState('');
     const [taskDate, setTaskDate] = useState('');
     const [taskDetails, setTaskDetails] = useState('');
+    const [sortOption, setSortOption] = useState(''); // New state for sort option
 
     // Adding a task
     const handleAddTask = () => {
         const name = taskName || 'New Task';
-        const date = taskDate || '-';
+        const date = taskDate || 'brak';
         const details = taskDetails || '';
 
         TaskManager.addTask(categoryId, name, date, 'To Do', details);
@@ -92,6 +93,32 @@ function TasksList({ tasks, categoryId }) {
 
     const handleAddClick = () => {
         setIsAdding(true);
+    };
+
+    const handleSortOptionChange = (event) => {
+        setSortOption(event.target.value);
+    };
+
+    const applySorting = () => {
+        const updatedTasks = [...taskList];
+        switch (sortOption) {
+            case 'nameASC':
+                updatedTasks.sort((a, b) => a.text.localeCompare(b.text));
+                break;
+            case 'nameDESC':
+                updatedTasks.sort((a, b) => b.text.localeCompare(a.text));
+                break;
+            case 'dateASC':
+                updatedTasks.sort((a, b) => a.date.localeCompare(b.date));
+                break;
+            case 'dateDESC':
+                updatedTasks.sort((a, b) => b.date.localeCompare(a.date));
+                break;
+            default:
+                break;
+        }
+        setTaskList(updatedTasks);
+        setIsSorting(false); // Close the sorting mode
     };
 
     return (
@@ -192,8 +219,8 @@ function TasksList({ tasks, categoryId }) {
                         </select>
                     </div>
                     <div className="buttons-container">
-                        <button onClick={() => setIsFiltering(true)}>Wyczyść filtry</button>
                         <button onClick={() => setIsFiltering(false)}>Zastosuj filtry</button>
+                        <button onClick={() => setIsFiltering(false)}>Zamknij</button>
                     </div>
                 </div>
             )}
@@ -201,22 +228,22 @@ function TasksList({ tasks, categoryId }) {
             {isSorting && !isAdding && !isEditing && !isFiltering && (
                 <div className="popup">
                     <h3>Sortuj zadania</h3>
-                    <div className="sortByContainer">
+                    <div className="sortByContainer" onChange={handleSortOptionChange}>
                         <label>
-                            <input type="radio" name="sort" value="nameASC" defaultChecked={true} /><span>Nazwa (rosnąco)</span>
+                            <input type="radio" name="sort" value="nameASC" checked={sortOption === 'nameASC'} /><span>Nazwa (rosnąco)</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="nameDESC" /><span>Nazwa (malejąco)</span>
+                            <input type="radio" name="sort" value="nameDESC" checked={sortOption === 'nameDESC'} /><span>Nazwa (malejąco)</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="dateASC" /><span>Data (rosnąco)</span>
+                            <input type="radio" name="sort" value="dateASC" checked={sortOption === 'dateASC'} /><span>Data (rosnąco)</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="dateDESC" /><span>Data (malejąco)</span>
+                            <input type="radio" name="sort" value="dateDESC" checked={sortOption === 'dateDESC'} /><span>Data (malejąco)</span>
                         </label>
                     </div>
                     <div className="buttons-container">
-                        <button onClick={() => setIsSorting(false)}>Zastosuj sortowanie</button>
+                        <button onClick={applySorting}>Zastosuj sortowanie</button>
                     </div>
                 </div>
             )}
