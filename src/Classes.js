@@ -181,7 +181,7 @@ export class TaskManager {
                 tasks: [
                     { id: 1, text: 'przed1', date: '2024-05-20', status: 'To Do', details: 'Ciupaga od maga' },
                     { id: 2, text: 'przed2', date: '2024-05-21', status: 'In Progress', details: 'Marek bez marek' },
-                    { id: 3, text: 'przed3', date: '2024-05-22', status: 'Done', details: 'Moja dusza ulatujeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' }
+                    { id: 3, text: 'przed3', date: '2024-05-22', status: 'Done', details: 'Moja dusza ulatujeeeeeeeeeeee eeeeeeeeeeeeeeee eeeeeeeeeeeeeeee eeeeeeeeeeeeeeeeeee eeeeeeeeeeeeee eeeeeeeeeeeeeeeee eeeeeeeeeeeeeee eeeeeeeeeeeee eeeeeeeeeeeeeee eeeeeeeee eee eeeee eeeeeeee eeeeeee' }
                 ]
             },
             {
