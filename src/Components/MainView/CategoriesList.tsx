@@ -1,5 +1,5 @@
 import TaskManager from '../../Classes.js';
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Load data from storage
 TaskManager.loadFromStorage();
@@ -7,10 +7,9 @@ TaskManager.loadFromStorage();
 // Get categories from the TaskManager
 const categories = TaskManager.categories;
 
-// Render the CategoriesList component
 function CategoriesList() {
-    const [isSearchInputVisible, setIsSearchInputVisible] = useState(false); // State to manage search input visibility
-    const searchInputRef = useRef(null); // Reference to the search input
+    const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);
+    const searchInputRef = useRef(null);
     const [isAdding, setIsAdding] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [currentCategory, setCurrentCategory] = useState(null);
@@ -18,12 +17,12 @@ function CategoriesList() {
     const [editCategoryTitle, setEditCategoryTitle] = useState('');
 
     const handleSearchButtonClick = () => {
-        setIsSearchInputVisible(true); // Show search input
+        setIsSearchInputVisible(true);
     };
 
     const handleClickOutside = (event) => {
         if (searchInputRef.current && !searchInputRef.current.contains(event.target)) {
-            setIsSearchInputVisible(false); // Hide search input
+            setIsSearchInputVisible(false);
         }
     };
 
@@ -31,7 +30,7 @@ function CategoriesList() {
         if (isSearchInputVisible) {
             document.addEventListener('mousedown', handleClickOutside);
             if (searchInputRef.current) {
-                searchInputRef.current.focus(); // Focus on the search input
+                searchInputRef.current.focus();
             }
         } else {
             document.removeEventListener('mousedown', handleClickOutside);
@@ -44,7 +43,7 @@ function CategoriesList() {
     const handleDeleteCategory = (categoryId) => {
         TaskManager.removeCategory(categoryId);
         TaskManager.saveToStorage();
-        window.location.reload(); // Refresh the page to update the list
+        window.location.reload();
     };
 
     const handleAddClick = () => {
@@ -59,16 +58,20 @@ function CategoriesList() {
 
     const handleAddCategory = () => {
         if (newCategoryTitle.trim()) {
+            TaskManager.addCategory(newCategoryTitle.trim());
             setNewCategoryTitle('');
             setIsAdding(false);
+            window.location.reload(); // Refresh the page to update the list
         }
     };
 
     const handleEditCategory = () => {
         if (currentCategory && editCategoryTitle.trim()) {
+            TaskManager.updateCategoryTitle(currentCategory.id, editCategoryTitle.trim());
             setCurrentCategory(null);
             setEditCategoryTitle('');
             setIsEditing(false);
+            window.location.reload(); // Refresh the page to update the list
         }
     };
 
@@ -97,9 +100,7 @@ function CategoriesList() {
                         <td>{category.title}</td>
                         <td className="CategoryModifiers">
                             {category.tasks.length}
-                            <button className="DeleteButton" type="button"
-                                    onClick={() => handleDeleteCategory(category.id)}>Usuń
-                            </button>
+                            <button className="DeleteButton" type="button" onClick={() => handleDeleteCategory(category.id)}>Usuń</button>
                             <button className="EditButton" onClick={() => handleEditClick(category)}>Edytuj</button>
                         </td>
                     </tr>
