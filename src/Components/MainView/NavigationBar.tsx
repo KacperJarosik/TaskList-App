@@ -28,7 +28,7 @@ function NavigationBar() {
         <ul className="list-group">
             <li className="list-group-item" onClick={handleMainVievClick}>Panel główny</li>
             <li className="list-group-item" onClick={handleCategoriesClick}>Kategorie</li>
-            <li className="list-group-item" onClick={handleGroupsClick}>Grupy</li>
+            {/* <li className="list-group-item" onClick={handleGroupsClick}>Grupy</li> */}
             <li className="list-group-item" onClick={handleOpinionsClick}>Wyślij opinię</li>
             <li className="list-group-item" onClick={handleSettingsClick}>Ustawienia</li>
         </ul>

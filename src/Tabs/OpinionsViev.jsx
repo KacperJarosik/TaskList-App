@@ -15,6 +15,7 @@ const OpinionsViev = () => {
                 <input
                     type="text"
                     className="opinion-input"
+                    placeholder="Napisz co myślisz..."
                     value={opinion}
                     onChange={(e) => setOpinion(e.target.value)}
                 />
