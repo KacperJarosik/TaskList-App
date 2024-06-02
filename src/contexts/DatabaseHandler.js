@@ -1,6 +1,6 @@
 import { firestore } from "../firebase";
-import { collection, doc, setDoc, deleteDoc, updateDoc, getDocs } from "firebase/firestore";
-
+import { collection, doc, addDoc, setDoc, deleteDoc, updateDoc, getDocs } from "firebase/firestore";
+import Classes, { Category, Task } from "../Classes";
 const database = firestore;
 
 export async function createCategory(userId, categoryTitle) {
@@ -18,16 +18,35 @@ export async function createCategory(userId, categoryTitle) {
 }
 
 // funkcja tworzy nowa zadanie w określonej kategorii dla danego użytkownika i zwraca identyfikator nowo dodanego zadania
-export async function createTask(userId, categoryId, taskId, taskText, taskDate) {
+// export async function createTask(userId, categoryId, taskId, taskText, taskDate, taskDetails ) {
+//     try {
+//         const taskIdStr = taskId.toString();
+//         const tasksRef = collection(database, "users", userId, "categories", categoryId, "tasks");
+//         await setDoc(doc(tasksRef, taskIdStr), {
+//             id: taskIdStr,
+//             text: taskText,
+//             date: taskDate,
+//             details: taskDetails
+//         });
+//         console.log("Task created with ID: ", taskId);
+//         return taskId;
+//     } catch (error) {
+//         console.error("Error creating task: ", error);
+//         throw error;
+//     }
+// }
+//to ta nowa
+export async function createTask(userId, categoryId, taskText, taskDate, taskStatus, taskDetails) {
     try {
         const tasksRef = collection(database, "users", userId, "categories", categoryId, "tasks");
-        await setDoc(doc(tasksRef, taskId), {
-            id: taskId,
+        const docRef = await addDoc(tasksRef, {
             text: taskText,
-            date: taskDate
+            date: taskDate,
+            status: taskStatus,
+            details: taskDetails
         });
-        console.log("Task created with ID: ", taskId);
-        return taskId;
+        console.log("Task created with ID: ", docRef.id);
+        return docRef.id; // Zwróć UID nowo utworzonego dokumentu
     } catch (error) {
         console.error("Error creating task: ", error);
         throw error;
@@ -90,9 +109,12 @@ export async function fetchCategories(userId) {
         const categoriesRef = collection(database, "users", userId, "categories");
         const querySnapshot = await getDocs(categoriesRef);
         const categories = [];
+        
         querySnapshot.forEach((doc) => {
-            categories.push({ id: doc.id, ...doc.data() });
-        });
+            const data = doc.data();
+            const category  = new Category(doc.id,data.name);
+            categories.push(category);
+        })
         return categories;
     } catch (error) {
         console.error("Error fetching categories: ", error);
@@ -107,7 +129,9 @@ export async function fetchTasks(userId, categoryId) {
         const querySnapshot = await getDocs(tasksRef);
         const tasks = [];
         querySnapshot.forEach((doc) => {
-            tasks.push({ id: doc.id, ...doc.data() });
+            const data = doc.data();
+            const task  = new Task(doc.id,data.name,data.date,data.status,data.details);
+            tasks.push(task);
         });
         return tasks;
     } catch (error) {
