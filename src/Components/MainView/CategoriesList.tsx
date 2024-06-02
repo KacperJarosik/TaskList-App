@@ -1,4 +1,4 @@
-import TaskManager from '../../Classes.js';
+import TaskManager from '../../Structs/TaskManager.js';
 import { useEffect, useRef, useState } from "react";
 
 // Load data from storage

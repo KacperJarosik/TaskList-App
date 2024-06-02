@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import TaskManager from '../Classes.js';
+import TaskManager from '../Structs/TaskManager.js';
 
 TaskManager.loadFromStorage();
 const categories = TaskManager.categories;
