@@ -11,7 +11,9 @@ import TaskManager from '../../Classes.js'; // Assuming Classes.js contains your
 
 export const AfterLogin = () => {
     useEffect(() => {
-        TaskManager.loadFromStorage(); // Dane testowe
+        // TaskManager.loadFromStorage(); // Dane testowe
+        TaskManager.loadFromFirebase(); // Dane testowe
+
     }, []); // Empty dependency array ensures the effect runs only once after mount
 
     return (
