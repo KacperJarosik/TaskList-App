@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import {Task,Category, TaskManager} from '../../Classes.js';
+import TaskManager from '../../Structs/TaskManager.js';
 
 // Load data from storage
 // TaskManager.loadFromStorage();
@@ -16,6 +16,7 @@ function TasksList({ tasks, categoryId }) {
 
     const [isSearchInputVisible, setIsSearchInputVisible] = useState(false); // State to manage search input visibility
     const searchInputRef = useRef(null); // Reference to the search input
+    const [searchQuery, setSearchQuery] = useState(''); // State to store search query
     const [showDetails, setShowDetails] = useState(false);
     const [currentTask, setCurrentTask] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -26,19 +27,21 @@ function TasksList({ tasks, categoryId }) {
     const [taskName, setTaskName] = useState('');
     const [taskDate, setTaskDate] = useState('');
     const [taskDetails, setTaskDetails] = useState('');
+    const [sortOption, setSortOption] = useState(''); // New state for sort option
 
-    useEffect(() => {
-        console.log("taskList:", taskList); // Sprawdź, czy taskList jest poprawnie ustawiony
-    }, [taskList]);
+    // States for filtering
+    const [filterStartDate, setFilterStartDate] = useState('');
+    const [filterEndDate, setFilterEndDate] = useState('');
+    const [filterStatus, setFilterStatus] = useState('');
+
     // Adding a task
     const handleAddTask = async () => {
         const name = taskName || 'New Task';
-        const date = taskDate || '-';
+        const date = taskDate || 'brak';
         const details = taskDetails || '';
 
-        if(taskManager){
-        await taskManager.addTask(categoryId, name, date, 'To Do', details);
-        const updatedTasks = taskManager.categories.find(cat => cat.id === categoryId).tasks || [];
+        TaskManager.addTask(categoryId, name, date, 'Do zrobienia', details);
+        const updatedTasks = TaskManager.categories.find(cat => cat.id === categoryId).tasks;
         setTaskList([...updatedTasks]); // Update the task list state
         setIsAdding(false); // Close the adding mode
         }
@@ -98,6 +101,14 @@ function TasksList({ tasks, categoryId }) {
         };
     }, [isSearchInputVisible]);
 
+    const handleSearchInputChange = (event) => {
+        setSearchQuery(event.target.value);
+    };
+
+    const filteredTasks = taskList.filter(task =>
+        task.text.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     const handleDetailsClick = (task) => {
         setCurrentTask(task);
         setShowDetails(true);
@@ -120,6 +131,46 @@ function TasksList({ tasks, categoryId }) {
         setIsAdding(true);
     };
 
+    const handleSortOptionChange = (event) => {
+        setSortOption(event.target.value);
+    };
+
+    const applySorting = () => {
+        const updatedTasks = [...taskList];
+        switch (sortOption) {
+            case 'nameASC':
+                updatedTasks.sort((a, b) => a.text.localeCompare(b.text));
+                break;
+            case 'nameDESC':
+                updatedTasks.sort((a, b) => b.text.localeCompare(a.text));
+                break;
+            case 'dateASC':
+                updatedTasks.sort((a, b) => a.date.localeCompare(b.date));
+                break;
+            case 'dateDESC':
+                updatedTasks.sort((a, b) => b.date.localeCompare(a.date));
+                break;
+            default:
+                break;
+        }
+        setTaskList(updatedTasks);
+        setIsSorting(false); // Close the sorting mode
+    };
+
+    const applyFiltering = () => {
+        const updatedTasks = tasks.filter(task => {
+            const taskDate = new Date(task.date);
+            const startDate = filterStartDate ? new Date(filterStartDate) : null;
+            const endDate = filterEndDate ? new Date(filterEndDate) : null;
+            const matchesStatus = filterStatus ? task.status === filterStatus : true;
+            const matchesStartDate = startDate ? taskDate >= startDate : true;
+            const matchesEndDate = endDate ? taskDate <= endDate : true;
+            return matchesStatus && matchesStartDate && matchesEndDate;
+        });
+        setTaskList(updatedTasks);
+        setIsFiltering(false); // Close the filtering mode
+    };
+
     return (
         <>
             <div className="taskButtons">
@@ -127,7 +178,7 @@ function TasksList({ tasks, categoryId }) {
                     <button className="SearchButton" type="button" onClick={handleSearchButtonClick}>Wyszukaj</button>
                 )}
                 {isSearchInputVisible && (
-                    <input ref={searchInputRef} type="text" className="SearchInput" />
+                    <input ref={searchInputRef} type="text" className="SearchInput" value={searchQuery} onChange={handleSearchInputChange} />
                 )}
                 <button className="FilteringButton" onClick={handleFilteringClick}>Filtruj</button>
                 <button className="SortingButton" onClick={handleSortingClick}>Sortuj</button>
@@ -143,7 +194,7 @@ function TasksList({ tasks, categoryId }) {
                 </tr>
                 </thead>
                 <tbody>
-                {taskList.map(task => (
+                {filteredTasks.map(task => (
                     <tr key={task.id}>
                         <td className="TaskName">{task.text}</td>
                         <td className="TaskDeadline">{task.date}</td>
@@ -182,9 +233,9 @@ function TasksList({ tasks, categoryId }) {
                     <label>
                         Status:
                         <select value={editingTask.status} onChange={(e) => setEditingTask({ ...editingTask, status: e.target.value })}>
-                            <option value="To Do">To Do</option>
-                            <option value="In Progress">In Progress</option>
-                            <option value="Done">Done</option>
+                            <option value="Do zrobienia">Do zrobienia</option>
+                            <option value="W trakcie">W trakcie</option>
+                            <option value="Zakończone">Zakończone</option>
                         </select>
                     </label>
                     <label>
@@ -203,23 +254,24 @@ function TasksList({ tasks, categoryId }) {
                     <h3>Filtruj zadania</h3>
                     <div>
                         Data od:
-                        <input type="date" />
+                        <input type="date" value={filterStartDate} onChange={(e) => setFilterStartDate(e.target.value)} />
                     </div>
                     <div>
                         Data do:
-                        <input type="date" />
+                        <input type="date" value={filterEndDate} onChange={(e) => setFilterEndDate(e.target.value)} />
                     </div>
                     <div>
                         Status:
-                        <select>
-                            <option value="To Do">To Do</option>
-                            <option value="In Progress">In Progress</option>
-                            <option value="Done">Done</option>
+                        <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
+                            <option value="">Wszystkie</option>
+                            <option value="Do zrobienia">Do zrobienia</option>
+                            <option value="W trakcie">W trakcie</option>
+                            <option value="Zakończone">Zakończone</option>
                         </select>
                     </div>
                     <div className="buttons-container">
-                        <button onClick={() => setIsFiltering(true)}>Wyczyść filtry</button>
-                        <button onClick={() => setIsFiltering(false)}>Zastosuj filtry</button>
+                        <button onClick={applyFiltering}>Zastosuj filtry</button>
+                        <button onClick={() => setIsFiltering(false)}>Zamknij</button>
                     </div>
                 </div>
             )}
@@ -227,22 +279,22 @@ function TasksList({ tasks, categoryId }) {
             {isSorting && !isAdding && !isEditing && !isFiltering && (
                 <div className="popup">
                     <h3>Sortuj zadania</h3>
-                    <div className="sortByContainer">
+                    <div className="sortByContainer" onChange={handleSortOptionChange}>
                         <label>
-                            <input type="radio" name="sort" value="nameASC" defaultChecked={true} /><span>Nazwa (rosnąco)</span>
+                            <input type="radio" name="sort" value="dateASC" checked={sortOption === 'dateASC'} /><span> ⭡ wg terminu</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="nameDESC" /><span>Nazwa (malejąco)</span>
+                            <input type="radio" name="sort" value="dateDESC" checked={sortOption === 'dateDESC'} /><span> ⭣ wg terminu</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="dateASC" /><span>Data (rosnąco)</span>
+                            <input type="radio" name="sort" value="nameASC" checked={sortOption === 'nameASC'} /><span> ⭡ wg nazwy</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="dateDESC" /><span>Data (malejąco)</span>
+                            <input type="radio" name="sort" value="nameDESC" checked={sortOption === 'nameDESC'} /><span> ⭣ wg nazwy</span>
                         </label>
                     </div>
                     <div className="buttons-container">
-                        <button onClick={() => setIsSorting(false)}>Zastosuj sortowanie</button>
+                        <button onClick={applySorting}>Zastosuj sortowanie</button>
                     </div>
                 </div>
             )}
@@ -313,7 +365,9 @@ function CategoriesList() {
                             id: task.id,
                             text: task.text,
                             date: task.date,
-                            status: task.status,
+                            status: task.status === 'To Do' ? 'Do zrobienia' :
+                                task.status === 'In Progress' ? 'W trakcie' :
+                                    task.status === 'Done' ? 'Zakończone' : task.status,
                             details: task.details,
                             category: category.title // Add category title to each task
                         }))} categoryId={category.id} />

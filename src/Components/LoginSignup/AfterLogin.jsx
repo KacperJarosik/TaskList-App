@@ -7,7 +7,7 @@ import SayHello from "../MainView/SayHello.tsx";
 import TasksList from "../MainView/TasksList.tsx";
 import UserMenu from "../MainView/UserMenu.tsx";
 import CategoriesList from "../MainView/CategoriesList.tsx";
-import TaskManager from '../../Classes.js'; // Assuming Classes.js contains your TaskManager class
+import TaskManager from '../../Structs/TaskManager.js'; // Assuming TaskManager.js contains your TaskManager class
 
 export const AfterLogin = () => {
     useEffect(() => {
