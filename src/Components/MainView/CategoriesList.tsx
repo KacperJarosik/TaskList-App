@@ -1,5 +1,5 @@
 import TaskManager from '../../Classes.js';
-import { useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 
 // Load data from storage
 TaskManager.loadFromStorage();
@@ -11,6 +11,11 @@ const categories = TaskManager.categories;
 function CategoriesList() {
     const [isSearchInputVisible, setIsSearchInputVisible] = useState(false); // State to manage search input visibility
     const searchInputRef = useRef(null); // Reference to the search input
+    const [isAdding, setIsAdding] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [currentCategory, setCurrentCategory] = useState(null);
+    const [newCategoryTitle, setNewCategoryTitle] = useState('');
+    const [editCategoryTitle, setEditCategoryTitle] = useState('');
 
     const handleSearchButtonClick = () => {
         setIsSearchInputVisible(true); // Show search input
@@ -42,6 +47,31 @@ function CategoriesList() {
         window.location.reload(); // Refresh the page to update the list
     };
 
+    const handleAddClick = () => {
+        setIsAdding(true);
+    };
+
+    const handleEditClick = (category) => {
+        setCurrentCategory(category);
+        setEditCategoryTitle(category.title);
+        setIsEditing(true);
+    };
+
+    const handleAddCategory = () => {
+        if (newCategoryTitle.trim()) {
+            setNewCategoryTitle('');
+            setIsAdding(false);
+        }
+    };
+
+    const handleEditCategory = () => {
+        if (currentCategory && editCategoryTitle.trim()) {
+            setCurrentCategory(null);
+            setEditCategoryTitle('');
+            setIsEditing(false);
+        }
+    };
+
     return (
         <>
             <h3>Lista kategorii</h3>
@@ -50,9 +80,9 @@ function CategoriesList() {
                     <button className="SearchButton" type="button" onClick={handleSearchButtonClick}>Wyszukaj</button>
                 )}
                 {isSearchInputVisible && (
-                    <input ref={searchInputRef} type="text" className="SearchInput" placeholder="Wyszukaj"/>
+                    <input ref={searchInputRef} type="text" className="SearchInput"/>
                 )}
-                <button className="AddButton" type="submit">Dodaj</button>
+                <button className="AddButton" onClick={handleAddClick}>Dodaj</button>
             </div>
             <table className="table">
                 <thead>
@@ -67,13 +97,51 @@ function CategoriesList() {
                         <td>{category.title}</td>
                         <td className="CategoryModifiers">
                             {category.tasks.length}
-                            <button className="DeleteButton" type="button" onClick={() => handleDeleteCategory(category.id)}>Usuń</button>
-                            <button className="EditButton" type="submit">Edytuj</button>
+                            <button className="DeleteButton" type="button"
+                                    onClick={() => handleDeleteCategory(category.id)}>Usuń
+                            </button>
+                            <button className="EditButton" onClick={() => handleEditClick(category)}>Edytuj</button>
                         </td>
                     </tr>
                 ))}
                 </tbody>
             </table>
+
+            {isAdding && !isEditing && (
+                <div className="popup">
+                    <h3>Dodaj kategorię</h3>
+                    <label>
+                        Nazwa kategorii:
+                        <input
+                            type="text"
+                            value={newCategoryTitle}
+                            onChange={(e) => setNewCategoryTitle(e.target.value)}
+                        />
+                    </label>
+                    <div className="buttons-container">
+                        <button onClick={handleAddCategory}>Dodaj</button>
+                        <button onClick={() => setIsAdding(false)}>Anuluj</button>
+                    </div>
+                </div>
+            )}
+
+            {isEditing && !isAdding && (
+                <div className="popup">
+                    <h3>Edytuj kategorię</h3>
+                    <label>
+                        Nazwa kategorii:
+                        <input
+                            type="text"
+                            value={editCategoryTitle}
+                            onChange={(e) => setEditCategoryTitle(e.target.value)}
+                        />
+                    </label>
+                    <div className="buttons-container">
+                        <button onClick={handleEditCategory}>Zapisz</button>
+                        <button onClick={() => setIsEditing(false)}>Anuluj</button>
+                    </div>
+                </div>
+            )}
         </>
     );
 }
