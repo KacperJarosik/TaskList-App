@@ -194,7 +194,7 @@
 }
 
 .taskButtons .SearchButton,
-.taskButtons .FilteringButton, .taskButtons .SortingButton, .taskButtons .AddButton {
+.taskButtons .FilteringButton, .taskButtons .SortingButton, .taskButtons .AddButton, .submit-button {
     background-color: #4192d9;
     border: 2px solid transparent;
     border-radius: 5px;
@@ -208,6 +208,49 @@
     transition: background-color 0.3s ease;
 }
 
+.SearchButton, .FilteringButton, .AddButton {
+    background-color: #4192d9;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 8px 8px;
+    cursor: pointer;
+    color: #f1f1e6;
+    font-size: 18px;
+    width: calc(10% - 8px);
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.InputSearch{
+    padding: 8px 8px;
+    background-color: #4192d9;
+    color: #f1f1e6;
+    border: 2px solid transparent;
+    font-size: 18px;
+    border-radius: 5px;
+    width: calc(15% - 8px);
+    margin: 5px;
+
+}
+
+.InputSearch::placeholder {
+    color: #f1f1e6; /* Optional: change placeholder color */
+}
+
+
+.SelectList{
+    padding: 11px 11px;
+    background-color: #4192d9;
+    color: #f1f1e6;
+    border: 2px solid transparent;
+    font-size: 18px;
+    border-radius: 5px;
+    width: calc(15% - 8px);
+    margin: 5px;
+
+
+}
 .SearchButton:hover,
 .FilteringButton:hover, .taskButtons .SortingButton:hover, .AddButton:hover {
     background-color: #77aaf0;
