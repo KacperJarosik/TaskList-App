@@ -52,9 +52,10 @@ function TaskViewInCategories({ tasks }) {
                     value={filterStatus}
                     onChange={(e) => setFilterStatus(e.target.value)}
                 >
-                     <option value="">Wszystkie</option>
-                    <option value="completed">Zakończone</option>
-                    <option value="pending">Oczekujące</option>
+                    <option value="">Wszystkie</option>
+                    <option value="To Do">Do zrobienia</option>
+                    <option value="In Progress">W trakcie</option>
+                    <option value="Done">Zakończone</option>
                 </select>
                 <button onClick={() => setSortField('text')}>Sortuj wg Nazwy</button>
                 <button onClick={() => setSortField('date')}>Sortuj wg Terminu</button>
