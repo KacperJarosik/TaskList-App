@@ -1,14 +1,19 @@
 import { useState, useEffect, useRef } from 'react';
-import TaskManager from '../../Classes.js';
+import {Task,Category, TaskManager} from '../../Classes.js';
 
 // Load data from storage
-TaskManager.loadFromStorage();
-
-// Get categories from the TaskManager
-const categories = TaskManager.categories;
+// TaskManager.loadFromStorage();
+//  TaskManager.loadFromFirebase();
+// // Get categories from the TaskManager
+// var categories = TaskManager.categories;
 
 function TasksList({ tasks, categoryId }) {
-    const [taskList, setTaskList] = useState(tasks); // State to manage tasks
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [taskManager, setTaskManager] = useState<TaskManager|null>(null);
+    
+    // const [taskList, setTaskList] = useState(tasks); // State to manage tasks
+    const [taskList, setTaskList] = useState<Task[]>([]); // State to manage tasks
+
     const [isSearchInputVisible, setIsSearchInputVisible] = useState(false); // State to manage search input visibility
     const searchInputRef = useRef(null); // Reference to the search input
     const [showDetails, setShowDetails] = useState(false);
@@ -22,16 +27,21 @@ function TasksList({ tasks, categoryId }) {
     const [taskDate, setTaskDate] = useState('');
     const [taskDetails, setTaskDetails] = useState('');
 
+    useEffect(() => {
+        console.log("taskList:", taskList); // Sprawdź, czy taskList jest poprawnie ustawiony
+    }, [taskList]);
     // Adding a task
-    const handleAddTask = () => {
+    const handleAddTask = async () => {
         const name = taskName || 'New Task';
         const date = taskDate || '-';
         const details = taskDetails || '';
 
-        TaskManager.addTask(categoryId, name, date, 'To Do', details);
-        const updatedTasks = TaskManager.categories.find(cat => cat.id === categoryId).tasks;
+        if(taskManager){
+        await taskManager.addTask(categoryId, name, date, 'To Do', details);
+        const updatedTasks = taskManager.categories.find(cat => cat.id === categoryId).tasks || [];
         setTaskList([...updatedTasks]); // Update the task list state
         setIsAdding(false); // Close the adding mode
+        }
     };
 
     // Editing a task
@@ -43,9 +53,11 @@ function TasksList({ tasks, categoryId }) {
     };
 
     const handleDeleteTask = (taskId) => {
-        TaskManager.removeTask(categoryId, taskId);
-        const updatedTasks = TaskManager.categories.find(cat => cat.id === categoryId).tasks;
+        if(taskManager){
+        taskManager.removeTask(categoryId, taskId);
+        const updatedTasks = taskManager.categories.find(cat => cat.id === categoryId).tasks;
         setTaskList([...updatedTasks]); // Update the task list state
+        }
     };
 
     const handleSearchButtonClick = () => {
@@ -59,6 +71,20 @@ function TasksList({ tasks, categoryId }) {
     };
 
     useEffect(() => {
+        async function initializeTaskManager() {
+            const tm = new TaskManager(); // Assuming TaskManager is a class that can be instantiated
+            await tm.loadFromFirebase(); // Load data from Firebase
+            setTaskManager(tm); // Store the instance of TaskManager with loaded data
+            setCategories(tm.categories); // Update categories in state for rendering
+            console.log(tm.categories);
+            const category = tm.categories.find(cat => cat.id === categoryId);
+            if (category) {
+                setTaskList(category.tasks); // Zmiana: Aktualizacja stanu taskList
+            }
+          }
+      
+          initializeTaskManager();
+
         if (isSearchInputVisible) {
             document.addEventListener('mousedown', handleClickOutside);
             if (searchInputRef.current) {
@@ -248,6 +274,8 @@ function TasksList({ tasks, categoryId }) {
 
 function CategoriesList() {
     const [visibleCategories, setVisibleCategories] = useState({});
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [taskManager, setTaskManager] = useState<TaskManager|null>(null);
 
     const toggleCategoryVisibility = (categoryId) => {
         setVisibleCategories(prevState => ({
@@ -255,7 +283,22 @@ function CategoriesList() {
             [categoryId]: !prevState[categoryId]
         }));
     };
-
+    useEffect(() => {
+        console.log("categories:", categories); // Sprawdź, czy categories są poprawnie ustawione
+    }, [categories]);
+    
+    useEffect(()=>{
+        async function initializeTaskManager() {
+        
+        const tm = new TaskManager(); // Assuming TaskManager is a class that can be instantiated
+        await tm.loadFromFirebase(); // Load data from Firebase
+        setTaskManager(tm); // Store the instance of TaskManager with loaded data
+        setCategories(tm.categories); // Update categories in state for rendering
+        console.log(tm.categories);
+      }
+  
+      initializeTaskManager();
+},[]);
     return (
         <>
             <h3>Zadania do wykonania</h3>
@@ -264,6 +307,7 @@ function CategoriesList() {
                     <h4 className="TaskListCategoryTitleBlock" onClick={() => toggleCategoryVisibility(category.id)}>
                         {category.title}
                     </h4>
+                        
                     {visibleCategories[category.id] && (
                         <TasksList tasks={category.tasks.map(task => ({
                             id: task.id,
