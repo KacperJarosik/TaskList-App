@@ -10,6 +10,7 @@ const categories = TaskManager.categories;
 function CategoriesList() {
     const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);
     const searchInputRef = useRef(null);
+    const [searchQuery, setSearchQuery] = useState(''); // State to store search query
     const [isAdding, setIsAdding] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [currentCategory, setCurrentCategory] = useState(null);
@@ -75,6 +76,14 @@ function CategoriesList() {
         }
     };
 
+    const handleSearchInputChange = (event) => {
+        setSearchQuery(event.target.value);
+    };
+
+    const filteredCategories = categories.filter(category =>
+        category.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <>
             <h3>Lista kategorii</h3>
@@ -83,7 +92,7 @@ function CategoriesList() {
                     <button className="SearchButton" type="button" onClick={handleSearchButtonClick}>Wyszukaj</button>
                 )}
                 {isSearchInputVisible && (
-                    <input ref={searchInputRef} type="text" className="SearchInput"/>
+                    <input ref={searchInputRef} type="text" className="SearchInput" value={searchQuery} onChange={handleSearchInputChange} />
                 )}
                 <button className="AddButton" onClick={handleAddClick}>Dodaj</button>
             </div>
@@ -95,7 +104,7 @@ function CategoriesList() {
                 </tr>
                 </thead>
                 <tbody>
-                {categories.map(category => (
+                {filteredCategories.map(category => (
                     <tr key={category.id}>
                         <td>{category.title}</td>
                         <td className="CategoryModifiers">
