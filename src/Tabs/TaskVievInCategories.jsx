@@ -1,38 +1,87 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import TaskManager from '../Classes.js';
 
 TaskManager.loadFromStorage();
 const categories = TaskManager.categories;
 
-function TaskVievInCategories({ tasks }) {
+function TaskViewInCategories({ tasks }) {
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filterStatus, setFilterStatus] = useState('');
+    const [sortField, setSortField] = useState('');
+    const [sortDirection, setSortDirection] = useState('asc');
+
+    const filteredAndSortedTasks = useMemo(() => {
+        let filteredTasks = tasks;
+
+        if (searchQuery) {
+            filteredTasks = filteredTasks.filter(task =>
+                task.text.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                task.details.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+        }
+
+        if (filterStatus) {
+            filteredTasks = filteredTasks.filter(task => task.status === filterStatus);
+        }
+
+        if (sortField) {
+            filteredTasks = filteredTasks.sort((a, b) => {
+                const fieldA = a[sortField];
+                const fieldB = b[sortField];
+                if (fieldA < fieldB) return sortDirection === 'asc' ? -1 : 1;
+                if (fieldA > fieldB) return sortDirection === 'asc' ? 1 : -1;
+                return 0;
+            });
+        }
+
+        return filteredTasks;
+    }, [tasks, searchQuery, filterStatus, sortField, sortDirection]);
+
     return (
         <>
             <h3>Lista zadań</h3>
-            <div className="buttons">
-                <p className="SearchButton">Wyszukaj</p>
-                <p className="FilteringButton">Filtruj</p>
+            <div className="controls">
+                <input
+                    type="text"
+                    placeholder="Wyszukaj..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <select
+                    value={filterStatus}
+                    onChange={(e) => setFilterStatus(e.target.value)}
+                >
+                    <option value="">Wszystkie</option>
+                    <option value="completed">Zakończone</option>
+                    <option value="pending">Oczekujące</option>
+                </select>
+                <button onClick={() => setSortField('text')}>Sortuj wg Nazwy</button>
+                <button onClick={() => setSortField('date')}>Sortuj wg Terminu</button>
+                <button onClick={() => setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')}>
+                    ⭡  ⭣
+                </button>
             </div>
             <table className="table" id="TasksListTable">
                 <thead>
-                    <tr>
-                        <th>Kategoria</th>
-                        <th>Nazwa</th>
-                        <th>Termin</th>
-                        <th>Status</th>
-                        <th>Szczegóły</th>
-                    </tr>
+                <tr>
+                    <th>Kategoria</th>
+                    <th>Nazwa</th>
+                    <th>Termin</th>
+                    <th>Status</th>
+                    <th>Szczegóły</th>
+                </tr>
                 </thead>
                 <tbody>
-                    {tasks.map(task => (
-                        <tr key={task.id}>
-                            <td>{task.category}</td>
-                            <td>{task.text}</td>
-                            <td>{task.date}</td>
-                            <td>{task.status}</td>
-                            <td>{task.details}</td>
-                        </tr>
-                    ))}
+                {filteredAndSortedTasks.map(task => (
+                    <tr key={task.id}>
+                        <td>{task.category}</td>
+                        <td>{task.text}</td>
+                        <td>{task.date}</td>
+                        <td>{task.status}</td>
+                        <td>{task.details}</td>
+                    </tr>
+                ))}
                 </tbody>
             </table>
         </>
@@ -50,7 +99,7 @@ function TaskInCat() {
     return (
         <>
             <h3>Kategoria: {category.title}</h3>
-            <TaskVievInCategories tasks={category.tasks.map(task => ({
+            <TaskViewInCategories tasks={category.tasks.map(task => ({
                 id: task.id,
                 text: task.text,
                 date: task.date,
