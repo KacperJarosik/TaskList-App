@@ -6,8 +6,11 @@
 
 #### UWAGA!! Dalsze instrukcje działają prawidłowo na systemach/terminalach, w których składnia jest zgodna z systemami opartymi o UNIX (Linux, macOS)
 
-## Praca ze skryptem uruchomieniowym
-
+## LINUX: Praca ze skryptem uruchomieniowym
+#### Krok 0.
+1. Upewnij się, że masz zainstalowany node.js (jeśli tworzysz strony w html/react to na pewno jet już on u ciebie zainstalowany)
+Link do pobrania: https://nodejs.org/en
+2. Upewnij się, że masz odpowiednie środowisku Visual Studio / Webstorm itp. 
 #### Krok 1. - nadanie odpowiednich uprawnień plikowi wykonywalnemu:
 
 Aby nadać odpowiednie uprawnienia należy skorzystać z polecania wpisywanego w terminalu:
@@ -22,7 +25,12 @@ Jedyne co pozostało do zrobienia to uruchomienie gotowego skryptu, który zrobi
 
 Po zakończeniu wszystkich operacji zawartych w pliku skryptowym otworzy nam się gotowa i działająca aplikacja.
 
-### `Ręczne zainstalowanie oraz skonfigurowanie aplikacji TaskList`
+### WINDOWS / LINUX / INNE:  `Ręczne zainstalowanie oraz skonfigurowanie aplikacji TaskList`
+
+#### Krok 0.
+1. Upewnij się, że masz zainstalowany node.js (jeśli tworzysz strony w html/react to na pewno jet już on u ciebie zainstalowany)
+Link do pobrania: https://nodejs.org/en
+2. Upewnij się, że masz odpowiednie środowisku Visual Studio / Webstorm itp.
 
 #### Krok 1. - sklonowanie repozytorium do bieżącego katalogu:
 
@@ -38,6 +46,7 @@ Po zakończeniu wszystkich operacji zawartych w pliku skryptowym otworzy nam si�
 
 #### Krok 4. - uruchomienie aplikacji:
 
+*Opcjonalnie w celu zapewnienia lepszej wydajności przed 'npm start' można wpistać 'npm run build'*
 - `npm start`
 
 ## Jak zacząć korzystać z aplikacji TaskList?
