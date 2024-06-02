@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import TaskManager from '../../Classes.js';
+import TaskManager from '../../Classes'; // Import TaskManager without the .js
 
 // Load data from storage
 TaskManager.loadFromStorage();
@@ -123,10 +123,10 @@ function TasksList({ tasks, categoryId }) {
                 updatedTasks.sort((a, b) => b.text.localeCompare(a.text));
                 break;
             case 'dateASC':
-                updatedTasks.sort((a, b) => b.date.localeCompare(a.date));
+                updatedTasks.sort((a, b) => a.date.localeCompare(b.date));
                 break;
             case 'dateDESC':
-                updatedTasks.sort((a, b) => a.date.localeCompare(b.date));
+                updatedTasks.sort((a, b) => b.date.localeCompare(a.date));
                 break;
             default:
                 break;
@@ -211,9 +211,9 @@ function TasksList({ tasks, categoryId }) {
                     <label>
                         Status:
                         <select value={editingTask.status} onChange={(e) => setEditingTask({ ...editingTask, status: e.target.value })}>
-                            <option value="To Do">To Do</option>
-                            <option value="In Progress">In Progress</option>
-                            <option value="Done">Done</option>
+                            <option value="To Do">Do zrobienia</option>
+                            <option value="In Progress">W trakcie</option>
+                            <option value="Done">Zakończone</option>
                         </select>
                     </label>
                     <label>
@@ -242,9 +242,9 @@ function TasksList({ tasks, categoryId }) {
                         Status:
                         <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
                             <option value="">Wszystkie</option>
-                            <option value="To Do">To Do</option>
-                            <option value="In Progress">In Progress</option>
-                            <option value="Done">Done</option>
+                            <option value="To Do">Do zrobienia</option>
+                            <option value="In Progress">W trakcie</option>
+                            <option value="Done">Zakończone</option>
                         </select>
                     </div>
                     <div className="buttons-container">
@@ -259,16 +259,16 @@ function TasksList({ tasks, categoryId }) {
                     <h3>Sortuj zadania</h3>
                     <div className="sortByContainer" onChange={handleSortOptionChange}>
                         <label>
-                            <input type="radio" name="sort" value="nameASC" checked={sortOption === 'nameASC'} /><span>Nazwa (rosnąco)</span>
+                            <input type="radio" name="sort" value="dateASC" checked={sortOption === 'dateASC'} /><span> ⭡ wg terminu</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="nameDESC" checked={sortOption === 'nameDESC'} /><span>Nazwa (malejąco)</span>
+                            <input type="radio" name="sort" value="dateDESC" checked={sortOption === 'dateDESC'} /><span> ⭣ wg terminu</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="dateASC" checked={sortOption === 'dateASC'} /><span>Data (rosnąco)</span>
+                            <input type="radio" name="sort" value="nameASC" checked={sortOption === 'nameASC'} /><span> ⭡ wg nazwy</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="dateDESC" checked={sortOption === 'dateDESC'} /><span>Data (malejąco)</span>
+                            <input type="radio" name="sort" value="nameDESC" checked={sortOption === 'nameDESC'} /><span> ⭣ wg nazwy</span>
                         </label>
                     </div>
                     <div className="buttons-container">
@@ -325,7 +325,9 @@ function CategoriesList() {
                             id: task.id,
                             text: task.text,
                             date: task.date,
-                            status: task.status,
+                            status: task.status === 'To Do' ? 'Do zrobienia' :
+                                task.status === 'In Progress' ? 'W trakcie' :
+                                    task.status === 'Done' ? 'Zakończone' : task.status,
                             details: task.details,
                             category: category.title // Add category title to each task
                         }))} categoryId={category.id} />
