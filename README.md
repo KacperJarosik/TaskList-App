@@ -46,7 +46,7 @@ Link do pobrania: https://nodejs.org/en
 
 #### Krok 4. - uruchomienie aplikacji:
 
-*Opcjonalnie w celu zapewnienia lepszej wydajności przed 'npm start' można wpistać 'npm run build'*
+*Opcjonalnie w celu zapewnienia lepszej wydajności przed 'npm start' można wpisać 'npm run build'*
 - `npm start`
 
 ## Jak zacząć korzystać z aplikacji TaskList?
