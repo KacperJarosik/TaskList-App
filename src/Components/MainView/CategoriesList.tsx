@@ -1,14 +1,15 @@
-import TaskManager from '../../Classes.js';
+import {Category, TaskManager} from '../../Classes.js';
 import { useEffect, useRef, useState } from "react";
 
 // Load data from storage
-TaskManager.loadFromStorage();
-
+// TaskManager.loadFromStorage();
 // Get categories from the TaskManager
-const categories = TaskManager.categories;
 
 // Render the CategoriesList component
+//var categories = TaskManager.categories;
+
 function CategoriesList() {
+
     const [isSearchInputVisible, setIsSearchInputVisible] = useState(false); // State to manage search input visibility
     const searchInputRef = useRef(null); // Reference to the search input
 
@@ -21,8 +22,19 @@ function CategoriesList() {
             setIsSearchInputVisible(false); // Hide search input
         }
     };
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [taskManager, setTaskManager] = useState<TaskManager|null>(null);
 
     useEffect(() => {
+        async function initializeTaskManager() {
+            const tm = new TaskManager(); // Assuming TaskManager is a class that can be instantiated
+            await tm.loadFromFirebase(); // Load data from Firebase
+            setTaskManager(tm); // Store the instance of TaskManager with loaded data
+            setCategories(tm.categories); // Update categories in state for rendering
+            console.log(tm.categories);
+          }
+          initializeTaskManager();
+          
         if (isSearchInputVisible) {
             document.addEventListener('mousedown', handleClickOutside);
             if (searchInputRef.current) {
