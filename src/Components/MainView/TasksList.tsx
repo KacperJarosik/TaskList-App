@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import TaskManager from '../../Classes'; // Import TaskManager without the .js
+import TaskManager from '../../Structs/TaskManager.js';
 
 // Load data from storage
 TaskManager.loadFromStorage();
@@ -35,7 +35,7 @@ function TasksList({ tasks, categoryId }) {
         const date = taskDate || 'brak';
         const details = taskDetails || '';
 
-        TaskManager.addTask(categoryId, name, date, 'To Do', details);
+        TaskManager.addTask(categoryId, name, date, 'Do zrobienia', details);
         const updatedTasks = TaskManager.categories.find(cat => cat.id === categoryId).tasks;
         setTaskList([...updatedTasks]); // Update the task list state
         setIsAdding(false); // Close the adding mode
@@ -211,9 +211,9 @@ function TasksList({ tasks, categoryId }) {
                     <label>
                         Status:
                         <select value={editingTask.status} onChange={(e) => setEditingTask({ ...editingTask, status: e.target.value })}>
-                            <option value="To Do">Do zrobienia</option>
-                            <option value="In Progress">W trakcie</option>
-                            <option value="Done">Zakończone</option>
+                            <option value="Do zrobienia">Do zrobienia</option>
+                            <option value="W trakcie">W trakcie</option>
+                            <option value="Zakończone">Zakończone</option>
                         </select>
                     </label>
                     <label>
@@ -242,9 +242,9 @@ function TasksList({ tasks, categoryId }) {
                         Status:
                         <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
                             <option value="">Wszystkie</option>
-                            <option value="To Do">Do zrobienia</option>
-                            <option value="In Progress">W trakcie</option>
-                            <option value="Done">Zakończone</option>
+                            <option value="Do zrobienia">Do zrobienia</option>
+                            <option value="W trakcie">W trakcie</option>
+                            <option value="Zakończone">Zakończone</option>
                         </select>
                     </div>
                     <div className="buttons-container">
