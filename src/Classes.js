@@ -36,6 +36,7 @@ export class Category {
             this.tasks.sort((a, b) => new Date(a.date) - new Date(b.date)); // Sort tasks by date
         }
     }
+
     // New method to sort tasks by date in ascending order
     sortTasksByDateASC() {
         this.tasks.sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -102,16 +103,19 @@ export class TaskManager {
         const newCategory = new Category(this.nextCategoryId, title || `Kategoria ${this.nextCategoryId}`);
         this.categories.push(newCategory);
         this.nextCategoryId += 1;
+        this.saveToStorage(); // Save updated categories to storage
     }
 
     removeCategory(categoryId) {
         this.categories = this.categories.filter(category => category.id !== categoryId);
+        this.saveToStorage(); // Save updated categories to storage
     }
 
     updateCategoryTitle(categoryId, newTitle) {
         const category = this.categories.find(category => category.id === categoryId);
         if (category) {
             category.title = newTitle;
+            this.saveToStorage(); // Save updated categories to storage
         }
     }
 
