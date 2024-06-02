@@ -52,7 +52,7 @@ function TaskViewInCategories({ tasks }) {
                     value={filterStatus}
                     onChange={(e) => setFilterStatus(e.target.value)}
                 >
-                    <option value="">Wszystkie</option>
+                     <option value="">Wszystkie</option>
                     <option value="completed">Zakończone</option>
                     <option value="pending">Oczekujące</option>
                 </select>
