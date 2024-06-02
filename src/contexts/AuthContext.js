@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged } from "firebase/auth";
 import {firestore} from "../firebase";
 import { collection, doc, setDoc } from "firebase/firestore";
-
+import {globalUser} from "./globals"
 const AuthContext = React.createContext();
 
 export function useAuth() {
@@ -24,6 +24,9 @@ function signup(email, password,name) {
     .then((userCredential)=>{
       const user = userCredential.user;
       const uid = user.uid;
+      globalUser.uid = uid;
+      globalUser.name = user.name;
+      globalUser.email = user.email;
       return setDoc(doc(collection(db,"users"),uid),{
         uid: uid,
         name: name,
@@ -38,10 +41,17 @@ function signup(email, password,name) {
 
   function login(email,password){
     return signInWithEmailAndPassword(authInstance, email, password)
-      .catch(error=>{
-        console.error("Error during login: ", error);
-        throw error;
-      })
+    .then((userCredential)=>{
+      const user = userCredential.user;
+      const uid = user.uid;
+      globalUser.uid = uid;
+      globalUser.name = user.name;
+      globalUser.email = user.email;
+    })
+    .catch(error=>{
+      console.error("Error during login: ", error);
+      throw error;
+    })
   }
 
   function logout(){
