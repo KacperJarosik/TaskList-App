@@ -123,10 +123,10 @@ function TasksList({ tasks, categoryId }) {
                 updatedTasks.sort((a, b) => b.text.localeCompare(a.text));
                 break;
             case 'dateASC':
-                updatedTasks.sort((a, b) => a.date.localeCompare(b.date));
+                updatedTasks.sort((a, b) => b.date.localeCompare(a.date));
                 break;
             case 'dateDESC':
-                updatedTasks.sort((a, b) => b.date.localeCompare(a.date));
+                updatedTasks.sort((a, b) => a.date.localeCompare(b.date));
                 break;
             default:
                 break;
