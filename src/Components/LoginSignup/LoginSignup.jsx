@@ -125,12 +125,9 @@ export const LoginSignup = () => {
         <div className="submit-container">
           {action === "Reset Password" && (
             <>
-              <div className="submit">
-                <div onClick={handleReturnToLogin}>Return to Login</div>
-              </div>
-              <div className="submit">
-                <div onClick={handleResetPassword}>Reset Password</div>
-              </div>
+              <div className="submit" onClick={handleReturnToLogin}> Return to Login</div>
+              
+              <div className="submit" onClick={handleResetPassword}> Reset Password</div>
             </>
           )}
         </div>
