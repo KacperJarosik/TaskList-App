@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
 export const LoginSignup = () => {
-  const [action, setAction, resetPassword] = useState("Login");
+  const [action, setAction, resetPassword] = useState("Zaloguj się");
   const { login, signup } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -21,6 +21,8 @@ export const LoginSignup = () => {
       await login(email, password);
       navigate("/after");
     } catch (error) {
+      //setError("Nieprawidłowe dane do logowania. Spróbuj ponownie.");
+      alert("Nieprawidłowe dane do logowania. Spróbuj ponownie.");
       console.error("Login failed: ", error.message);
     }
   }
@@ -30,14 +32,16 @@ export const LoginSignup = () => {
       await signup(email, password, name);
       navigate("/after");
     } catch (error) {
+      //setError("Nieudana rejestracja. Spróbuj ponownie.");
+      alert("Nieudana rejestracja. Spróbuj ponownie.");
       console.error("Signup failed: ", error.message);
     }
   }
 
   function clickSign() {
     setError(""); // Clear error message
-    if (action === "Login") {
-      setAction("Sign Up");
+    if (action === "Zaloguj się") {
+      setAction("Zarejestruj się");
     } else {
       handleSignUp();
     }
@@ -45,27 +49,29 @@ export const LoginSignup = () => {
 
   function clickLogin() {
     setError(""); // Clear error message
-    if (action === "Sign Up") {
-      setAction("Login");
+    if (action === "Zarejestruj się") {
+      setAction("Zaloguj się");
     } else {
       handleLogin();
     }
   }
 
   function handleLostPasswordClick() {
-    setAction("Reset Password");
+    setAction("Zresetuj hasło");
   }
 
   function handleReturnToLogin() {
-    setAction("Login");
+    setAction("Zaloguj się");
   }
 
   async function handleResetPassword() {
     try {
       await resetPassword(email);
       console.log("Password reset email sent");
-      setAction("Login");
+      setAction("Zaloguj się");
     } catch (error) {
+      //setError("Resetowanie hasła nie powiodło się. Spróbuj ponownie.");
+      alert("Resetowanie hasła nie powiodło się. Spróbuj ponownie.");
       console.error("Password reset failed: ", error.message);
     }
   }
@@ -77,74 +83,74 @@ export const LoginSignup = () => {
         <div className="underline"></div>
       </div>
       <div className="inputs">
-        {action === "Sign Up" && (
+        {action === "Zarejestruj się" && (
           <div className="input">
             <img src={user_icon} alt="" />
             <input
               type="text"
-              placeholder="Name"
+              placeholder="Nazwa użytkownika"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
         )}
-        {(action === "Login" || action === "Sign Up" || action === "Reset Password") && (
+        {(action === "Zaloguj się" || action === "Zarejestruj się" || action === "Zresetuj hasło") && (
           <div className="input">
             <img src={email_icon} alt="" />
             <input
               type="email"
-              placeholder="Email"
+              placeholder="Adres e-mail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
         )}
-        {(action === "Login" || action === "Sign Up") && (
+        {(action === "Zaloguj się" || action === "Zarejestruj się") && (
           <div className="input">
             <img src={password_icon} alt="" />
             <input
               type="password"
-              placeholder="Password"
+              placeholder="Hasło"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
         )}
-        {action === "Sign Up" && (
+        {action === "Zarejestruj się" && (
 
           <div className="password-requirement">
             Uwaga! Hasło musi składać się z conajmniej 6 znaków!
           </div>
         )}
-        {action === "Login" && (
+        {action === "Zaloguj się" && (
           <div className="forgot-password">
-            Lost Password? <span onClick={handleLostPasswordClick}>Click Here!</span>
+            Zapomniałeś hasła? <span onClick={handleLostPasswordClick}>Kliknij tu!</span>
           </div>
         )}
         {error && <div className="error-message">{error}</div>}
         <div className="submit-container">
-          {action === "Reset Password" && (
+          {action === "Zresetuj hasło" && (
             <>
-              <div className="submit" onClick={handleReturnToLogin}> Return to Login</div>
+              <div className="submit" onClick={handleReturnToLogin}> Wróć do logowania</div>
               
-              <div className="submit" onClick={handleResetPassword}> Reset Password</div>
+              <div className="submit" onClick={handleResetPassword}> Zresetuj hasło</div>
             </>
           )}
         </div>
         <div className="submit-container">
-          {action !== "Reset Password" && (
+          {action !== "Zresetuj hasło" && (
             <>
               <div
-                className={action === "Login" ? "submit gray" : "submit"}
+                className={action === "Zaloguj się" ? "submit gray" : "submit"}
                 onClick={clickSign}
               >
-                Sign Up
+                Zarejestruj się
               </div>
               <div
-                className={action === "Sign Up" ? "submit gray" : "submit"}
+                className={action === "Zarejestruj się" ? "submit gray" : "submit"}
                 onClick={clickLogin}
               >
-                Login
+                Zaloguj się
               </div>
             </>
           )}
