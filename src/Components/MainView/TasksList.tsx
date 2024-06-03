@@ -25,7 +25,7 @@ function TasksList({ tasks, categoryId }) {
     const [taskName, setTaskName] = useState('');
     const [taskDate, setTaskDate] = useState('');
     const [taskDetails, setTaskDetails] = useState('');
-    const [sortOption, setSortOption] = useState(''); // New state for sort option
+    const [sortOption, setSortOption] = useState('dateASC'); // Set default sort option
 
     // States for filtering
     const [filterStartDate, setFilterStartDate] = useState('');
