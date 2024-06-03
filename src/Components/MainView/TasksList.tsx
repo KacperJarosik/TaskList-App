@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import TaskManager from '../../Structs/TaskManager.js';
-
+// @ts-ignore
+import arrow_right from "../Assets/strzalka_prawo.png";
+// @ts-ignore
+import arrow_down from "../Assets/strzalka_dol.png";
 // Load data from storage
 TaskManager.loadFromStorage();
 
@@ -318,6 +321,8 @@ function CategoriesList() {
             {categories.map(category => (
                 <div key={category.id} className="TaskListActionsBlock">
                     <h4 className="TaskListCategoryTitleBlock" onClick={() => toggleCategoryVisibility(category.id)}>
+                        <img src={visibleCategories[category.id] ? arrow_down : arrow_right} alt="Arrow icon"
+                             className="TaskTitleIcon"/>
                         {category.title}
                     </h4>
                     {visibleCategories[category.id] && (
