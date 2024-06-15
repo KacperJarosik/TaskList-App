@@ -1,52 +1,43 @@
 import { firestore } from "../firebase";
-import { collection, doc, addDoc, setDoc, deleteDoc, updateDoc, getDocs } from "firebase/firestore";
-import Classes, { Category, Task } from "../Classes";
+import { collection, doc, setDoc, deleteDoc, updateDoc, getDocs } from "firebase/firestore";
+import { Category} from "../Structs/Category";
+import { Task} from "../Structs/Task";
+
 const database = firestore;
 
 export async function createCategory(userId, categoryTitle) {
     try {
-        const categoriesRef = collection(database, "users", userId, "categories");
-        const categoryDocRef = await addDoc(categoriesRef, {
-            title: categoryTitle
-        });
-        console.log("Category created with ID: ", categoryDocRef.id);
-        return categoryDocRef.id;
+        console.log(categoryTitle);
+        const userRef = doc(database,"users",userId);
+        const categoryRef = collection(userRef,"categories");
+        const newCategoryRef =doc(categoryRef);
+        const categoryData  ={name: categoryTitle}
+        await setDoc(newCategoryRef,categoryData);
+        return newCategoryRef.id;
     } catch (error) {
         console.error("Error creating category: ", error);
         throw error;
     }
 }
 
-// funkcja tworzy nowa zadanie w określonej kategorii dla danego użytkownika i zwraca identyfikator nowo dodanego zadania
-// export async function createTask(userId, categoryId, taskId, taskText, taskDate, taskDetails ) {
-//     try {
-//         const taskIdStr = taskId.toString();
-//         const tasksRef = collection(database, "users", userId, "categories", categoryId, "tasks");
-//         await setDoc(doc(tasksRef, taskIdStr), {
-//             id: taskIdStr,
-//             text: taskText,
-//             date: taskDate,
-//             details: taskDetails
-//         });
-//         console.log("Task created with ID: ", taskId);
-//         return taskId;
-//     } catch (error) {
-//         console.error("Error creating task: ", error);
-//         throw error;
-//     }
-// }
-//to ta nowa
-export async function createTask(userId, categoryId, taskText, taskDate, taskStatus, taskDetails) {
+
+export async function createTask(userId, categoryId,  taskText, taskDate, status, details) {
     try {
-        const tasksRef = collection(database, "users", userId, "categories", categoryId, "tasks");
-        const docRef = await addDoc(tasksRef, {
-            text: taskText,
-            date: taskDate,
-            status: taskStatus,
-            details: taskDetails
-        });
-        console.log("Task created with ID: ", docRef.id);
-        return docRef.id; // Zwróć UID nowo utworzonego dokumentu
+      
+         console.log(categoryId);
+
+        const userRef = doc(database,"users",userId);
+        console.log("userref: " + userRef);
+
+        const categoryRef = doc(userRef,"categories",categoryId.id);
+        console.log("categoryref: "+ categoryRef);
+        const taskRef = collection(categoryRef,"tasks");
+        console.log("taskref: "+ taskRef);
+        const newTaskRef = doc(taskRef);
+        const taskData = {name: taskText,date:taskDate,status: status, details:details}
+        await setDoc(newTaskRef,taskData);
+        console.log("createTask: "+newTaskRef.id);
+        return newTaskRef.id; 
     } catch (error) {
         console.error("Error creating task: ", error);
         throw error;
@@ -69,6 +60,7 @@ export async function deleteCategory(userId, categoryId) {
 export async function deleteTask(userId, categoryId, taskId) {
     try {
         const taskRef = doc(database, "users", userId, "categories", categoryId, "tasks", taskId);
+        console.log("taskreftest:" +taskRef);
         await deleteDoc(taskRef);
         console.log("Task deleted with ID: ", taskId);
     } catch (error) {
@@ -82,7 +74,7 @@ export async function updateCategory(userId, categoryId, newCategoryTitle) {
     try {
         const categoryRef = doc(database, "users", userId, "categories", categoryId);
         await updateDoc(categoryRef, {
-            title: newCategoryTitle
+            name: newCategoryTitle
         });
         console.log("Category updated with ID: ", categoryId);
     } catch (error) {
