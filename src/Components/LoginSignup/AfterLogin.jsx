@@ -4,7 +4,7 @@ import AppLogo from '../AdminView/AppLogo.tsx';
 import NavigationBar from '../AdminView/NavigationBar.tsx';
 import LogOut from '../AdminView/LogOut.tsx';
 import SayHello from "../AdminView/SayHello.tsx";
-import TasksList from "../AdminView/TasksList.tsx";
+import Users from "../AdminView/Users.jsx";
 import UserMenu from "../AdminView/UserMenu.tsx";
 import CategoriesList from "../AdminView/CategoriesList.tsx";
 import TaskManager from '../../Structs/TaskManager.js'; // Assuming TaskManager.js contains your TaskManager class
@@ -32,7 +32,7 @@ export const AfterLogin = () => {
                     <SayHello />
                 </div>
                 <div className="TasksList">
-                    <TasksList />
+                    <Users />
                 </div>
             </div>
             <div className="rightSide">
