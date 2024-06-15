@@ -1,9 +1,8 @@
+import React from 'react';
 import TaskManager from '../../Structs/TaskManager.js';
 import { useEffect, useRef, useState } from "react";
-
-// Load data from storage
-// TaskManager.loadFromStorage();
-// Get categories from the TaskManager
+import taskManagerInstance from '../../Structs/TaskManager.js';
+import { Category } from '../../Structs/Category.js';
 
 function CategoriesList() {
     const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);
@@ -25,17 +24,13 @@ function CategoriesList() {
         }
     };
     const [categories, setCategories] = useState<Category[]>([]);
-    const [taskManager, setTaskManager] = useState<TaskManager|null>(null);
 
     useEffect(() => {
-        async function initializeTaskManager() {
-            const tm = new TaskManager(); // Assuming TaskManager is a class that can be instantiated
-            await tm.loadFromFirebase(); // Load data from Firebase
-            setTaskManager(tm); // Store the instance of TaskManager with loaded data
-            setCategories(tm.categories); // Update categories in state for rendering
-            console.log(tm.categories);
+        async function initializeTaskManagerCategoryList() {
+            await taskManagerInstance.loadFromFirebase();
+            setCategories(taskManagerInstance.categories);
           }
-          initializeTaskManager();
+          initializeTaskManagerCategoryList();
           
         if (isSearchInputVisible) {
             document.addEventListener('mousedown', handleClickOutside);
@@ -49,10 +44,14 @@ function CategoriesList() {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [isSearchInputVisible]);
-
-    const handleDeleteCategory = (categoryId) => {
-        TaskManager.removeCategory(categoryId);
-        TaskManager.saveToStorage();
+    const refreshCategories = async () => {
+        await taskManagerInstance.loadFromFirebase();
+        setCategories(taskManagerInstance.categories);
+    };
+    const handleDeleteCategory = async (categoryId) => {
+        await taskManagerInstance.removeCategory(categoryId);
+        taskManagerInstance.saveToStorage();
+        await refreshCategories();
         window.location.reload();
     };
 
@@ -66,21 +65,24 @@ function CategoriesList() {
         setIsEditing(true);
     };
 
-    const handleAddCategory = () => {
-        if (newCategoryTitle.trim()) {
-            TaskManager.addCategory(newCategoryTitle.trim());
+    const handleAddCategory =async () => {
+        if (newCategoryTitle) {
+            taskManagerInstance.addCategory(newCategoryTitle);
             setNewCategoryTitle('');
             setIsAdding(false);
-            window.location.reload(); // Refresh the page to update the list
+            await refreshCategories();
+           // window.location.reload(); // Refresh the page to update the list
         }
     };
 
-    const handleEditCategory = () => {
-        if (currentCategory && editCategoryTitle.trim()) {
-            TaskManager.updateCategoryTitle(currentCategory.id, editCategoryTitle.trim());
+    const handleEditCategory =  async () => {
+        if (currentCategory && editCategoryTitle) {
+            await taskManagerInstance.updateCategoryTitle(currentCategory.id, editCategoryTitle);
             setCurrentCategory(null);
             setEditCategoryTitle('');
             setIsEditing(false);
+            await refreshCategories();
+
             window.location.reload(); // Refresh the page to update the list
         }
     };
