@@ -1,26 +1,19 @@
 import React, {useEffect, useRef, useState} from "react";
-// import TaskManager from '../Structs/TaskManager.js';
 
-// TaskManager.loadFromStorage();
-// const categories = TaskManager.categories;
-
-// Przykładowe dane użytkowników
-const users = [
-    {id: 1, username: 'john_doe', categoriesCount: 3, tasksCount: 15},
-    {id: 2, username: 'jane_smith', categoriesCount: 5, tasksCount: 25},
-    {id: 3, username: 'alice_jones', categoriesCount: 2, tasksCount: 8},
-    {id: 4, username: 'mike_brown', categoriesCount: 4, tasksCount: 20},
-    {id: 5, username: 'alex_red', categoriesCount: 5, tasksCount: 23},
-    {id: 6, username: 'max_brown', categoriesCount: 2, tasksCount: 120},
-    {id: 7, username: 'bob_hamilton', categoriesCount: 4, tasksCount: 20},
-    {id: 8, username: 'lewis_brown', categoriesCount: 4, tasksCount: 20},
-    {id: 9, username: 'rob_brown', categoriesCount: 4, tasksCount: 20},
-    {id: 10, username: 'bob_black', categoriesCount: 4, tasksCount: 20},
-    {id: 11, username: 'bob_brown', categoriesCount: 4, tasksCount: 20},
-    {id: 12, username: 'bob_brown', categoriesCount: 4, tasksCount: 20}
+// Przykładowe dane administratorów
+const admins = [
+    {id: 1, username: 'Piotrek Zając', title: 'dr inż.', join_date: '20-02-2022r.'},
+    {id: 2, username: 'Aneta Kacyj', title: 'mgr inż.', join_date: '12-01-2022r.'},
+    {id: 3, username: 'Stefan Podas', title: 'mgr', join_date: '12-12-2023r.'},
+    {id: 4, username: 'Miłosz Lilsz', title: 'prof.', join_date: '03-01-2024r.'},
+    {id: 5, username: 'Marcin Rosa', title: 'dr hab. inż.', join_date: '24-07-2024r.'},
+    {id: 6, username: 'Szymon Zebra', title: 'dr inż.', join_date: '01-12-2022r.'},
+    {id: 7, username: 'Adam Pies', title: 'mgr inż.', join_date: '09-10-2021r.'},
+    {id: 8, username: 'Przemek Królik', title: 'dr hab.', join_date: '20-02-2012r.'},
+    {id: 9, username: 'Piotrek Kot', title: 'dr inż.', join_date: '22-03-2019r.'}
 ];
 
-const Users = () => {
+const AdminsList = () => {
     const [isSearchInputVisible, setIsSearchInputVisible] = useState(false); // State to manage search input visibility
     const searchInputRef = useRef(null); // Reference to the search input
     const [searchQuery, setSearchQuery] = useState(''); // State to store search query
@@ -28,13 +21,10 @@ const Users = () => {
     const [isSorting, setIsSorting] = useState(false);
     const [isAdding, setIsAdding] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
-    const [filterStartID, setFilterStartID] = useState('');
-    const [filterEndID, setFilterEndID] = useState('');
-    const [minCategoriesCount, setFilterMinCategoriesCount] = useState('');
-    const [maxCategoriesCount, setFilterMaxCategoriesCount] = useState('');
-    const [minTasksCount, setFilterMinTasksCount] = useState('');
-    const [maxTasksCount, setFilterMaxTasksCount] = useState('');
-    const [sortOption, setSortOption] = useState('idASC'); // Set default sort option
+    const [filterTitle, setFilterTitle] = useState('');
+    const [filterStartDate, setFilterStartDate] = useState('');
+    const [filterEndDate, setFilterEndDate] = useState('');
+    const [sortOption, setSortOption] = useState('nameASC'); // Set default sort option
 
     const handleSearchButtonClick = () => {
         setIsSearchInputVisible(true); // Show search input
@@ -114,7 +104,7 @@ const Users = () => {
 
     return (
         <>
-            <h3>Przegląd użytkowników</h3>
+            <h3>Lista administratorów</h3>
             <div className="overviewButtons">
                 {!isSearchInputVisible && (
                     <button className="SearchButton" type="button" onClick={handleSearchButtonClick}>Wyszukaj</button>
@@ -129,19 +119,17 @@ const Users = () => {
             <table className="table">
                 <thead>
                 <tr>
-                    <th>ID użytkownika</th>
                     <th>Nazwa użytkownika</th>
-                    <th>Liczba zapisanych kategorii</th>
-                    <th>Liczba zapisanych zadań</th>
+                    <th>Tytuł naukowy</th>
+                    <th>Data dołączenia</th>
                 </tr>
                 </thead>
                 <tbody>
-                {users.map(user => (
-                    <tr key={user.id}>
-                        <td>{user.id}</td>
-                        <td>{user.username}</td>
-                        <td>{user.categoriesCount}</td>
-                        <td>{user.tasksCount}</td>
+                {admins.map(admin => (
+                    <tr key={admin.id}>
+                        <td>{admin.username}</td>
+                        <td>{admin.title}</td>
+                        <td>{admin.join_date}</td>
                     </tr>
                 ))}
                 </tbody>
@@ -149,39 +137,26 @@ const Users = () => {
 
             {isFiltering && !isSorting && !isAdding && !isEditing && (
                 <div className="popup">
-                    <h3>Filtruj listę użytkowników</h3>
+                    <h3>Filtruj listę administratorów</h3>
                     <div>
-                        Początkowy numer ID użytkownika:
-                        <input type="number" value={filterStartID} onChange={(e) => setFilterStartID(e.target.value)}/>
+                        Tytuł naukowy:
+                        <select value={filterTitle} onChange={(e) => setFilterTitle(e.target.value)}>
+                            <option value="Profesor">Profesor</option>
+                            <option value="Doktor habilitowany">Doktor habilitowany</option>
+                            <option value="Doktor">Doktor</option>
+                            <option value="Magister">Magister</option>
+                            <option value="Inżynier">Inżynier</option>
+                        </select>
                     </div>
 
                     <div>
-                        Końcowy numer ID użytkownika:
-                        <input type="number" value={filterEndID} onChange={(e) => setFilterEndID(e.target.value)}/>
+                        Data dołączenia (od):
+                        <input type="date" value={filterStartDate}
+                               onChange={(e) => setFilterStartDate(e.target.value)}/>
                     </div>
-
                     <div>
-                        Minimalna liczba zapisanych kategorii:
-                        <input type="number" value={minCategoriesCount}
-                               onChange={(e) => setFilterMinCategoriesCount(e.target.value)}/>
-                    </div>
-
-                    <div>
-                        Maksymalna liczba zapisanych kategorii:
-                        <input type="number" value={maxCategoriesCount}
-                               onChange={(e) => setFilterMaxCategoriesCount(e.target.value)}/>
-                    </div>
-
-                    <div>
-                        Minimalna liczba zapisanych zadań:
-                        <input type="number" value={minTasksCount}
-                               onChange={(e) => setFilterMinTasksCount(e.target.value)}/>
-                    </div>
-
-                    <div>
-                        Maksymalna liczba zapisanych zadań:
-                        <input type="number" value={maxTasksCount}
-                               onChange={(e) => setFilterMaxTasksCount(e.target.value)}/>
+                        Data dołączenia (do):
+                        <input type="date" value={filterEndDate} onChange={(e) => setFilterEndDate(e.target.value)}/>
                     </div>
 
                     <div className="buttons-container">
@@ -193,37 +168,30 @@ const Users = () => {
 
             {isSorting && !isAdding && !isEditing && !isFiltering && (
                 <div className="popup">
-                    <h3>Sortuj listę użytkowników</h3>
+                    <h3>Sortuj listę administratorów</h3>
                     <div className="sortByContainer" onChange={handleSortOptionChange}>
                         <label>
-                            <input type="radio" name="sort" value="idASC" checked={sortOption === 'idASC'}/><span> ⭡ wg numeru ID</span>
+                            <input type="radio" name="sort" value="nameASC" checked={sortOption === 'nameASC'}/><span> ⭡ wg nazwy administratora</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="idDESC" checked={sortOption === 'idDESC'}/><span> ⭣ wg numeru ID</span>
-                        </label>
-
-                        <label>
-                            <input type="radio" name="sort" value="nameASC" checked={sortOption === 'nameASC'}/><span> ⭡ wg nazwy użytkownika</span>
-                        </label>
-                        <label>
-                            <input type="radio" name="sort" value="nameDESC" checked={sortOption === 'nameDESC'}/><span> ⭣ wg nazwy użytkownika</span>
+                            <input type="radio" name="sort" value="nameDESC" checked={sortOption === 'nameDESC'}/><span> ⭣ wg nazwy administratora</span>
                         </label>
 
                         <label>
-                            <input type="radio" name="sort" value="categoriesASC"
-                                   checked={sortOption === 'categoriesASC'}/><span> ⭡ wg liczby kategorii</span>
+                            <input type="radio" name="sort" value="titleASC"
+                                   checked={sortOption === 'titleASC'}/><span> ⭡ wg tytułu naukowego</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="categoriesDESC"
-                                   checked={sortOption === 'categoriesDESC'}/><span> ⭣ wg liczby kategorii</span>
+                            <input type="radio" name="sort" value="titleDESC"
+                                   checked={sortOption === 'titleDESC'}/><span> ⭣ wg tytułu naukowego</span>
                         </label>
 
                         <label>
-                            <input type="radio" name="sort" value="tasksASC" checked={sortOption === 'tasksASC'}/><span> ⭡ wg liczby zadań</span>
+                            <input type="radio" name="sort" value="joinDateASC" checked={sortOption === 'joinDateASC'}/><span> ⭡ wg daty dołączenia</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="tasksDESC"
-                                   checked={sortOption === 'tasksDESC'}/><span> ⭣ wg liczby zadań</span>
+                            <input type="radio" name="sort" value="joinDateDESC"
+                                   checked={sortOption === 'joinDateDESC'}/><span> ⭣ wg daty dołączenia</span>
                         </label>
                     </div>
                     <div className="buttons-container">
@@ -235,4 +203,4 @@ const Users = () => {
     );
 }
 
-export default Users;
+export default AdminsList;

@@ -6,7 +6,7 @@ import LogOut from '../AdminView/LogOut.tsx';
 import SayHello from "../AdminView/SayHello.tsx";
 import Users from "../AdminView/Users.jsx";
 import UserMenu from "../AdminView/UserMenu.tsx";
-import CategoriesList from "../AdminView/CategoriesList.tsx";
+import AdminsList from "../AdminView/AdminsList.jsx";
 import TaskManager from '../../Structs/TaskManager.js'; // Assuming TaskManager.js contains your TaskManager class
 
 export const AfterLogin = () => {
@@ -40,10 +40,10 @@ export const AfterLogin = () => {
                     <UserMenu/>
                 </div>
                 <div className="CategoriesList">
-                    <CategoriesList/>
+                    <AdminsList/>
                 </div>
                 <div className="CategoriesList">
-                    <CategoriesList/>
+                    <AdminsList/>
                 </div>
             </div>
         </>
