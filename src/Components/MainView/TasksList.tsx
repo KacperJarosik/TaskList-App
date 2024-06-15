@@ -1,22 +1,18 @@
 import { useState, useEffect, useRef } from 'react';
-import TaskManager from '../../Structs/TaskManager.js';
+import taskManagerInstance from '../../Structs/TaskManager.js';
+import React from 'react';
+import { Category } from '../../Structs/Category.js';
+import { useAuth } from '../../contexts/AuthContext.js'
+import { Task } from '../../Structs/Task.js';
 
-// Load data from storage
-// TaskManager.loadFromStorage();
-//  TaskManager.loadFromFirebase();
-// // Get categories from the TaskManager
-// var categories = TaskManager.categories;
 
 function TasksList({ tasks, categoryId }) {
+    const { currentUser } = useAuth();
     const [categories, setCategories] = useState<Category[]>([]);
-    const [taskManager, setTaskManager] = useState<TaskManager|null>(null);
-    
-    // const [taskList, setTaskList] = useState(tasks); // State to manage tasks
-    const [taskList, setTaskList] = useState<Task[]>([]); // State to manage tasks
-
-    const [isSearchInputVisible, setIsSearchInputVisible] = useState(false); // State to manage search input visibility
-    const searchInputRef = useRef(null); // Reference to the search input
-    const [searchQuery, setSearchQuery] = useState(''); // State to store search query
+    const [taskList, setTaskList] = useState<Task[]>([]);
+    const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);
+    const searchInputRef = useRef(null);
+    const [searchQuery, setSearchQuery] = useState('');
     const [showDetails, setShowDetails] = useState(false);
     const [currentTask, setCurrentTask] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -27,66 +23,31 @@ function TasksList({ tasks, categoryId }) {
     const [taskName, setTaskName] = useState('');
     const [taskDate, setTaskDate] = useState('');
     const [taskDetails, setTaskDetails] = useState('');
-    const [sortOption, setSortOption] = useState(''); // New state for sort option
+    const [sortOption, setSortOption] = useState('');
 
     // States for filtering
     const [filterStartDate, setFilterStartDate] = useState('');
     const [filterEndDate, setFilterEndDate] = useState('');
     const [filterStatus, setFilterStatus] = useState('');
-
-    // Adding a task
-    const handleAddTask = async () => {
-        const name = taskName || 'New Task';
-        const date = taskDate || 'brak';
-        const details = taskDetails || '';
-
-        TaskManager.addTask(categoryId, name, date, 'Do zrobienia', details);
-        const updatedTasks = TaskManager.categories.find(cat => cat.id === categoryId).tasks;
-        setTaskList([...updatedTasks]); // Update the task list state
-        setIsAdding(false); // Close the adding mode
+    const loadTasks = async () => {
+        await taskManagerInstance.loadFromFirebase();
+        const category = taskManagerInstance.categories.find(cat => cat.id === categoryId);
+        if (category) {
+            setTaskList(category.tasks);
         }
     };
-
-    // Editing a task
-    const handleSaveEditTask = () => {
-        TaskManager.updateTask(categoryId, editingTask.id, editingTask);
-        const updatedTasks = TaskManager.categories.find(cat => cat.id === categoryId).tasks;
-        setTaskList([...updatedTasks]); // Update the task list state
-        setIsEditing(false); // Close the editing mode
-    };
-
-    const handleDeleteTask = (taskId) => {
-        if(taskManager){
-        taskManager.removeTask(categoryId, taskId);
-        const updatedTasks = taskManager.categories.find(cat => cat.id === categoryId).tasks;
-        setTaskList([...updatedTasks]); // Update the task list state
-        }
-    };
-
-    const handleSearchButtonClick = () => {
-        setIsSearchInputVisible(true); // Show search input
-    };
-
-    const handleClickOutside = (event) => {
-        if (searchInputRef.current && !searchInputRef.current.contains(event.target)) {
-            setIsSearchInputVisible(false); // Hide search input
-        }
-    };
-
     useEffect(() => {
         async function initializeTaskManager() {
-            const tm = new TaskManager(); // Assuming TaskManager is a class that can be instantiated
-            await tm.loadFromFirebase(); // Load data from Firebase
-            setTaskManager(tm); // Store the instance of TaskManager with loaded data
-            setCategories(tm.categories); // Update categories in state for rendering
-            console.log(tm.categories);
-            const category = tm.categories.find(cat => cat.id === categoryId);
-            if (category) {
-                setTaskList(category.tasks); // Zmiana: Aktualizacja stanu taskList
-            }
-          }
-      
+            await taskManagerInstance.loadFromFirebase();
+        }
+        
           initializeTaskManager();
+          const handleClickOutside = (event) => {
+            if (searchInputRef.current && !searchInputRef.current.contains(event.target)) {
+                setIsSearchInputVisible(false); // Hide search input
+            }
+        };
+    
 
         if (isSearchInputVisible) {
             document.addEventListener('mousedown', handleClickOutside);
@@ -99,16 +60,66 @@ function TasksList({ tasks, categoryId }) {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [isSearchInputVisible]);
+    }, [currentUser,categoryId,isSearchInputVisible]);
+    // Adding a task
+    const handleAddTask = async () => {
+        const name = taskName || 'New Task';
+        const date = taskDate || 'brak';
+        const details = taskDetails || '';
+
+        await taskManagerInstance.addTask(categoryId, name, date, 'Do zrobienia', details).then(()=> window.location.reload());
+        console.log("handleAddtask categoryId: "+ categoryId);
+        const updatedTasks = taskManagerInstance.categories.find(cat => cat.id === categoryId).tasks;
+        await taskManagerInstance.loadFromFirebase();
+        setTaskList([...updatedTasks]);
+        setIsAdding(false);
+    };
+    
+
+    // Editing a task
+    const handleSaveEditTask = async () => {
+        const updatedTask ={
+            name: editingTask.text,
+            date: editingTask.date,
+            status: editingTask.status,
+            details: editingTask.details
+        };
+        await taskManagerInstance.updateTask(categoryId, editingTask.id, updatedTask);
+        const updatedTasks = taskManagerInstance.categories.find(cat => cat.id === categoryId).tasks;
+        await taskManagerInstance.loadFromFirebase();
+        setTaskList([...updatedTasks]);
+        setIsEditing(false);
+    };
+
+    const handleDeleteTask = async (taskId) => {
+        console.log(taskId);
+        await taskManagerInstance.removeTask(categoryId, taskId).then(()=>window.location.reload());
+        const updatedTasks = taskManagerInstance.categories.find(cat => cat.id === categoryId).tasks;
+        await taskManagerInstance.loadFromFirebase();
+        setTaskList([...updatedTasks]);
+    };
+
+
+    const handleSearchButtonClick = () => {
+        setIsSearchInputVisible(true); // Show search input
+    };
+
+    const handleClickOutside = (event) => {
+        if (searchInputRef.current && !searchInputRef.current.contains(event.target)) {
+            setIsSearchInputVisible(false); // Hide search input
+        }
+    };
 
     const handleSearchInputChange = (event) => {
         setSearchQuery(event.target.value);
     };
 
+    // const filteredTasks = taskList.filter(task =>
+    //     task.text.toLowerCase().includes(searchQuery.toLowerCase())
+    // );
     const filteredTasks = taskList.filter(task =>
-        task.text.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
+            task.text.includes(searchQuery)
+        );
     const handleDetailsClick = (task) => {
         setCurrentTask(task);
         setShowDetails(true);
@@ -194,7 +205,7 @@ function TasksList({ tasks, categoryId }) {
                 </tr>
                 </thead>
                 <tbody>
-                {filteredTasks.map(task => (
+                {tasks.map(task => (
                     <tr key={task.id}>
                         <td className="TaskName">{task.text}</td>
                         <td className="TaskDeadline">{task.date}</td>
@@ -218,7 +229,7 @@ function TasksList({ tasks, categoryId }) {
                     </div>
                 </div>
             )}
-
+    
             {isEditing && editingTask && !isAdding && !isSorting && !isFiltering && (
                 <div className="popup">
                     <h3>Edycja zadania</h3>
@@ -315,7 +326,7 @@ function TasksList({ tasks, categoryId }) {
                         <textarea placeholder="Szczegóły zadania..." value={taskDetails} onChange={(e) => setTaskDetails(e.target.value)} />
                     </label>
                     <div className="buttons-container">
-                        <button onClick={handleAddTask}>Dodaj</button>
+                        <button onClick={ handleAddTask}>Dodaj</button>
                         <button onClick={() => setIsAdding(false)}>Anuluj</button>
                     </div>
                 </div>
@@ -327,30 +338,23 @@ function TasksList({ tasks, categoryId }) {
 function CategoriesList() {
     const [visibleCategories, setVisibleCategories] = useState({});
     const [categories, setCategories] = useState<Category[]>([]);
-    const [taskManager, setTaskManager] = useState<TaskManager|null>(null);
+    const fetchCategories = async () => {
+        await taskManagerInstance.loadFromFirebase();
+        setCategories(taskManagerInstance.categories);
+    };
 
-    const toggleCategoryVisibility = (categoryId) => {
+    const toggleCategoryVisibility = (categoryId: string) => {
         setVisibleCategories(prevState => ({
             ...prevState,
             [categoryId]: !prevState[categoryId]
         }));
+        fetchCategories();
     };
-    useEffect(() => {
-        console.log("categories:", categories); // Sprawdź, czy categories są poprawnie ustawione
-    }, [categories]);
-    
+
     useEffect(()=>{
-        async function initializeTaskManager() {
-        
-        const tm = new TaskManager(); // Assuming TaskManager is a class that can be instantiated
-        await tm.loadFromFirebase(); // Load data from Firebase
-        setTaskManager(tm); // Store the instance of TaskManager with loaded data
-        setCategories(tm.categories); // Update categories in state for rendering
-        console.log(tm.categories);
-      }
-  
-      initializeTaskManager();
-},[]);
+        fetchCategories(); 
+    },[]);
+    
     return (
         <>
             <h3>Zadania do wykonania</h3>

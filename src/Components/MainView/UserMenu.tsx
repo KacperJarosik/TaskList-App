@@ -1,6 +1,6 @@
 // @ts-ignore
 import user from "../Assets/uzytkownik.png"
-
+import React from "react";
 function UserMenu() {
     return (
         <div>
