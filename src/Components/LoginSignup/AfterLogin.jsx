@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import "./AfterLogin.css";
-import AppLogo from '../MainView/AppLogo.tsx';
-import NavigationBar from '../MainView/NavigationBar.tsx';
-import LogOut from '../MainView/LogOut.tsx';
-import SayHello from "../MainView/SayHello.tsx";
-import TasksList from "../MainView/TasksList.tsx";
-import UserMenu from "../MainView/UserMenu.tsx";
-import CategoriesList from "../MainView/CategoriesList.tsx";
+import AppLogo from '../AdminView/AppLogo.tsx';
+import NavigationBar from '../AdminView/NavigationBar.tsx';
+import LogOut from '../AdminView/LogOut.tsx';
+import SayHello from "../AdminView/SayHello.tsx";
+import TasksList from "../AdminView/TasksList.tsx";
+import UserMenu from "../AdminView/UserMenu.tsx";
+import CategoriesList from "../AdminView/CategoriesList.tsx";
 import TaskManager from '../../Structs/TaskManager.js'; // Assuming TaskManager.js contains your TaskManager class
 
 export const AfterLogin = () => {

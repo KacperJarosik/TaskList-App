@@ -1,11 +1,11 @@
 import React from 'react'
 import "../Components/LoginSignup/AfterLogin.css";
 // import TestDatabase from '../../testDatabase'
-import AppLogo from '../Components/MainView/AppLogo.tsx'
-import NavigationBar from '../Components/MainView/NavigationBar.tsx'
-import LogOut from '../Components/MainView/LogOut.tsx';
-import UserMenu from '../Components/MainView/UserMenu.tsx';
-import CategoriesList from '../Components/MainView/CategoriesList.tsx';
+import AppLogo from '../Components/AdminView/AppLogo.tsx'
+import NavigationBar from '../Components/AdminView/NavigationBar.tsx'
+import LogOut from '../Components/AdminView/LogOut.tsx';
+import UserMenu from '../Components/AdminView/UserMenu.tsx';
+import CategoriesList from '../Components/AdminView/CategoriesList.tsx';
 import OpinionsViev from './OpinionsViev.jsx';
 import CategorisViev from './CategorisViev.jsx';
 
