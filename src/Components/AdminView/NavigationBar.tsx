@@ -38,11 +38,10 @@ function NavigationBar() {
             <li className="list-group-item" onClick={handleMainVievClick}><img src={mainView} alt="Panel główny" className="NavigationBarIcon"/>Panel
                 główny
             </li>
-            <li className="list-group-item" onClick={handleCategoriesClick}><img src={categories} alt="Kategorie" className="NavigationBarIcon"/>Kategorie
-            </li>
-            {/* <li className="list-group-item" onClick={handleGroupsClick}><img src={groups} alt="Grupy" className="NavigationBarIcon"/>Grupy</li> */}
-            <li className="list-group-item" onClick={handleOpinionsClick}><img src={opinions} alt="Opinie" className="NavigationBarIcon"/>Wyślij
-                opinię
+            {/*<li className="list-group-item" onClick={handleCategoriesClick}><img src={categories} alt="Kategorie" className="NavigationBarIcon"/>Kategorie*/}
+            {/*</li>*/}
+             <li className="list-group-item" onClick={handleGroupsClick}><img src={groups} alt="Grupy" className="NavigationBarIcon"/>Użytkownicy</li>
+            <li className="list-group-item" onClick={handleOpinionsClick}><img src={opinions} alt="Opinie" className="NavigationBarIcon"/>Zgłoszenia
             </li>
             <li className="list-group-item" onClick={handleSettingsClick}><img src={settings} alt="Ustawienia" className="NavigationBarIcon"/>Ustawienia
             </li>
