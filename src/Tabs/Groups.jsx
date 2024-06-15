@@ -4,6 +4,12 @@ import "../Components/LoginSignup/AfterLogin.css";
 import AppLogo from '../Components/AdminView/AppLogo.tsx'
 import NavigationBar from '../Components/AdminView/NavigationBar.tsx'
 import LogOut from '../Components/AdminView/LogOut.tsx';
+import SayHello from "../Components/AdminView/SayHello.tsx";
+import UserMenu from '../Components/AdminView/UserMenu.tsx';
+import CategoriesList from "../Components/AdminView/CategoriesList.tsx";
+import CategorisViev from "./CategorisViev";
+import UsersView from "./UsersView";
+
 
 const Groups = () => {
     return (
@@ -19,6 +25,24 @@ const Groups = () => {
 
                 <div className="LogOut">
                     <LogOut/>
+                </div>
+            </div>
+
+            <div className="centerSide">
+                <div className="SayHello">
+                    <div className="Blank">
+                        <SayHello/>
+                    </div>
+                </div>
+
+                <div className="TasksList">
+                    <UsersView/>
+                </div>
+            </div>
+
+            <div className="rightSide">
+                <div className="UserMenu">
+                    <UserMenu/>
                 </div>
             </div>
 

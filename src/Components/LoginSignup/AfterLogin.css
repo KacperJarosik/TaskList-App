@@ -222,7 +222,7 @@
     transition: background-color 0.3s ease;
 }
 
-.InputSearch{
+.InputSearch {
     padding: 8px 8px;
     background-color: #4192d9;
     color: #f1f1e6;
@@ -239,7 +239,7 @@
 }
 
 
-.SelectList{
+.SelectList {
     padding: 11px 11px;
     background-color: #4192d9;
     color: #f1f1e6;
@@ -251,6 +251,7 @@
 
 
 }
+
 .SearchButton:hover,
 .FilteringButton:hover, .taskButtons .SortingButton:hover, .AddButton:hover {
     background-color: #77aaf0;
@@ -725,9 +726,9 @@
     margin-top: 20px;
     background-color: #0d4d8d;
 
-  }
+}
 
-  .opinion-input {
+.opinion-input {
     width: 80%;
     height: 200px;
     padding: 10px;
@@ -737,4 +738,8 @@
     font-size: 16px;
     background-color: #0d4d8d;
 
-  }
+}
+
+.Blank {
+    opacity: 0;
+}
