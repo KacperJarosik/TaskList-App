@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import "./AfterLogin.css";
 import AppLogo from '../AdminView/AppLogo.tsx';
 import NavigationBar from '../AdminView/NavigationBar.tsx';
@@ -18,29 +18,32 @@ export const AfterLogin = () => {
         <>
             <div className="leftSide">
                 <div className="AppLogo">
-                    <AppLogo />
+                    <AppLogo/>
                 </div>
                 <div className="NavigationBar">
-                    <NavigationBar />
+                    <NavigationBar/>
                 </div>
                 <div className="LogOut">
-                    <LogOut />
+                    <LogOut/>
                 </div>
             </div>
             <div className="centerSide">
                 <div className="SayHello">
-                    <SayHello />
+                    <SayHello/>
                 </div>
                 <div className="TasksList">
-                    <Users />
+                    <Users/>
                 </div>
             </div>
             <div className="rightSide">
                 <div className="UserMenu">
-                    <UserMenu />
+                    <UserMenu/>
                 </div>
                 <div className="CategoriesList">
-                    <CategoriesList />
+                    <CategoriesList/>
+                </div>
+                <div className="CategoriesList">
+                    <CategoriesList/>
                 </div>
             </div>
         </>
