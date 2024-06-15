@@ -7,6 +7,7 @@ import SayHello from "../AdminView/SayHello.tsx";
 import Users from "../AdminView/Users.jsx";
 import UserMenu from "../AdminView/UserMenu.tsx";
 import AdminsList from "../AdminView/AdminsList.jsx";
+import Report from "../AdminView/Reports.jsx";
 import TaskManager from '../../Structs/TaskManager.js'; // Assuming TaskManager.js contains your TaskManager class
 
 export const AfterLogin = () => {
@@ -43,7 +44,7 @@ export const AfterLogin = () => {
                     <AdminsList/>
                 </div>
                 <div className="CategoriesList">
-                    <AdminsList/>
+                    <Report/>
                 </div>
             </div>
         </>
