@@ -7,6 +7,7 @@ import LogOut from '../Components/AdminView/LogOut.tsx';
 import UserMenu from '../Components/AdminView/UserMenu.tsx';
 import OpinionsViev from './OpinionsViev.jsx';
 import SayHello from "../Components/AdminView/SayHello.tsx";
+import AdminsList from "../Components/AdminView/AdminsList.jsx";
 
 const Opinions = () => {
     return (
@@ -41,12 +42,9 @@ const Opinions = () => {
                 <div className="UserMenu">
                     <UserMenu/>
                 </div>
-                {/*<div className="CategoriesList">*/}
-                {/*    <AdminsList/>*/}
-                {/*</div>*/}
-                {/*<div className="CategoriesList">*/}
-                {/*    <Report/>*/}
-                {/*</div>*/}
+                <div className="AdminAdditionalBlock">
+                    <AdminsList/>
+                </div>
             </div>
 
         </>

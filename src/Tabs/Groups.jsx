@@ -9,6 +9,7 @@ import UserMenu from '../Components/AdminView/UserMenu.tsx';
 import CategoriesList from "../Components/AdminView/CategoriesList.tsx";
 import CategorisViev from "./CategorisViev";
 import UsersView from "./UsersView";
+import AdminsList from "../Components/AdminView/AdminsList";
 
 
 const Groups = () => {
@@ -43,6 +44,9 @@ const Groups = () => {
             <div className="rightSide">
                 <div className="UserMenu">
                     <UserMenu/>
+                </div>
+                <div className="AdminAdditionalBlock">
+                    <AdminsList/>
                 </div>
             </div>
 

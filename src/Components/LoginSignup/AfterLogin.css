@@ -801,3 +801,37 @@
     width: calc(33% - 8px);
     text-align: center;
 }
+
+.AdminAdditionalBlock {
+    display: block;
+    position: relative;
+    margin: 1% 10px 15px 10px;
+    border: 1px solid #0d4d8d;
+    background-color: #0d4d8d;
+    border-radius: 10px;
+    padding: 8px 10px;
+    height: 75%;
+    overflow: scroll;
+}
+
+.AdminAdditionalBlock table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+}
+
+.AdminAdditionalBlock > h3 {
+    background-color: #0d4d8d;
+}
+
+.AdminAdditionalBlock th {
+    border-bottom: 2px solid #1b2230;
+    padding: 10px;
+    background-color: #0d4d8d;
+}
+
+.AdminAdditionalBlock td {
+    border-bottom: 1px solid #1b2230;
+    padding: 20px 1px;
+    background-color: #0d4d8d;
+}
