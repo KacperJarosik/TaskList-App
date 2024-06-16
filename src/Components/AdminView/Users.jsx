@@ -1,10 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
-// import TaskManager from '../Structs/TaskManager.js';
 
-// TaskManager.loadFromStorage();
-// const categories = TaskManager.categories;
-
-// Przykładowe dane użytkowników
+// Examples of user data
 const users = [
     {id: 1, username: 'john_doe', categoriesCount: 3, tasksCount: 15},
     {id: 2, username: 'jane_smith', categoriesCount: 5, tasksCount: 25},
@@ -21,47 +17,39 @@ const users = [
 ];
 
 const Users = () => {
-    const [isSearchInputVisible, setIsSearchInputVisible] = useState(false); // State to manage search input visibility
+    const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);    // State to manage search input visibility
     const searchInputRef = useRef(null); // Reference to the search input
     const [searchQuery, setSearchQuery] = useState(''); // State to store search query
-    const [isFiltering, setIsFiltering] = useState(false);
-    const [isSorting, setIsSorting] = useState(false);
-    const [isAdding, setIsAdding] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
-    const [filterStartID, setFilterStartID] = useState('');
+    const [isFiltering, setIsFiltering] = useState(false);  // Flag to check if data is filtering
+    const [isSorting, setIsSorting] = useState(false);  // Flag to check if data is sorting
+    const [isAdding, setIsAdding] = useState(false);    // Flag to check if data is adding
+    const [isEditing, setIsEditing] = useState(false);  // Flag to check if data is editing
+    const [filterStartID, setFilterStartID] = useState(''); //Filtering by users ID
     const [filterEndID, setFilterEndID] = useState('');
-    const [minCategoriesCount, setFilterMinCategoriesCount] = useState('');
+    const [minCategoriesCount, setFilterMinCategoriesCount] = useState(''); // Filtering by categories count
     const [maxCategoriesCount, setFilterMaxCategoriesCount] = useState('');
-    const [minTasksCount, setFilterMinTasksCount] = useState('');
+    const [minTasksCount, setFilterMinTasksCount] = useState('');   // Filtering by tasks count
     const [maxTasksCount, setFilterMaxTasksCount] = useState('');
     const [sortOption, setSortOption] = useState('idASC'); // Set default sort option
 
+    // Handling a click action on search button
     const handleSearchButtonClick = () => {
         setIsSearchInputVisible(true); // Show search input
     };
 
+    // Handling a clicking outside of search input
     const handleClickOutside = (event) => {
         if (searchInputRef.current && !searchInputRef.current.contains(event.target)) {
             setIsSearchInputVisible(false); // Hide search input
         }
     };
 
+    // Handling a change of searching input
     const handleSearchInputChange = (event) => {
         setSearchQuery(event.target.value);
     };
 
-    const handleFilteringClick = () => {
-        setIsFiltering(true);
-    };
-
-    const handleSortingClick = () => {
-        setIsSorting(true);
-    };
-
-    const handleSortOptionChange = (event) => {
-        setSortOption(event.target.value);
-    };
-
+    // Handling a change of search input visibility
     useEffect(() => {
         if (isSearchInputVisible) {
             document.addEventListener('mousedown', handleClickOutside);
@@ -76,42 +64,32 @@ const Users = () => {
         };
     }, [isSearchInputVisible]);
 
-    const applySorting = () => {
-        // const updatedTasks = [...taskList];
-        // switch (sortOption) {
-        //     case 'nameASC':
-        //         updatedTasks.sort((a, b) => a.text.localeCompare(b.text));
-        //         break;
-        //     case 'nameDESC':
-        //         updatedTasks.sort((a, b) => b.text.localeCompare(a.text));
-        //         break;
-        //     case 'dateASC':
-        //         updatedTasks.sort((a, b) => a.date.localeCompare(b.date));
-        //         break;
-        //     case 'dateDESC':
-        //         updatedTasks.sort((a, b) => b.date.localeCompare(a.date));
-        //         break;
-        //     default:
-        //         break;
-        // }
-        // setTaskList(updatedTasks);
-        setIsSorting(false); // Close the sorting mode
+    // Handling a click action on filtering button
+    const handleFilteringClick = () => {
+        setIsFiltering(true);
     };
 
+    // Handling apply of filtering changes
     const applyFiltering = () => {
-        // const updatedTasks = tasks.filter(task => {
-        //     const taskDate = new Date(task.date);
-        //     const startDate = filterStartDate ? new Date(filterStartDate) : null;
-        //     const endDate = filterEndDate ? new Date(filterEndDate) : null;
-        //     const matchesStatus = filterStatus ? task.status === filterStatus : true;
-        //     const matchesStartDate = startDate ? taskDate >= startDate : true;
-        //     const matchesEndDate = endDate ? taskDate <= endDate : true;
-        //     return matchesStatus && matchesStartDate && matchesEndDate;
-        // });
-        // setTaskList(updatedTasks);
         setIsFiltering(false); // Close the filtering mode
     };
 
+    // Handling a click action on sorting button
+    const handleSortingClick = () => {
+        setIsSorting(true);
+    };
+
+    // Handling a change of options in sorting popup
+    const handleSortOptionChange = (event) => {
+        setSortOption(event.target.value);
+    };
+
+    // Handling apply of sorting changes
+    const applySorting = () => {
+        setIsSorting(false); // Close the sorting mode
+    };
+
+    // Displaying a list of TaskList users where user can search, filter and sort data
     return (
         <>
             <h3>Przegląd użytkowników</h3>

@@ -1,5 +1,6 @@
 import {useState, useEffect, useRef} from 'react';
 import TaskManager from '../../Structs/TaskManager.js';
+//  Importing icons
 // @ts-ignore
 import arrow_right from "../Assets/strzalka_prawo.png";
 // @ts-ignore
@@ -12,25 +13,55 @@ const categories = TaskManager.categories;
 
 function TasksList({tasks, categoryId}) {
     const [taskList, setTaskList] = useState(tasks); // State to manage tasks
-    const [isSearchInputVisible, setIsSearchInputVisible] = useState(false); // State to manage search input visibility
-    const searchInputRef = useRef(null); // Reference to the search input
+    const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);    // State to manage search input visibility
+    const searchInputRef = useRef(null);    // Reference to the search input
     const [searchQuery, setSearchQuery] = useState(''); // State to store search query
     const [showDetails, setShowDetails] = useState(false);
-    const [currentTask, setCurrentTask] = useState(null);
-    const [isEditing, setIsEditing] = useState(false);
-    const [editingTask, setEditingTask] = useState(null);
-    const [isFiltering, setIsFiltering] = useState(false);
-    const [isSorting, setIsSorting] = useState(false);
-    const [isAdding, setIsAdding] = useState(false);
-    const [taskName, setTaskName] = useState('');
+    const [currentTask, setCurrentTask] = useState(null);   // Variable storing task data
+    const [isEditing, setIsEditing] = useState(false);  // Flag to check if data is editing
+    const [editingTask, setEditingTask] = useState(null);   // Variable storing task data
+    const [isFiltering, setIsFiltering] = useState(false);  // Flag to check if data is filtering
+    const [isSorting, setIsSorting] = useState(false);  // Flag to check if data is sorting
+    const [isAdding, setIsAdding] = useState(false);    // Flag to check if data is adding
+    const [taskName, setTaskName] = useState('');   // Tasks data
     const [taskDate, setTaskDate] = useState('');
     const [taskDetails, setTaskDetails] = useState('');
     const [sortOption, setSortOption] = useState('dateASC'); // Set default sort option
-
-    // States for filtering
-    const [filterStartDate, setFilterStartDate] = useState('');
+    const [filterStartDate, setFilterStartDate] = useState(''); // Filtering by deadline date
     const [filterEndDate, setFilterEndDate] = useState('');
-    const [filterStatus, setFilterStatus] = useState('');
+    const [filterStatus, setFilterStatus] = useState('');   // Filtering by task status
+
+    // Handling a click action on search button
+    const handleSearchButtonClick = () => {
+        setIsSearchInputVisible(true);  // Show search input
+    };
+
+    // Handling a clicking outside of search input
+    const handleClickOutside = (event) => {
+        if (searchInputRef.current && !searchInputRef.current.contains(event.target)) {
+            setIsSearchInputVisible(false); // Hide search input
+        }
+    };
+
+    // Handling a change of searching input
+    const handleSearchInputChange = (event) => {
+        setSearchQuery(event.target.value);
+    };
+
+    // Handling a change of search input visibility
+    useEffect(() => {
+        if (isSearchInputVisible) {
+            document.addEventListener('mousedown', handleClickOutside);
+            if (searchInputRef.current) {
+                searchInputRef.current.focus(); // Focus on the search input
+            }
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isSearchInputVisible]);
 
     // Adding a task
     const handleAddTask = () => {
@@ -52,70 +83,48 @@ function TasksList({tasks, categoryId}) {
         setIsEditing(false); // Close the editing mode
     };
 
+    // Deleting a task
     const handleDeleteTask = (taskId) => {
         TaskManager.removeTask(categoryId, taskId);
         const updatedTasks = TaskManager.categories.find(cat => cat.id === categoryId).tasks;
         setTaskList([...updatedTasks]); // Update the task list state
     };
 
-    const handleSearchButtonClick = () => {
-        setIsSearchInputVisible(true); // Show search input
-    };
-
-    const handleClickOutside = (event) => {
-        if (searchInputRef.current && !searchInputRef.current.contains(event.target)) {
-            setIsSearchInputVisible(false); // Hide search input
-        }
-    };
-
-    useEffect(() => {
-        if (isSearchInputVisible) {
-            document.addEventListener('mousedown', handleClickOutside);
-            if (searchInputRef.current) {
-                searchInputRef.current.focus(); // Focus on the search input
-            }
-        } else {
-            document.removeEventListener('mousedown', handleClickOutside);
-        }
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [isSearchInputVisible]);
-
-    const handleSearchInputChange = (event) => {
-        setSearchQuery(event.target.value);
-    };
-
     const filteredTasks = taskList.filter(task =>
         task.text.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const handleDetailsClick = (task) => {
-        setCurrentTask(task);
-        setShowDetails(true);
-    };
-
-    const handleEditClick = (task) => {
-        setEditingTask(task);
-        setIsEditing(true);
-    };
-
+    // Handling a click action on filtering button
     const handleFilteringClick = () => {
         setIsFiltering(true);
     };
 
+    // Handling apply of filtering changes
+    const applyFiltering = () => {
+        const updatedTasks = tasks.filter(task => {
+            const taskDate = new Date(task.date);
+            const startDate = filterStartDate ? new Date(filterStartDate) : null;
+            const endDate = filterEndDate ? new Date(filterEndDate) : null;
+            const matchesStatus = filterStatus ? task.status === filterStatus : true;
+            const matchesStartDate = startDate ? taskDate >= startDate : true;
+            const matchesEndDate = endDate ? taskDate <= endDate : true;
+            return matchesStatus && matchesStartDate && matchesEndDate;
+        });
+        setTaskList(updatedTasks);
+        setIsFiltering(false); // Close the filtering mode
+    };
+
+    // Handling a click action on sorting button
     const handleSortingClick = () => {
         setIsSorting(true);
     };
 
-    const handleAddClick = () => {
-        setIsAdding(true);
-    };
-
+    // Handling a change of options in sorting popup
     const handleSortOptionChange = (event) => {
         setSortOption(event.target.value);
     };
 
+    // Handling apply of sorting changes
     const applySorting = () => {
         const updatedTasks = [...taskList];
         switch (sortOption) {
@@ -138,20 +147,24 @@ function TasksList({tasks, categoryId}) {
         setIsSorting(false); // Close the sorting mode
     };
 
-    const applyFiltering = () => {
-        const updatedTasks = tasks.filter(task => {
-            const taskDate = new Date(task.date);
-            const startDate = filterStartDate ? new Date(filterStartDate) : null;
-            const endDate = filterEndDate ? new Date(filterEndDate) : null;
-            const matchesStatus = filterStatus ? task.status === filterStatus : true;
-            const matchesStartDate = startDate ? taskDate >= startDate : true;
-            const matchesEndDate = endDate ? taskDate <= endDate : true;
-            return matchesStatus && matchesStartDate && matchesEndDate;
-        });
-        setTaskList(updatedTasks);
-        setIsFiltering(false); // Close the filtering mode
+    // Handling a click action on details button
+    const handleDetailsClick = (task) => {
+        setCurrentTask(task);
+        setShowDetails(true);
     };
 
+    // Handling a click action on edit button
+    const handleEditClick = (task) => {
+        setEditingTask(task);
+        setIsEditing(true);
+    };
+
+    // Handling a click action on add button
+    const handleAddClick = () => {
+        setIsAdding(true);
+    };
+
+    // Displaying tasks list with categories
     return (
         <>
             <div className="taskButtons">
@@ -318,6 +331,7 @@ function TasksList({tasks, categoryId}) {
 function CategoriesList() {
     const [visibleCategories, setVisibleCategories] = useState({});
 
+    // Toggling visibility when click on category name
     const toggleCategoryVisibility = (categoryId) => {
         setVisibleCategories(prevState => ({
             ...prevState,
@@ -325,6 +339,7 @@ function CategoriesList() {
         }));
     };
 
+    // Displaying category's tasks
     return (
         <>
             <h3>Zadania do wykonania</h3>
