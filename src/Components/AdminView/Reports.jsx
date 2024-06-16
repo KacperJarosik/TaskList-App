@@ -2,13 +2,13 @@ import React, {useEffect, useRef, useState} from "react";
 
 // Przykładowe dane administratorów
 const reports = [
-    {id: 1, title: 'Zawieszona strona', priority: 2, date: '20-02-2024r.'},
-    {id: 2, title: 'Niedziałający przycisk dodawania', priority: 3, date: '03-02-2024r.'},
-    {id: 3, title: 'Usunięcie danych użytkownika', priority: 1, date: '23-02-2024r.'},
-    {id: 4, title: 'Brak danych na stronie', priority: 2, date: '15-11-2024r.'},
-    {id: 5, title: 'Złe skalowanie ekranu', priority: 4, date: '28-06-2024r.'},
-    {id: 6, title: 'Drgający ekran', priority: 2, date: '10-12-2024r.'},
-    {id: 7, title: 'Zacinająca się animacja', priority: 3, date: '01-07-2024r.'}
+    {id: 1, title: 'Zawieszona strona', priority: 2, date: '20-02-2024r.', description: 'Strona zawiesza się po dodaniu zadania do kategorii.'},
+    {id: 2, title: 'Niedziałający przycisk dodawania', priority: 3, date: '03-02-2024r.', description: 'Przycisk nie działa, bądź nie pokazuje się na moim ekranie.'},
+    {id: 3, title: 'Usunięcie danych użytkownika', priority: 1, date: '23-02-2024r.', description: 'Moje konto zostało przywrócone do ustawień domyślnych i wszystkie moje zadania zniknęły.'},
+    {id: 4, title: 'Brak danych na stronie', priority: 2, date: '15-11-2024r.', description: 'Strona nie ładuje się.'},
+    {id: 5, title: 'Złe skalowanie ekranu', priority: 4, date: '28-06-2024r.', description: 'Za duża czcionka na moim starym laptopie.'},
+    {id: 6, title: 'Drgający ekran', priority: 2, date: '10-12-2024r.', description: 'Podczas animacji przycisku mój ekran drga.'},
+    {id: 7, title: 'Zacinająca się animacja', priority: 3, date: '01-07-2024r.', description: 'Widoczne spowolnienie dziłania podczas wyświetlania animacji.'}
 ];
 
 const Reports = () => {

@@ -5,9 +5,8 @@ import AppLogo from '../Components/AdminView/AppLogo.tsx'
 import NavigationBar from '../Components/AdminView/NavigationBar.tsx'
 import LogOut from '../Components/AdminView/LogOut.tsx';
 import UserMenu from '../Components/AdminView/UserMenu.tsx';
-import CategoriesList from '../Components/AdminView/CategoriesList.tsx';
 import OpinionsViev from './OpinionsViev.jsx';
-import CategorisViev from './CategorisViev.jsx';
+import SayHello from "../Components/AdminView/SayHello.tsx";
 
 const Opinions = () => {
     return (
@@ -27,22 +26,27 @@ const Opinions = () => {
             </div>
 
             <div className="centerSide">
-                <div className="CategorisViev">
-                    <OpinionsViev>
-                        
-                    </OpinionsViev>
+                <div className="SayHello">
+                    <div className="Blank">
+                        <SayHello/>
+                    </div>
                 </div>
 
+                <div className="TasksList">
+                    <OpinionsViev/>
+                </div>
             </div>
 
             <div className="rightSide">
                 <div className="UserMenu">
                     <UserMenu/>
                 </div>
-
-                <div className="CategorisVievOnRight">
-                    <CategorisViev></CategorisViev>
-                </div>
+                {/*<div className="CategoriesList">*/}
+                {/*    <AdminsList/>*/}
+                {/*</div>*/}
+                {/*<div className="CategoriesList">*/}
+                {/*    <Report/>*/}
+                {/*</div>*/}
             </div>
 
         </>
