@@ -46,7 +46,8 @@ export async function createTask(userId, categoryId,  taskText, taskDate, status
         throw error;
     }
 }
-// Function to delete a category for a user
+
+// Function to delete a specific category for a user
 export async function deleteCategory(userId, categoryId) {
     try {
         // Reference to the specific category document
@@ -75,6 +76,7 @@ export async function deleteTask(userId, categoryId, taskId) {
     }
 }
 
+// Function to update the title of a specific category for a user
 // Function to update the title of a specific category for a user
 export async function updateCategory(userId, categoryId, newCategoryTitle) {
     try {
@@ -105,7 +107,7 @@ export async function updateTask(userId, categoryId, taskId, newData) {
     }
 }
 
-// Function to fetch all categories for a user
+// Function to fetch all categories for a user and return an array of categories with their IDs
 export async function fetchCategories(userId) {
     try {
          // Reference to the 'categories' collection within the user document
@@ -126,7 +128,7 @@ export async function fetchCategories(userId) {
     }
 }
 
-// Function to fetch all tasks from a specific category for a user
+// Function to fetch all tasks from a specific category for a user and return an array of tasks with their IDs
 export async function fetchTasks(userId, categoryId) {
     try {
         // Reference to the 'tasks' collection within the specific category

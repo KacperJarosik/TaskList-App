@@ -19,6 +19,26 @@ export class TaskManager {
         this.nextTaskId = 1;
     }
 
+    // Load categories and tasks from local storage
+    loadFromStorage() {
+        const savedCategories = localStorage.getItem('categories');
+        if (savedCategories) {
+            const parsedCategories = JSON.parse(savedCategories);
+            this.categories = parsedCategories.map(categoryData => {
+                const category = new Category(categoryData.id, categoryData.title);
+                categoryData.tasks.forEach(taskData => {
+                    category.addTask(new Task(taskData.id, taskData.text, taskData.date, taskData.status, taskData.details));
+                });
+                return category;
+            });
+            this.nextTaskId = Math.max(0, ...parsedCategories.flatMap(category => category.tasks.map(task => task.id))) + 1;
+            this.nextCategoryId = Math.max(0, ...parsedCategories.map(category => category.id)) + 1;
+        } else {
+            this.initializeExampleData();
+        }
+    }
+
+    // Save categories and tasks to local storage
     saveToStorage() {
         localStorage.setItem('categories', JSON.stringify(this.categories));
     }
@@ -120,6 +140,7 @@ export class TaskManager {
         }
     }
 
+    // Update task text by task ID within a category
     updateTaskText(categoryId, taskId, newText) {
         const category = this.categories.find(category => category.id === categoryId);
         if (category) {
@@ -129,6 +150,7 @@ export class TaskManager {
         }
     }
 
+    // Update task date by task ID within a category
     updateTaskDate(categoryId, taskId, newDate) {
         const category = this.categories.find(category => category.id === categoryId);
         if (category) {
@@ -156,89 +178,50 @@ export class TaskManager {
         }
     }
 
+    // Initialize example data for demonstration
     initializeExampleData() {
         
         const exampleCategories = [
             {
                 id: 1,
-                title: 'kat1',
+                title: 'Category 1',
                 tasks: [
-                    { id: 1, text: 'przed1', date: '2024-05-20', status: 'To Do', details: 'Ciupaga od maga' },
-                    { id: 2, text: 'przed2', date: '2024-05-21', status: 'In Progress', details: 'Marek bez marek' },
-                    { id: 3, text: 'przed3', date: '2024-05-22', status: 'Done', details: 'Moja dusza ulatujeeeeeeeeeeee eeeeeeeeeeeeeeee eeeeeeeeeeeeeeee eeeeeeeeeeeeeeeeeee eeeeeeeeeeeeee eeeeeeeeeeeeeeeee eeeeeeeeeeeeeee eeeeeeeeeeeee eeeeeeeeeeeeeee eeeeeeeee eee eeeee eeeeeeee eeeeeee' }
+                    { id: 1, text: 'Task 1', date: '2024-05-20', status: 'To Do', details: 'Detail 1' },
+                    { id: 2, text: 'Task 2', date: '2024-05-21', status: 'In Progress', details: 'Detail 2' },
+                    { id: 3, text: 'Task 3', date: '2024-05-22', status: 'Done', details: 'Detail 3' }
                 ]
             },
             {
                 id: 2,
-                title: 'kategoria_1',
+                title: 'Category 2',
                 tasks: [
-                    { id: 4, text: 'zadanie_1', date: '2024-05-20', status: 'To Do', details: '' },
-                    { id: 5, text: 'zadanie_2', date: '2024-05-21', status: 'In Progress', details: 'Każdego dnie ktoś zjada jakieś naleśniki' },
-                    { id: 6, text: 'zadanie_5', date: '2024-05-22', status: 'Done', details: 'Gdybym był gołębiem to byłbym tak leniwy, że nie chciałoby mi się latać' },
-                    { id: 7, text: 'zadanie_4', date: '2024-05-23', status: 'To Do', details: '' },
-                    { id: 8, text: 'zadanie_6', date: '2024-05-24', status: 'In Progress', details: 'Task in progress' }
+                    { id: 4, text: 'Task 4', date: '2024-05-20', status: 'To Do', details: '' },
+                    { id: 5, text: 'Task 5', date: '2024-05-21', status: 'In Progress', details: 'Detail 4' },
+                    { id: 6, text: 'Task 6', date: '2024-05-22', status: 'Done', details: 'Detail 5' }
                 ]
             },
             {
                 id: 3,
                 title: 'Groceries',
                 tasks: [
-                    { id: 9, text: 'Buy milk', date: '2024-05-25', status: 'To Do', details: '1' },
-                    { id: 10, text: 'Buy bread', date: '2024-05-26', status: 'To Do', details: '2' }
+                    { id: 7, text: 'Buy milk', date: '2024-05-25', status: 'To Do', details: 'Detail 6' },
+                    { id: 8, text: 'Buy bread', date: '2024-05-26', status: 'To Do', details: 'Detail 7' }
                 ]
             },
             {
                 id: 4,
                 title: 'Fitness',
                 tasks: [
-                    { id: 11, text: 'Go to gym', date: '2024-05-27', status: 'To Do', details: '3' },
-                    { id: 12, text: 'Do yoga', date: '2024-05-28', status: 'To Do', details: '4' }
+                    { id: 9, text: 'Go to gym', date: '2024-05-27', status: 'To Do', details: 'Detail 8' },
+                    { id: 10, text: 'Do yoga', date: '2024-05-28', status: 'To Do', details: 'Detail 9' }
                 ]
             },
             {
                 id: 5,
                 title: 'Home Improvement',
                 tasks: [
-                    { id: 13, text: 'Paint the walls', date: '2024-05-29', status: 'To Do', details: '5' },
-                    { id: 14, text: 'Fix the leaking faucet', date: '2024-05-30', status: 'To Do', details: '6' }
-                ]
-            },
-            {
-                id: 6,
-                title: 'Empty Category 1',
-                tasks: []
-            },
-            {
-                id: 7,
-                title: 'Empty Category 2',
-                tasks: []
-            },
-            {
-                id: 8,
-                title: 'Empty Category 3',
-                tasks: []
-            },
-            {
-                id: 9,
-                title: 'Category with One Sentence',
-                tasks: [
-                    { id: 15, text: 'Write a single sentence', date: '2024-06-01', status: 'To Do', details: '7' }
-                ]
-            },
-            {
-                id: 10,
-                title: 'Category with 10 Tasks',
-                tasks: [
-                    { id: 16, text: 'Task 1', date: '2024-06-01', status: 'To Do', details: '1' },
-                    { id: 17, text: 'Task 2', date: '2024-06-02', status: 'To Do', details: '2' },
-                    { id: 18, text: 'Task 3', date: '2024-06-03', status: 'To Do', details: '3' },
-                    { id: 19, text: 'Task 4', date: '2024-06-04', status: 'To Do', details: '4' },
-                    { id: 20, text: 'Task 5', date: '2024-06-05', status: 'To Do', details: '5' },
-                    { id: 21, text: 'Task 6', date: '2024-06-06', status: 'To Do', details: '6' },
-                    { id: 22, text: 'Task 7', date: '2024-06-07', status: 'To Do', details: '7' },
-                    { id: 23, text: 'Task 8', date: '2024-06-08', status: 'To Do', details: '8' },
-                    { id: 24, text: 'Task 9', date: '2024-06-09', status: 'To Do', details: '9' },
-                    { id: 25, text: 'Task 10', date: '2024-06-10', status: 'To Do', details: '10' }
+                    { id: 11, text: 'Paint the walls', date: '2024-05-29', status: 'To Do', details: 'Detail 10' },
+                    { id: 12, text: 'Fix the leaking faucet', date: '2024-05-30', status: 'To Do', details: 'Detail 11' }
                 ]
             }
         ];
@@ -250,8 +233,9 @@ export class TaskManager {
             });
             return category;
         });
-        this.nextCategoryId = 11; // Update the ID for the next category
-        this.nextTaskId = 26; // Update the ID for the next task
+
+        this.nextCategoryId = 6;
+        this.nextTaskId = 13;
     }
 }
 const taskManagerInstance = new TaskManager();

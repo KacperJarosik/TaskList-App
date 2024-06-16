@@ -8,11 +8,11 @@ function CategoriesList() {
     const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);
     const searchInputRef = useRef(null);
     const [searchQuery, setSearchQuery] = useState(''); // State to store search query
-    const [isAdding, setIsAdding] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
-    const [currentCategory, setCurrentCategory] = useState(null);
-    const [newCategoryTitle, setNewCategoryTitle] = useState('');
-    const [editCategoryTitle, setEditCategoryTitle] = useState('');
+    const [isAdding, setIsAdding] = useState(false); // State to manage adding mode
+    const [isEditing, setIsEditing] = useState(false); // State to manage editing mode
+    const [currentCategory, setCurrentCategory] = useState(null); // State to store category being edited
+    const [newCategoryTitle, setNewCategoryTitle] = useState(''); // State to store new category title
+    const [editCategoryTitle, setEditCategoryTitle] = useState(''); // State to store edited category title
 
     const handleSearchButtonClick = () => {
         setIsSearchInputVisible(true);

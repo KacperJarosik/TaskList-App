@@ -10,6 +10,7 @@ import arrow_right from "../Assets/strzalka_prawo.png";
 // @ts-ignore
 import arrow_down from "../Assets/strzalka_dol.png";
 
+
 // Load data from storage
 //TaskManager.loadFromStorage();
 
@@ -116,40 +117,49 @@ function TasksList({ tasks, categoryId }) {
         }
     };
 
+    // Handle search input change
     const handleSearchInputChange = (event) => {
         setSearchQuery(event.target.value);
     };
 
+    // Filter tasks based on search query
     const filteredTasks = taskList.filter(task =>
         task.text.toLowerCase().includes(searchQuery.toLowerCase())
     );
-   
+
+    // Handle task details click
     const handleDetailsClick = (task) => {
         setCurrentTask(task);
         setShowDetails(true);
     };
 
+    // Handle task edit click
     const handleEditClick = (task) => {
         setEditingTask(task);
         setIsEditing(true);
     };
 
+    // Handle filtering click
     const handleFilteringClick = () => {
         setIsFiltering(true);
     };
 
+    // Handle sorting click
     const handleSortingClick = () => {
         setIsSorting(true);
     };
 
+    // Handle add task click
     const handleAddClick = () => {
         setIsAdding(true);
     };
 
+    // Handle sort option change
     const handleSortOptionChange = (event) => {
         setSortOption(event.target.value);
     };
 
+    // Apply sorting to tasks
     const applySorting = () => {
         const updatedTasks = [...taskList];
         switch (sortOption) {
@@ -172,6 +182,7 @@ function TasksList({ tasks, categoryId }) {
         setIsSorting(false); // Close the sorting mode
     };
 
+    // Apply filtering to tasks
     const applyFiltering = () => {
         const updatedTasks = tasks.filter(task => {
             const taskDate = new Date(task.date);
@@ -347,6 +358,8 @@ function CategoriesList() {
         setCategories(taskManagerInstance.categories);
     };
 
+    // Toggle category visibility
+    const toggleCategoryVisibility = (categoryId) => {
     const toggleCategoryVisibility = (categoryId: string) => {
         setVisibleCategories(prevState => ({
             ...prevState,

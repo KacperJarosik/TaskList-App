@@ -4,8 +4,6 @@
 
 - Dla ułatwienia całego procesu uruchomienia aplikacji, udostępniony został plik "runTaskList.sh", który jest prostym skryptem, tworzącym w bieżącym katalogu dodatkowy podkatalog o nazwie TaskList i instaluje wszystkie wymagane składniki wymagane do uruchomienia i prawidłowej pracy aplikacji.
 
-#### UWAGA!! Dalsze instrukcje działają prawidłowo na systemach/terminalach, w których składnia jest zgodna z systemami opartymi o UNIX (Linux, macOS)
-
 ## LINUX: Praca ze skryptem uruchomieniowym
 #### Krok 0.
 1. Upewnij się, że masz zainstalowany node.js (jeśli tworzysz strony w html/react to na pewno jet już on u ciebie zainstalowany)
