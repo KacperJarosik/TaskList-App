@@ -8,11 +8,12 @@ TaskManager.loadFromFirebase();
 const categories = TaskManager.categories;
 
 function TaskViewInCategories({ tasks }) {
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useState(''); // State to store search query
     const [filterStatus, setFilterStatus] = useState('');
     const [sortField, setSortField] = useState('');
     const [sortDirection, setSortDirection] = useState('asc');
 
+    // Handling customized view options
     const filteredAndSortedTasks = useMemo(() => {
         let filteredTasks = tasks;
 
@@ -40,11 +41,12 @@ function TaskViewInCategories({ tasks }) {
         return filteredTasks;
     }, [tasks, searchQuery, filterStatus, sortField, sortDirection]);
 
+    // Display list of tasks
     return (
         <>
             <h3>Lista zadań</h3>
             <div className="controls">
-                <input 
+                <input
                     className="InputSearch"
                     type="text"
                     placeholder="Wyszukaj..."

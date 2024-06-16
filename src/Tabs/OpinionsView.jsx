@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import "../Components/LoginSignup/AfterLogin.css"
 import { createOpinion } from '../contexts/DatabaseHandler';
-const OpinionsViev = () => {
+
+const OpinionsView = () => {
     const [opinion, setOpinion] = useState('');
     const [opinionTitle,setOpinionTitle] = useState('');
     const [opinionPriority, setOpinionPriority] = useState('');
@@ -33,7 +34,7 @@ const OpinionsViev = () => {
                     type="text"
                     className="opinion-input"
                     placeholder="Napisz co myślisz..."
-                    value={opinionDetails}
+                    value={opinion}
                     onChange={(e) => setOpinionDetails(e.target.value)}
                 />
                 <button
@@ -48,4 +49,4 @@ const OpinionsViev = () => {
     );
 };
 
-export default OpinionsViev;
+export default OpinionsView;

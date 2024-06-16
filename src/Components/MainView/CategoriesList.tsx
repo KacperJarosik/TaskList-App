@@ -5,26 +5,34 @@ import taskManagerInstance from '../../Structs/TaskManager.js';
 import { Category } from '../../Structs/Category.js';
 
 function CategoriesList() {
-    const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);
-    const searchInputRef = useRef(null);
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);    // State to manage search input visibility
+    const searchInputRef = useRef(null);    // Reference to the search input
     const [searchQuery, setSearchQuery] = useState(''); // State to store search query
-    const [isAdding, setIsAdding] = useState(false); // State to manage adding mode
-    const [isEditing, setIsEditing] = useState(false); // State to manage editing mode
-    const [currentCategory, setCurrentCategory] = useState(null); // State to store category being edited
-    const [newCategoryTitle, setNewCategoryTitle] = useState(''); // State to store new category title
-    const [editCategoryTitle, setEditCategoryTitle] = useState(''); // State to store edited category title
+    const [isAdding, setIsAdding] = useState(false);    // Flag to check if data is adding
+    const [isEditing, setIsEditing] = useState(false);  // Flag to check if data is editing
+    const [currentCategory, setCurrentCategory] = useState(null);   //Variable storing single category data
+    const [newCategoryTitle, setNewCategoryTitle] = useState('');   //Editing category title
+    const [editCategoryTitle, setEditCategoryTitle] = useState('');
 
+    // Handling a click action on search button
     const handleSearchButtonClick = () => {
         setIsSearchInputVisible(true);
     };
 
+    // Handling a clicking outside of search input
     const handleClickOutside = (event) => {
         if (searchInputRef.current && !searchInputRef.current.contains(event.target)) {
             setIsSearchInputVisible(false);
         }
     };
-    const [categories, setCategories] = useState<Category[]>([]);
 
+    // Handling a change of searching input
+    const handleSearchInputChange = (event) => {
+        setSearchQuery(event.target.value);
+    };
+
+    // Handling a change of search input visibility
     useEffect(() => {
         async function initializeTaskManagerCategoryList() {
             await taskManagerInstance.loadFromFirebase();
@@ -55,6 +63,7 @@ function CategoriesList() {
         window.location.reload();
     };
 
+    // Handling a click action on adding button
     const handleAddClick = () => {
         setIsAdding(true);
     };
@@ -88,14 +97,11 @@ function CategoriesList() {
         }
     };
 
-    const handleSearchInputChange = (event) => {
-        setSearchQuery(event.target.value);
-    };
-
     const filteredCategories = categories.filter(category =>
         category.title.includes(searchQuery)
     );
 
+    // Displaying a list of TaskList categories where user can search, filter, sort and add data
     return (
         <>
             <h3>Lista kategorii</h3>
@@ -104,7 +110,8 @@ function CategoriesList() {
                     <button className="SearchButton" type="button" onClick={handleSearchButtonClick}>Wyszukaj</button>
                 )}
                 {isSearchInputVisible && (
-                    <input ref={searchInputRef} type="text" className="SearchInput" value={searchQuery} onChange={handleSearchInputChange} />
+                    <input ref={searchInputRef} type="text" className="SearchInput" value={searchQuery}
+                           onChange={handleSearchInputChange}/>
                 )}
                 <button className="AddButton" onClick={handleAddClick}>Dodaj</button>
             </div>
@@ -121,7 +128,9 @@ function CategoriesList() {
                         <td>{category.title}</td>
                         <td className="CategoryModifiers">
                             {category.tasks.length}
-                            <button className="DeleteButton" type="button" onClick={() => handleDeleteCategory(category.id)}>Usuń</button>
+                            <button className="DeleteButton" type="button"
+                                    onClick={() => handleDeleteCategory(category.id)}>Usuń
+                            </button>
                             <button className="EditButton" onClick={() => handleEditClick(category)}>Edytuj</button>
                         </td>
                     </tr>
