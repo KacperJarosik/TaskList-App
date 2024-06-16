@@ -10,18 +10,15 @@ import arrow_right from "../Assets/strzalka_prawo.png";
 // @ts-ignore
 import arrow_down from "../Assets/strzalka_dol.png";
 
-
 // Load data from storage
-//TaskManager.loadFromStorage();
+TaskManager.loadFromStorage();
 
 // Get categories from the TaskManager
 const categories = TaskManager.categories;
 
 function TasksList({ tasks, categoryId }) {
     const { currentUser } = useAuth();
-    //const [taskList, setTaskList] = useState(tasks);
     const [categories, setCategories] = useState<Category[]>([]);
-    // const [taskList, setTaskList] = useState<Task[]>([]);
     const [taskList, setTaskList] = useState<Task[]>(tasks);
 
     const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);
@@ -55,7 +52,6 @@ function TasksList({ tasks, categoryId }) {
                 setIsSearchInputVisible(false); // Hide search input
             }
         };
-    
 
         if (isSearchInputVisible) {
             document.addEventListener('mousedown', handleClickOutside);
@@ -359,7 +355,6 @@ function CategoriesList() {
     };
 
     // Toggle category visibility
-    const toggleCategoryVisibility = (categoryId) => {
     const toggleCategoryVisibility = (categoryId: string) => {
         setVisibleCategories(prevState => ({
             ...prevState,
