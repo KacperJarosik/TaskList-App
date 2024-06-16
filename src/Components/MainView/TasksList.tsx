@@ -11,7 +11,7 @@ import arrow_right from "../Assets/strzalka_prawo.png";
 // @ts-ignore
 import arrow_down from "../Assets/strzalka_dol.png";
 // Load data from storage
-TaskManager.loadFromStorage();
+TaskManager.loadFromFirebase();
 
 // Get categories from the TaskManager
 const categories = TaskManager.categories;

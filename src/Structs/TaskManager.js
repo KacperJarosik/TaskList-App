@@ -34,7 +34,7 @@ export class TaskManager {
             this.nextTaskId = Math.max(0, ...parsedCategories.flatMap(category => category.tasks.map(task => task.id))) + 1;
             this.nextCategoryId = Math.max(0, ...parsedCategories.map(category => category.id)) + 1;
         } else {
-            this.initializeExampleData();
+           // this.initializeExampleData();
         }
     }
 
