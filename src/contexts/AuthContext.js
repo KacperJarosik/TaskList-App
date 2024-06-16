@@ -54,7 +54,7 @@ export function AuthProvider({ children }) {
       });
   }
 
-  function logout() {
+  function loggingout() {
     localStorage.setItem("uid","");
         localStorage.setItem("name","");
         localStorage.setItem("email","");
@@ -74,7 +74,7 @@ export function AuthProvider({ children }) {
     currentUser,
     signup,
     login,
-    logout,
+    loggingout,
     resetPassword,
   };
 
