@@ -1,5 +1,5 @@
 import TaskManager from '../../Structs/TaskManager.js';
-import { useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 
 // Load data from storage
 TaskManager.loadFromStorage();
@@ -8,25 +8,33 @@ TaskManager.loadFromStorage();
 const categories = TaskManager.categories;
 
 function CategoriesList() {
-    const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);
-    const searchInputRef = useRef(null);
+    const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);    // State to manage search input visibility
+    const searchInputRef = useRef(null);    // Reference to the search input
     const [searchQuery, setSearchQuery] = useState(''); // State to store search query
-    const [isAdding, setIsAdding] = useState(false); // State to manage adding mode
-    const [isEditing, setIsEditing] = useState(false); // State to manage editing mode
-    const [currentCategory, setCurrentCategory] = useState(null); // State to store category being edited
-    const [newCategoryTitle, setNewCategoryTitle] = useState(''); // State to store new category title
-    const [editCategoryTitle, setEditCategoryTitle] = useState(''); // State to store edited category title
+    const [isAdding, setIsAdding] = useState(false);    // Flag to check if data is adding
+    const [isEditing, setIsEditing] = useState(false);  // Flag to check if data is editing
+    const [currentCategory, setCurrentCategory] = useState(null);   //Variable storing single category data
+    const [newCategoryTitle, setNewCategoryTitle] = useState('');   //Editing category title
+    const [editCategoryTitle, setEditCategoryTitle] = useState('');
 
+    // Handling a click action on search button
     const handleSearchButtonClick = () => {
         setIsSearchInputVisible(true);
     };
 
+    // Handling a clicking outside of search input
     const handleClickOutside = (event) => {
         if (searchInputRef.current && !searchInputRef.current.contains(event.target)) {
             setIsSearchInputVisible(false);
         }
     };
 
+    // Handling a change of searching input
+    const handleSearchInputChange = (event) => {
+        setSearchQuery(event.target.value);
+    };
+
+    // Handling a change of search input visibility
     useEffect(() => {
         if (isSearchInputVisible) {
             document.addEventListener('mousedown', handleClickOutside);
@@ -41,22 +49,19 @@ function CategoriesList() {
         };
     }, [isSearchInputVisible]);
 
+    // Handling a click action on deleting button
     const handleDeleteCategory = (categoryId) => {
         TaskManager.removeCategory(categoryId);
         TaskManager.saveToStorage();
         window.location.reload();
     };
 
+    // Handling a click action on adding button
     const handleAddClick = () => {
         setIsAdding(true);
     };
 
-    const handleEditClick = (category) => {
-        setCurrentCategory(category);
-        setEditCategoryTitle(category.title);
-        setIsEditing(true);
-    };
-
+    // Handling add category
     const handleAddCategory = () => {
         if (newCategoryTitle.trim()) {
             TaskManager.addCategory(newCategoryTitle.trim());
@@ -64,6 +69,13 @@ function CategoriesList() {
             setIsAdding(false);
             window.location.reload(); // Refresh the page to update the list
         }
+    };
+
+    // Handling a click action on editing button
+    const handleEditClick = (category) => {
+        setCurrentCategory(category);
+        setEditCategoryTitle(category.title);
+        setIsEditing(true);
     };
 
     const handleEditCategory = () => {
@@ -76,14 +88,11 @@ function CategoriesList() {
         }
     };
 
-    const handleSearchInputChange = (event) => {
-        setSearchQuery(event.target.value);
-    };
-
     const filteredCategories = categories.filter(category =>
         category.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+    // Displaying a list of TaskList categories where user can search, filter, sort and add data
     return (
         <>
             <h3>Lista kategorii</h3>
@@ -92,7 +101,8 @@ function CategoriesList() {
                     <button className="SearchButton" type="button" onClick={handleSearchButtonClick}>Wyszukaj</button>
                 )}
                 {isSearchInputVisible && (
-                    <input ref={searchInputRef} type="text" className="SearchInput" value={searchQuery} onChange={handleSearchInputChange} />
+                    <input ref={searchInputRef} type="text" className="SearchInput" value={searchQuery}
+                           onChange={handleSearchInputChange}/>
                 )}
                 <button className="AddButton" onClick={handleAddClick}>Dodaj</button>
             </div>
@@ -109,7 +119,9 @@ function CategoriesList() {
                         <td>{category.title}</td>
                         <td className="CategoryModifiers">
                             {category.tasks.length}
-                            <button className="DeleteButton" type="button" onClick={() => handleDeleteCategory(category.id)}>Usuń</button>
+                            <button className="DeleteButton" type="button"
+                                    onClick={() => handleDeleteCategory(category.id)}>Usuń
+                            </button>
                             <button className="EditButton" onClick={() => handleEditClick(category)}>Edytuj</button>
                         </td>
                     </tr>

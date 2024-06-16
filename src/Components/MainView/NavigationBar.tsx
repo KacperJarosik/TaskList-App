@@ -1,5 +1,6 @@
 //import React from "react";
 import { useNavigate } from "react-router-dom/dist";
+//  Importing icons
 // @ts-ignore
 import mainView from "../Assets/panel_glowny.png";
 // @ts-ignore
@@ -13,6 +14,7 @@ import settings from "../Assets/ustawienia.png";
 function NavigationBar() {
     const navigate = useNavigate();
 
+    // Handling a click action and change displaying menu
     function handleCategoriesClick() {
         navigate("/categories");
     }
@@ -33,6 +35,7 @@ function NavigationBar() {
         navigate("/settings");
     }
 
+    // Displaying a navigate list
     return (
         <ul className="list-group">
             <li className="list-group-item" onClick={handleMainVievClick}><img src={mainView} alt="Panel główny" className="NavigationBarIcon"/>Panel

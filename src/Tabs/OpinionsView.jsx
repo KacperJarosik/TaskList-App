@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import "../Components/LoginSignup/AfterLogin.css"
 
-const OpinionsViev = () => {
+const OpinionsView = () => {
     const [opinion, setOpinion] = useState('');
 
     const handleSendClick = () => {
@@ -31,4 +31,4 @@ const OpinionsViev = () => {
     );
 };
 
-export default OpinionsViev;
+export default OpinionsView;

@@ -1,14 +1,15 @@
 import React from 'react'
 import "../Components/LoginSignup/AfterLogin.css";
-// import TestDatabase from '../../testDatabase'
+// Importing necessary components
 import AppLogo from '../Components/MainView/AppLogo.tsx'
 import NavigationBar from '../Components/MainView/NavigationBar.tsx'
 import LogOut from '../Components/MainView/LogOut.tsx';
-import CategorisViev from './CategorisViev.jsx';
-import TaskInCat from './TaskVievInCategories.jsx';
+import CategoriesView from './CategoriesView.jsx';
 import UserMenu from '../Components/MainView/UserMenu.tsx';
+import SayHello from "../Components/MainView/SayHello.tsx";
 
 const Categories = () => {
+    // View of categories info
     return (
         <>
             <div className="leftSide">
@@ -23,12 +24,17 @@ const Categories = () => {
                 <div className="LogOut">
                     <LogOut/>
                 </div>
-                
             </div>
 
             <div className="centerSide">
-                <div className="CategorisViev">
-                    <CategorisViev/>
+                <div className="SayHello">
+                    <div className="Blank">
+                        <SayHello/>
+                    </div>
+                </div>
+
+                <div className="CategoriesView">
+                    <CategoriesView/>
                 </div>
             </div>
 
@@ -37,7 +43,6 @@ const Categories = () => {
                     <UserMenu/>
                 </div>
             </div>
-
         </>
     )
 }

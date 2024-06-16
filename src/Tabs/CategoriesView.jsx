@@ -5,7 +5,7 @@ import TaskManager from '../Structs/TaskManager.js';
 TaskManager.loadFromStorage();
 const categories = TaskManager.categories;
 
-const CategorisViev = () => {
+const CategoriesView = () => {
     const navigate = useNavigate();
 
     function handleCategoryClick(categoryId) {
@@ -41,4 +41,4 @@ const CategorisViev = () => {
     );
 }
 
-export default CategorisViev;
+export default CategoriesView;
