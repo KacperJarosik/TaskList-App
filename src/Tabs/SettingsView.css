@@ -6,6 +6,8 @@
     position: relative;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-top: 200px;
+    margin-left: 520px;
   }
   
   .toggle-switch.toggled {
@@ -26,4 +28,47 @@
   .toggle-switch.toggled .toggle-knob {
     transform: translateX(25px);
   }
+
+  .textInSettings.dark{
+    padding: 10px 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: #f1f1e6;
+    background-color: #0d4d8d;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    font-size: 18px;
+    margin-left: 100px;
+    margin-top: -47px;
+    height: 65px;
+    width: 500px;
+  }
+
+  .textInSettings.light{
+    padding: 10px 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: #f1f1e6;
+    background-color: #94810a;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    font-size: 18px;
+    margin-left: 100px;
+    margin-top: -47px;
+    height: 65px;
+    width: 500px;
+  }
   
+  .t.dark{
+    margin-top: 9px;
+    background-color: #0d4d8d;
+    margin-left: 5px;
+
+  }
+
+  .t.light{
+    margin-top: 9px;
+    background-color: #94810a;
+    margin-left: 5px;
+
+  }

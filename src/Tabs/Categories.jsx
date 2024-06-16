@@ -1,45 +1,46 @@
 import React from 'react'
 import "../Components/LoginSignup/AfterLogin.css";
-// Importing necessary components
 import AppLogo from '../Components/MainView/AppLogo.tsx'
 import NavigationBar from '../Components/MainView/NavigationBar.tsx'
 import LogOut from '../Components/MainView/LogOut.tsx';
 import CategoriesView from './CategoriesView.jsx';
 import UserMenu from '../Components/MainView/UserMenu.tsx';
 import SayHello from "../Components/MainView/SayHello.tsx";
+import { useTheme } from '../ThemeContex.js'; // importujemy hook do użycia tematu
 
 const Categories = () => {
-    // View of categories info
+    const { isDarkMode } = useTheme(); // pobieramy stan trybu z hooka
+
     return (
         <>
-            <div className="leftSide">
-                <div className="AppLogo">
+            <div className={`leftSide ${isDarkMode ? 'dark' : 'light'}`}>
+                <div className={`AppLogo ${isDarkMode ? 'dark' : 'light'}`}>
                     <AppLogo/>
                 </div>
 
-                <div className="NavigationBar">
+                <div className={`NavigationBar ${isDarkMode ? 'dark' : 'light'}`}>
                     <NavigationBar/>
                 </div>
 
-                <div className="LogOut">
+                <div className={`LogOut ${isDarkMode ? 'dark' : 'light'}`}>
                     <LogOut/>
                 </div>
             </div>
 
-            <div className="centerSide">
-                <div className="SayHello">
+            <div className={`centerSide ${isDarkMode ? 'dark' : 'light'}`}>
+                <div className={`SayHello ${isDarkMode ? 'dark' : 'light'}`}>
                     <div className="Blank">
                         <SayHello/>
                     </div>
                 </div>
 
-                <div className="CategoriesView">
+                <div className={`CategoriesView ${isDarkMode ? 'dark' : 'light'}`}>
                     <CategoriesView/>
                 </div>
             </div>
 
-            <div className="rightSide">
-                <div className="UserMenu">
+            <div className={`rightSide ${isDarkMode ? 'dark' : 'light'}`}>
+                <div className={`UserMenu ${isDarkMode ? 'dark' : 'light'}`}>
                     <UserMenu/>
                 </div>
             </div>
@@ -47,4 +48,4 @@ const Categories = () => {
     )
 }
 
-export default Categories
+export default Categories;

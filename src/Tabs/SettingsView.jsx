@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
-import './SettingsView.css'; // Make sure to create this CSS file
+import React from 'react';
+import './SettingsView.css';
+import { useTheme } from '../ThemeContex'; // Importujemy funkcję useTheme z kontekstu tematu
 
 const SettingsView = () => {
-  const [isToggled, setIsToggled] = useState(false);
+  // Używamy funkcji useTheme z kontekstu tematu
+  const { isDarkMode, toggleTheme } = useTheme();
+  
 
   const handleToggle = () => {
-    setIsToggled(!isToggled);
+    toggleTheme(); // Wywołujemy funkcję toggleTheme z kontekstu tematu
   };
 
   return (
-    <div>
-      <div className={`toggle-switch ${isToggled ? 'toggled' : ''}`} onClick={handleToggle}>
+    <div className={`app ${isDarkMode ? 'dark' : 'light'}`}>
+      <div className={`toggle-switch ${isDarkMode ? 'toggled' : ''}`} onClick={handleToggle}>
         <div className="toggle-knob"></div>
+      </div>
+      <div className={`textInSettings ${isDarkMode ? 'dark' : 'light'}`}>
+        <div className={`t ${isDarkMode ? 'dark' : 'light'}`}>
+          Tryb jasny/ciemny
+        </div>
       </div>
     </div>
   );

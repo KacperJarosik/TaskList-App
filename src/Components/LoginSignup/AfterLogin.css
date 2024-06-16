@@ -1,10 +1,28 @@
-* {
-    background-color: #1b2230;
-    color: #f1f1e6;
+/* SettingsView.css */
+
+:root {
+    --background-color-dark: #1b2230;
+    --background-color-light: #f1f1e6;
+    
+  }
+  
+  * {
+    background-color: var(--background-color-dark);
+    color: white;
     font-family: 'Ubuntu', sans-serif;
     padding: 0;
     margin: 0;
-}
+  }
+  
+  .dark {
+    background-color: var(--background-color-dark);
+  }
+  
+  .light {
+    background-color: var(--background-color-light);
+  }
+  
+
 
 .leftSide {
     display: block;
@@ -17,7 +35,7 @@
     z-index: 1000;
 }
 
-.AppLogo {
+.AppLogo.dark, .AppLogo.light{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,26 +44,43 @@
     text-align: center;
 }
 
-.AppLogo > h1 {
+.AppLogo.dark > h1{
     font-size: 60px;
 }
 
-.AppLogo span {
-    color: #4192d9;
+.AppLogo.light > h1{
+    font-size: 60px;
+    background-color: #f1f1e6;
 }
 
-.NavigationBar {
+.AppLogo.light > h1{
+    font-size: 60px;
+    color: #94810a;
+    background-color: #f1f1e6;
+}
+
+.AppLogo.dark span{
+    color: #0d4d8d;
+}
+
+.AppLogo.light span {
+    color: #94810a;
+    background-color: #f1f1e6;
+}
+
+.NavigationBar.dark,.NavigationBar.light  {
     display: block;
     height: 65%;
     position: relative;
 }
 
-.NavigationBar ul {
+
+.NavigationBar.dark ul,.NavigationBar.light ul {
     list-style-type: none;
     padding: 0;
 }
 
-.NavigationBar li {
+.NavigationBar.dark li {
     padding: 10px 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -56,15 +91,35 @@
     font-size: 18px;
 }
 
-.NavigationBar li:hover {
+.NavigationBar.light li{
+    padding: 10px 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: #f1f1e6;
+    background-color: #94810a;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+
+.NavigationBar.dark li:hover {
     background-color: #4192d9;
 }
 
-.NavigationBar li:active {
+.NavigationBar.light li:hover {
+    background-color: #94810a;
+}
+
+.NavigationBar.dark li:active {
     background-color: #77aaf0;
 }
 
-.NavigationBar li::before {
+.NavigationBar.light li:active {
+    background-color: #94810a;
+}
+
+.NavigationBar.dark li::before,
+.NavigationBar.light li::before {
     content: "";
     display: inline-block;
     width: 5px;
@@ -72,7 +127,7 @@
     margin-right: 5px;
 }
 
-.NavigationBarIcon {
+.NavigationBarIcon.dark {
     background-color: #0d4d8d;
     transition: background-color 0.3s ease;
     width: 20%;
@@ -80,15 +135,33 @@
     padding-right: 20px;
 }
 
-.NavigationBar li:hover img {
+.NavigationBarIcon.light {
+    background-color: #94810a;
+    transition: background-color 0.3s ease;
+    width: 20%;
+    height: 20%;
+    padding-right: 20px;
+}
+
+
+.NavigationBar.dark li:hover img {
     background-color: #4192d9;
 }
 
-.NavigationBar li:active img {
+.NavigationBar.light li:hover img {
+    background-color: #94810a;
+}
+
+
+.NavigationBar.dark li:active img {
     background-color: #77aaf0;
 }
 
-.LogOut {
+.NavigationBar.light li:active img {
+    background-color: #94810a;
+}
+
+.LogOut.dark {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -96,7 +169,15 @@
     position: relative;
 }
 
-.LogOut div {
+.LogOut.light {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 15%;
+    position: relative;
+}
+
+.LogOut.dark div {
     padding: 2% 20% 1% 20%;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -105,8 +186,23 @@
     margin: 0;
 }
 
-.LogOut div:hover {
+.LogOut.light div {
+    padding: 2% 20% 1% 20%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 18px;
+    border-radius: 5px;
+    margin: 0;
+    background-color: #94810a;
+}
+
+.LogOut.dark div:hover {
     background-color: #4192d9;
+    border-radius: 5px;
+}
+
+.LogOut.light div:hover {
+    background-color: #94810a;
     border-radius: 5px;
 }
 
@@ -114,32 +210,68 @@
     background-color: #4192d9;
 }
 
-.LogOut div:active {
+.LogOut.dark div:hover p, .LogOut.dark div:hover .LogOutIcon.dark {
+    background-color: #4192d9;
+}
+
+.LogOut.light div:hover p, .LogOut.light div:hover .LogOutIcon.light {
+    background-color: #94810a;
+}
+
+.LogOut.dark div:active {
     background-color: #77aaf0;
     border-radius: 5px;
 }
 
-.LogOut div:active p, .LogOut div:active .LogOutIcon {
+.LogOut.light div:active {
+    background-color: #94810a;
+    border-radius: 5px;
+}
+
+.LogOut.dark div:active p, .LogOut.dark div:active .LogOutIcon.dark {
     background-color: #77aaf0;
 }
 
-.LogOut div > p, .LogOut div > .LogOutIcon {
+.LogOut.light div:active p, .LogOut.light div:active .LogOutIcon.light {
+    background-color: #94810a;
+}
+
+.LogOut.dark div > p, .LogOut.dark div > .LogOutIcon.dark {
     float: left;
     transition: background-color 0.3s ease;
 }
 
-.LogOut div > p {
+.LogOut.light div > p, .LogOut.light div > .LogOutIcon.light {
+    float: left;
+    transition: background-color 0.3s ease;
+}
+
+.LogOut.dark div > p {
     margin-top: 6%;
 }
 
-.LogOutIcon {
+.LogOut.light div > p {
+    margin-top: 6%;
+    background-color: #94810a;
+
+}
+
+.LogOutIcon.dark {
     width: 25%;
     height: 25%;
     padding-right: 10px;
     margin-top: 6%;
 }
 
-.centerSide {
+.LogOutIcon.light {
+    width: 25%;
+    height: 25%;
+    padding-right: 10px;
+    margin-top: 6%;
+    background-color: #94810a;
+}
+
+.centerSide.dark, .centerSide.light {
     display: block;
     width: 60%;
     height: 100vh;
@@ -726,9 +858,10 @@
     margin-top: -14px;
 }
 
-.back {
+.back.dark {
     background-color: #0d4d8d;
 }
+
 
 .opinion-form {
     display: flex;
@@ -831,3 +964,6 @@
     padding: 20px 1px;
     background-color: #0d4d8d;
 }
+
+
+  
