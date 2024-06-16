@@ -2,7 +2,7 @@ import { firestore } from "../firebase";
 import { collection, doc, setDoc, deleteDoc, updateDoc, getDocs } from "firebase/firestore";
 
 const database = firestore;
-
+// Function to create a new category for a user and return the ID of the new category
 export async function createCategory(userId, categoryTitle) {
     try {
         const categoriesRef = collection(database, "users", userId, "categories");
@@ -17,7 +17,7 @@ export async function createCategory(userId, categoryTitle) {
     }
 }
 
-// funkcja tworzy nowa zadanie w określonej kategorii dla danego użytkownika i zwraca identyfikator nowo dodanego zadania
+// Function to create a new task in a specific category for a user and return the ID of the new task
 export async function createTask(userId, categoryId, taskId, taskText, taskDate) {
     try {
         const tasksRef = collection(database, "users", userId, "categories", categoryId, "tasks");
@@ -34,7 +34,7 @@ export async function createTask(userId, categoryId, taskId, taskText, taskDate)
     }
 }
 
-// funkcja usuwa określoną kategorię dla danego użytkownika i tworzy referencję do dokumentu kategorii danego użytkownika i usuwa ten dokument.
+// Function to delete a specific category for a user
 export async function deleteCategory(userId, categoryId) {
     try {
         const categoryRef = doc(database, "users", userId, "categories", categoryId);
@@ -46,7 +46,7 @@ export async function deleteCategory(userId, categoryId) {
     }
 }
 
-//funkcja usuwa określone zadanie z określonej kategorii dla danego użytkownika i tworzy referencje do dokumentu zadania w określonej kategorii użytkownika i usuwa ten dokument
+// Function to delete a specific task from a specific category for a user
 export async function deleteTask(userId, categoryId, taskId) {
     try {
         const taskRef = doc(database, "users", userId, "categories", categoryId, "tasks", taskId);
@@ -58,7 +58,7 @@ export async function deleteTask(userId, categoryId, taskId) {
     }
 }
 
-//funkcja aktualizuje tytuł określonej kategorii dla danego użytkownika i tworzy referencję do dokumentu kategorii dla danego użytkownika i aktualizuje jego tytuł na podany
+// Function to update the title of a specific category for a user
 export async function updateCategory(userId, categoryId, newCategoryTitle) {
     try {
         const categoryRef = doc(database, "users", userId, "categories", categoryId);
@@ -72,7 +72,7 @@ export async function updateCategory(userId, categoryId, newCategoryTitle) {
     }
 }
 
-// funkcja aktualizuje określone zadanie w określonej kategorii dla danego użytkownika
+// Function to update a specific task in a specific category for a user
 export async function updateTask(userId, categoryId, taskId, newData) {
     try {
         const taskRef = doc(database, "users", userId, "categories", categoryId, "tasks", taskId);
@@ -84,7 +84,7 @@ export async function updateTask(userId, categoryId, taskId, newData) {
     }
 }
 
-//funkcja pobiera wszystkie kategorie dla danego użytkownika, zwraca tablicę zawierającą wszystkie pobrane kategorie wraz z ich identyfikatorami
+// Function to fetch all categories for a user and return an array of categories with their IDs
 export async function fetchCategories(userId) {
     try {
         const categoriesRef = collection(database, "users", userId, "categories");
@@ -100,7 +100,7 @@ export async function fetchCategories(userId) {
     }
 }
 
-// funkcja pobiera wszystkie zadania z określonej kategorii dla danego użytkownika, zwraca tablice zawierającą wszystkie pobrane zadania wraz z ich identyfikatorami
+// Function to fetch all tasks from a specific category for a user and return an array of tasks with their IDs
 export async function fetchTasks(userId, categoryId) {
     try {
         const tasksRef = collection(database, "users", userId, "categories", categoryId, "tasks");

@@ -3,7 +3,7 @@ export class Task {
         this.id = id;
         this.text = text;
         this.date = date;
-        this.status = status; // Add status field
-        this.details = details; // Add details field
+        this.status = status;
+        this.details = details;
     }
 }
