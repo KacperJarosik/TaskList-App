@@ -2,6 +2,7 @@ import { firestore } from "../firebase";
 import { collection, doc, setDoc, deleteDoc, updateDoc, getDocs } from "firebase/firestore";
 import { Category} from "../Structs/Category";
 import { Task} from "../Structs/Task";
+import { Opinion } from "../Structs/Opinion";
 
 const database = firestore;
 
@@ -146,6 +147,44 @@ export async function fetchTasks(userId, categoryId) {
         return tasks;
     } catch (error) {
         console.error("Error fetching tasks: ", error);
+        throw error;
+    }
+}
+export async function createOpinion(userId, opinionTitle, opinionPriority,opinionDetails,opinionDate){
+    try{
+        // Get a reference to the user document
+        const userRef = doc(database,"users",userId);
+        // Reference to the 'opinions' collection within the user document
+        const opinionRef = collection(userRef,"opinions");
+        // Create a new document reference within the 'categories' collection
+        const newOpinionRef =doc(opinionRef);
+        // Data to be stored in the new category document
+        const opinionData  ={title: opinionTitle, priority:opinionPriority, details:opinionDetails, date:opinionDate}
+        // Set the data for the new category document
+        await setDoc(newOpinionRef,opinionData);
+        console.log("Dziala createOpinion");
+        return newOpinionRef.id; 
+    } catch(error){
+        console.error("Error sending opinion: ", error);
+        throw error;
+    }
+}
+export async function fetchOpinions(userId) {
+    try {
+         // Reference to the 'categories' collection within the user document
+        const opinionsRef = collection(database, "users", userId, "opinions");
+        // Get all documents from the 'categories' collection
+        const querySnapshot = await getDocs(opinionsRef);
+        const opinions = [];
+        // Iterate through each document and create Category objects
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            const opinion  = new Opinion(doc.id,data.title,data.priority,data.details,data.date);
+            opinions.push(opinion);
+        })
+        return opinions;
+    } catch (error) {
+        console.error("Error fetching opinions: ", error);
         throw error;
     }
 }
