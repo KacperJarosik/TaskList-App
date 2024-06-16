@@ -7,7 +7,6 @@ import { Task } from "../Structs/Task";
 
 describe('TaskManager', () => {
     let taskManager;
-    let task;
 
     beforeEach(() => {
         taskManager = new TaskManager();
