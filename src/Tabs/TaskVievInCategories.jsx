@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import TaskManager from '../Structs/TaskManager.js';
+import { useNavigate } from "react-router-dom/dist";
 
 TaskManager.loadFromStorage();
 const categories = TaskManager.categories;
@@ -10,6 +11,11 @@ function TaskViewInCategories({ tasks }) {
     const [filterStatus, setFilterStatus] = useState('');
     const [sortField, setSortField] = useState('');
     const [sortDirection, setSortDirection] = useState('asc');
+    const navigate = useNavigate();
+
+    function handleMainVievClick() {
+        navigate("/after");
+      }
 
     const filteredAndSortedTasks = useMemo(() => {
         let filteredTasks = tasks;
@@ -40,12 +46,11 @@ function TaskViewInCategories({ tasks }) {
 
     return (
         <>
-            <h3>Lista zadań</h3>
             <div className="controls">
                 <input 
                     className="InputSearch"
                     type="text"
-                    placeholder="Wyszukaj..."
+                    placeholder="Szukaj..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -61,14 +66,11 @@ function TaskViewInCategories({ tasks }) {
                 </select>
                 <button className="SearchButton" onClick={() => setSortField('text')}>Sortuj wg Nazwy</button>
                 <button className="SearchButton" onClick={() => setSortField('date')}>Sortuj wg Terminu</button>
-                <button className="SearchButton" onClick={() => setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')}>
-                    ⭡  ⭣
-                </button>
+                
             </div>
             <table className="table" id="TasksListTable">
                 <thead>
                 <tr>
-                    <th>Kategoria</th>
                     <th>Nazwa</th>
                     <th>Termin</th>
                     <th>Status</th>
@@ -78,7 +80,6 @@ function TaskViewInCategories({ tasks }) {
                 <tbody>
                 {filteredAndSortedTasks.map(task => (
                     <tr key={task.id}>
-                        <td>{task.category}</td>
                         <td>{task.text}</td>
                         <td>{task.date}</td>
                         <td>{task.status}</td>
@@ -87,6 +88,10 @@ function TaskViewInCategories({ tasks }) {
                 ))}
                 </tbody>
             </table>
+
+            <div className="BackButton" onClick={handleMainVievClick}>
+                Wróć do panelu głównego
+            </div>
         </>
     );
 }
@@ -101,7 +106,7 @@ function TaskInCat() {
 
     return (
         <>
-            <h3>Kategoria: {category.title}</h3>
+            <h3 className="category-title"> Kategoria: <br/>{category.title}</h3>
             <TaskViewInCategories tasks={category.tasks.map(task => ({
                 id: task.id,
                 text: task.text,

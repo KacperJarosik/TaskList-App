@@ -21,7 +21,7 @@ const Settings = () => {
         <div className="LogOut">
           <LogOut />
         </div>
-        <div className="centerSide">
+        <div className="SettingsView">
           <SettingsView />
         </div>
       </div>

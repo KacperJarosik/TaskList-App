@@ -35,6 +35,106 @@
     color: #4192d9;
 }
 
+.BackButton{
+    background-color: #4192d9;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 8px 8px;
+    cursor: pointer;
+    color: #f1f1e6;
+    font-size: 12px;
+    width: 380px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 170px;
+}
+
+.SearchButton, .FilteringButton, .AddButton {
+    background-color: #4192d9;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 8px 8px;
+    cursor: pointer;
+    color: #f1f1e6;
+    font-size: 12px;
+    width: 80px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.InputSearch{
+    padding: 8px 8px;
+    background-color: #4192d9;
+    color: #f1f1e6;
+    border: 2px solid transparent;
+    font-size: 12px;
+    border-radius: 5px;
+    width: 70px;
+    margin: 5px;
+
+}
+
+/* TaskInCat.css */
+
+.category-title {
+    margin-top: 10px;
+    margin-left: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.task-list-title {
+    font-size: 20px;
+    font-weight: normal;
+    color: #666;
+    margin-top: 30px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+
+.SelectList{
+    padding: 11px 11px;
+    background-color: #4192d9;
+    color: #f1f1e6;
+    border: 2px solid transparent;
+    font-size: 12px;
+    border-radius: 5px;
+    margin: 5px;
+}
+.SearchButton:hover,
+.FilteringButton:hover, .taskButtons .SortingButton:hover, .AddButton:hover {
+    background-color: #77aaf0;
+}
+
+.SearchButton:active,
+.FilteringButton:active, .taskButtons .SortingButton:active, .AddButton:active {
+    background-color: #77aaff;
+}
+
+.taskButtons .SearchInput {
+    border: 2px solid transparent;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 8px 8px;
+    cursor: pointer;
+    color: #f1f1e6;
+    font-size: 12px;
+    width: calc(25% - 8px);
+    text-align: center;
+}
+
+
+.InputSearch::placeholder {
+    color: #f1f1e6; /* Optional: change placeholder color */
+}
+
+
 /* Adjustments for smaller screens */
 @media screen and (max-width: 768px) {
     .leftSide {
@@ -74,13 +174,18 @@
     display: block;
     height: 65%;
     position: relative;
-    margin-top: -100px;
-    margin-left: 44px;
+    margin-top: -60px;
+    margin-left: 47px;
+    width: 301px;
 }
 
 .NavigationBar ul {
     list-style-type: none;
     padding: 0;
+}
+
+.SettingsView{
+    margin-top: 40px;
 }
 
 .NavigationBar li {
@@ -127,12 +232,15 @@
 }
 
 .LogOut {
-    margin-top: 400px;
+    margin-top: 500px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 15%;
+    height: 5%;
     position: relative;
+    background-color: #0d4d8d;
+    width: 10;
+
 }
 
 .LogOut div {
@@ -142,29 +250,18 @@
     font-size: 18px;
     border-radius: 5px;
     margin: 0;
+    background-color: #0d4d8d;
+    height: 15%;
+
 }
 
-.LogOut div:hover {
-    background-color: #4192d9;
-    border-radius: 5px;
-}
 
-.LogOut div:hover p, .LogOut div:hover .LogOutIcon {
-    background-color: #4192d9;
-}
 
-.LogOut div:active {
-    background-color: #77aaf0;
-    border-radius: 5px;
-}
-
-.LogOut div:active p, .LogOut div:active .LogOutIcon {
-    background-color: #77aaf0;
-}
 
 .LogOut div > p, .LogOut div > .LogOutIcon {
     float: left;
     transition: background-color 0.3s ease;
+    background-color: #0d4d8d;
 }
 
 .LogOut div > p {
@@ -188,6 +285,29 @@
     padding: 0.5%;
 
 }
+.CategorisViev table {
+    border-radius: 10px; /* Dodaje zaokrąglone narożniki */
+    overflow: hidden; /* Ukrywa nadmiar, aby zaokrąglone narożniki były widoczne */
+}
+
+/* Opcjonalnie, jeśli chcesz również zaokrąglić narożniki dla poszczególnych komórek */
+.CategorisViev th:first-child {
+    border-top-left-radius: 10px;
+}
+
+.CategorisViev th:last-child {
+    border-top-right-radius: 10px;
+}
+
+.CategorisViev tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+}
+
+.CategorisViev tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
+}
+
+
 
 /* Adjustments for CategoriesViev */
 .CategorisViev {
@@ -256,7 +376,6 @@
 
     .CategorisViev table {
         width: 125%;
-        margin-right: 100px;
     }
 
     .CategorisViev td, .CategorisViev th {

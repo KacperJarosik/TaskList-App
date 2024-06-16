@@ -7,7 +7,7 @@
     cursor: pointer;
     transition: background-color 0.3s;
     margin-left: 20px;
-    margin-top: -660px;
+    margin-top: -580px;
   }
   
   .toggle-switch.toggled {
@@ -84,3 +84,7 @@
     background-color: #77aaf0;
 }
  
+.darkLight{
+    margin-left: 87px;
+    margin-top: -23px;
+}

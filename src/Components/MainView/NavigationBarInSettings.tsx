@@ -12,38 +12,37 @@ import opinions from "../Assets/opinie.png";
 import settings from "../Assets/ustawienia.png";
 import React from "react";
 function NavigationBarInSettings() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    function handleCategoriesClick() {
-        navigate("/categories");
-    }
+  function handleCategoriesClick() {
+    navigate("/categories");
+  }
 
-    function handleMainVievClick() {
-        navigate("/after");
-    }
+  function handleMainVievClick() {
+    navigate("/after");
+  }
 
-    function handleGroupsClick() {
-        navigate("/groups");
-    }
+  function handleGroupsClick() {
+    navigate("/groups");
+  }
 
-    function handleOpinionsClick() {
-        navigate("/opinions");
-    }
+  function handleOpinionsClick() {
+    navigate("/opinions");
+  }
 
-    function handleSettingsClick() {
-        navigate("/settings");
-    }
+  function handleSettingsClick() {
+    navigate("/settings");
+  }
 
-    return (
-        <ul className="list-group">
-            {/* <li className="list-group-item" onClick={handleGroupsClick}><img src={groups} alt="Grupy" className="NavigationBarIcon"/>Grupy</li> */}
-            <li className="list-group-item" onClick={handleMainVievClick}><img src={mainView} alt="Panel Główny" className="NavigationBarIcon"/>Panel Główny
-            </li>
-            <li className="list-group-item" ><img src={mainView} alt="Panel Główny" className="NavigationBarIcon"/>Panel Główny
-            </li>
-            
-        </ul>
-    );
+  return (
+    <ul className="list-group">
+      {/* <li className="list-group-item" onClick={handleGroupsClick}><img src={groups} alt="Grupy" className="NavigationBarIcon"/>Grupy</li> */}
+      <li className="list-group-item" onClick={handleMainVievClick}>
+        <img src={mainView} alt="Panel Główny" className="NavigationBarIcon" />
+        Panel Główny
+      </li>
+    </ul>
+  );
 }
 
 export default NavigationBarInSettings;

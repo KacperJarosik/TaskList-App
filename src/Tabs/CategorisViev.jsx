@@ -17,7 +17,6 @@ const CategorisViev = () => {
             <table className="table">
                 <thead>
                     <tr>
-                        <th>ID kategorii</th>
                         <th>Kategoria</th>
                         <th>Liczba zadań</th>
                     </tr>
@@ -25,7 +24,6 @@ const CategorisViev = () => {
                 <tbody>
                     {categories.map(category => (
                         <tr key={category.id}>
-                            <td>{category.id}</td>
                             <td>
                                 <button onClick={() => handleCategoryClick(category.id)}>
                                     {category.title}

@@ -13,6 +13,9 @@ const SettingsView = () => {
       <div className={`toggle-switch ${isToggled ? 'toggled' : ''}`} onClick={handleToggle}>
         <div className="toggle-knob"></div>
       </div>
+      <div className="darkLight">
+        Tryb jasny/ciemny
+      </div>
     </div>
   );
 };

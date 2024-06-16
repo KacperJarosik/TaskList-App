@@ -1,5 +1,5 @@
 // LogOut.tsx
-//import React from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 // @ts-ignore
 import logout from "../Assets/wylogowanie.png";

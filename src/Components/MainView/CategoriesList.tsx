@@ -17,6 +17,7 @@ function CategoriesList() {
     const [newCategoryTitle, setNewCategoryTitle] = useState('');
     const [editCategoryTitle, setEditCategoryTitle] = useState('');
 
+
     const handleSearchButtonClick = () => {
         setIsSearchInputVisible(true);
     };
