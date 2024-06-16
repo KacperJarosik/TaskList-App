@@ -26,33 +26,38 @@ export class TaskManager {
     async loadFromFirebase() {
         try {
             console.log(this.currentUser);
+            // Check if the current user object or its UID is missing
             if (!this.currentUser || !this.currentUser.uid) {
                 throw new Error("Blad masz w load from firebase not logged in or UID is missing");
             }
+            // Retrieve the UID of the current user
             const uid = this.currentUser.uid;
+             // Fetch all categories belonging to the current user
             const savedCategories = await fetchCategories(uid);
-
+            // Check if categories were successfully fetched and if there are any categories
             if (savedCategories && savedCategories.length > 0) {
+                // Create an array of promises to fetch tasks for each category
                 const categoriesPromises = savedCategories.map(async categoryData => {
+                    // Create a new Category object for each fetched category
                     const category = new Category(categoryData.id, categoryData.title);
+                    // Fetch tasks belonging to the current category
                     category.tasks = await fetchTasks(uid, category.id);
                     return category;
                 });
-
+                // Resolve all category promises to get an array of populated Category objects
                 this.categories = await Promise.all(categoriesPromises);
-
+                // Determine the next available task ID based on fetched categories
                 this.nextTaskId = savedCategories.reduce((maxId, categoryData) => {
+                    // Find the maximum task ID among all fetched tasks
                     return Math.max(maxId, ...categoryData.tasks.map(task => task.id));
                 }, 0) + 1;
-
+                // Determine the next available category ID based on fetched categories
                 this.nextCategoryId = Math.max(...savedCategories.map(categoryData => categoryData.id)) + 1;
             } else {
                 console.log("No categories found or error related to fetching");
-               // this.initializeExampleData();
             }
         } catch (error) {
             console.error("Error loading data from Firebase: ", error);
-          //  this.initializeExampleData();
         }
     }
 
@@ -63,7 +68,6 @@ export class TaskManager {
         this.saveToStorage(); // Save updated categories to storage
         console.log("addCategoryTaskManager" + newCategory);
         createCategory(localStorage.getItem("uid"), newCategory.title).then(id => {newCategory.id =id},window.location.reload());
-
     }
 
     async removeCategory(categoryId) {

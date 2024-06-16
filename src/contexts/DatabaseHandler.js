@@ -5,13 +5,18 @@ import { Task} from "../Structs/Task";
 
 const database = firestore;
 
+// Function to create a new category for a user
 export async function createCategory(userId, categoryTitle) {
     try {
-        console.log(categoryTitle);
+        // Get a reference to the user document
         const userRef = doc(database,"users",userId);
+        // Reference to the 'categories' collection within the user document
         const categoryRef = collection(userRef,"categories");
+        // Create a new document reference within the 'categories' collection
         const newCategoryRef =doc(categoryRef);
-        const categoryData  ={name: categoryTitle}
+        // Data to be stored in the new category document
+        const categoryData  ={title: categoryTitle}
+        // Set the data for the new category document
         await setDoc(newCategoryRef,categoryData);
         return newCategoryRef.id;
     } catch (error) {
@@ -20,34 +25,33 @@ export async function createCategory(userId, categoryTitle) {
     }
 }
 
-
+// Function to create a new task within a specified category for a user
 export async function createTask(userId, categoryId,  taskText, taskDate, status, details) {
     try {
-      
-         console.log(categoryId);
-
+        // Get a reference to the user document      
         const userRef = doc(database,"users",userId);
-        console.log("userref: " + userRef);
-
+        // Get a reference to the specific category document
         const categoryRef = doc(userRef,"categories",categoryId.id);
-        console.log("categoryref: "+ categoryRef);
+        // Reference to the 'tasks' collection within the category document
         const taskRef = collection(categoryRef,"tasks");
-        console.log("taskref: "+ taskRef);
+        // Create a new document reference within the 'tasks' collection
         const newTaskRef = doc(taskRef);
-        const taskData = {name: taskText,date:taskDate,status: status, details:details}
+        // Data to be stored in the new task document
+        const taskData = {text: taskText,date:taskDate,status: status, details:details}
+        // Set the data for the new task document
         await setDoc(newTaskRef,taskData);
-        console.log("createTask: "+newTaskRef.id);
         return newTaskRef.id; 
     } catch (error) {
         console.error("Error creating task: ", error);
         throw error;
     }
 }
-
-// funkcja usuwa określoną kategorię dla danego użytkownika i tworzy referencję do dokumentu kategorii danego użytkownika i usuwa ten dokument.
+// Function to delete a category for a user
 export async function deleteCategory(userId, categoryId) {
     try {
+        // Reference to the specific category document
         const categoryRef = doc(database, "users", userId, "categories", categoryId);
+        // Delete the category document
         await deleteDoc(categoryRef);
         console.log("Category deleted with ID: ", categoryId);
     } catch (error) {
@@ -56,11 +60,13 @@ export async function deleteCategory(userId, categoryId) {
     }
 }
 
-//funkcja usuwa określone zadanie z określonej kategorii dla danego użytkownika i tworzy referencje do dokumentu zadania w określonej kategorii użytkownika i usuwa ten dokument
+// Function to delete a task from a specific category for a user
 export async function deleteTask(userId, categoryId, taskId) {
     try {
+         // Reference to the specific task document within the category
         const taskRef = doc(database, "users", userId, "categories", categoryId, "tasks", taskId);
         console.log("taskreftest:" +taskRef);
+        // Delete the task document
         await deleteDoc(taskRef);
         console.log("Task deleted with ID: ", taskId);
     } catch (error) {
@@ -69,12 +75,14 @@ export async function deleteTask(userId, categoryId, taskId) {
     }
 }
 
-//funkcja aktualizuje tytuł określonej kategorii dla danego użytkownika i tworzy referencję do dokumentu kategorii dla danego użytkownika i aktualizuje jego tytuł na podany
+// Function to update the title of a specific category for a user
 export async function updateCategory(userId, categoryId, newCategoryTitle) {
     try {
+         // Reference to the specific category document
         const categoryRef = doc(database, "users", userId, "categories", categoryId);
+        // Update the title of the category document
         await updateDoc(categoryRef, {
-            name: newCategoryTitle
+            title: newCategoryTitle
         });
         console.log("Category updated with ID: ", categoryId);
     } catch (error) {
@@ -83,10 +91,12 @@ export async function updateCategory(userId, categoryId, newCategoryTitle) {
     }
 }
 
-// funkcja aktualizuje określone zadanie w określonej kategorii dla danego użytkownika
+// Function to update a specific task within a category for a user
 export async function updateTask(userId, categoryId, taskId, newData) {
     try {
+        // Reference to the specific task document within the category
         const taskRef = doc(database, "users", userId, "categories", categoryId, "tasks", taskId);
+        // Update the task document with new data
         await updateDoc(taskRef, newData);
         console.log("Task updated with ID: ", taskId);
     } catch (error) {
@@ -95,16 +105,18 @@ export async function updateTask(userId, categoryId, taskId, newData) {
     }
 }
 
-//funkcja pobiera wszystkie kategorie dla danego użytkownika, zwraca tablicę zawierającą wszystkie pobrane kategorie wraz z ich identyfikatorami
+// Function to fetch all categories for a user
 export async function fetchCategories(userId) {
     try {
+         // Reference to the 'categories' collection within the user document
         const categoriesRef = collection(database, "users", userId, "categories");
+        // Get all documents from the 'categories' collection
         const querySnapshot = await getDocs(categoriesRef);
         const categories = [];
-        
+        // Iterate through each document and create Category objects
         querySnapshot.forEach((doc) => {
             const data = doc.data();
-            const category  = new Category(doc.id,data.name);
+            const category  = new Category(doc.id,data.title);
             categories.push(category);
         })
         return categories;
@@ -114,15 +126,19 @@ export async function fetchCategories(userId) {
     }
 }
 
-// funkcja pobiera wszystkie zadania z określonej kategorii dla danego użytkownika, zwraca tablice zawierającą wszystkie pobrane zadania wraz z ich identyfikatorami
+// Function to fetch all tasks from a specific category for a user
 export async function fetchTasks(userId, categoryId) {
     try {
+        // Reference to the 'tasks' collection within the specific category
         const tasksRef = collection(database, "users", userId, "categories", categoryId, "tasks");
+        // Get all documents from the 'tasks' collection
         const querySnapshot = await getDocs(tasksRef);
         const tasks = [];
+
+        // Iterate through each document and create Task objects
         querySnapshot.forEach((doc) => {
             const data = doc.data();
-            const task  = new Task(doc.id,data.name,data.date,data.status,data.details);
+            const task  = new Task(doc.id,data.text,data.date,data.status,data.details);
             tasks.push(task);
         });
         return tasks;
