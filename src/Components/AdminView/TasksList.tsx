@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import {useState, useEffect, useRef} from 'react';
 import TaskManager from '../../Structs/TaskManager.js';
 // @ts-ignore
 import arrow_right from "../Assets/strzalka_prawo.png";
@@ -10,7 +10,7 @@ TaskManager.loadFromStorage();
 // Get categories from the TaskManager
 const categories = TaskManager.categories;
 
-function TasksList({ tasks, categoryId }) {
+function TasksList({tasks, categoryId}) {
     const [taskList, setTaskList] = useState(tasks); // State to manage tasks
     const [isSearchInputVisible, setIsSearchInputVisible] = useState(false); // State to manage search input visibility
     const searchInputRef = useRef(null); // Reference to the search input
@@ -159,7 +159,8 @@ function TasksList({ tasks, categoryId }) {
                     <button className="SearchButton" type="button" onClick={handleSearchButtonClick}>Wyszukaj</button>
                 )}
                 {isSearchInputVisible && (
-                    <input ref={searchInputRef} type="text" className="SearchInput" value={searchQuery} onChange={handleSearchInputChange} />
+                    <input ref={searchInputRef} type="text" className="SearchInput" value={searchQuery}
+                           onChange={handleSearchInputChange}/>
                 )}
                 <button className="FilteringButton" onClick={handleFilteringClick}>Filtruj</button>
                 <button className="SortingButton" onClick={handleSortingClick}>Sortuj</button>
@@ -182,7 +183,9 @@ function TasksList({ tasks, categoryId }) {
                         <td className="TaskStatus">{task.status}</td>
                         <td className="TaskDetails">
                             <span onClick={() => handleDetailsClick(task)}>Szczegóły</span>
-                            <button className="DeleteButton" type="button" onClick={() => handleDeleteTask(task.id)}>Usuń</button>
+                            <button className="DeleteButton" type="button"
+                                    onClick={() => handleDeleteTask(task.id)}>Usuń
+                            </button>
                             <button className="EditButton" onClick={() => handleEditClick(task)}>Edytuj</button>
                         </td>
                     </tr>
@@ -205,15 +208,18 @@ function TasksList({ tasks, categoryId }) {
                     <h3>Edycja zadania</h3>
                     <label>
                         Nazwa:
-                        <input type="text" value={editingTask.text} onChange={(e) => setEditingTask({ ...editingTask, text: e.target.value })} />
+                        <input type="text" value={editingTask.text}
+                               onChange={(e) => setEditingTask({...editingTask, text: e.target.value})}/>
                     </label>
                     <label>
                         Data:
-                        <input type="date" value={editingTask.date} onChange={(e) => setEditingTask({ ...editingTask, date: e.target.value })} />
+                        <input type="date" value={editingTask.date}
+                               onChange={(e) => setEditingTask({...editingTask, date: e.target.value})}/>
                     </label>
                     <label>
                         Status:
-                        <select value={editingTask.status} onChange={(e) => setEditingTask({ ...editingTask, status: e.target.value })}>
+                        <select value={editingTask.status}
+                                onChange={(e) => setEditingTask({...editingTask, status: e.target.value})}>
                             <option value="Do zrobienia">Do zrobienia</option>
                             <option value="W trakcie">W trakcie</option>
                             <option value="Zakończone">Zakończone</option>
@@ -221,7 +227,8 @@ function TasksList({ tasks, categoryId }) {
                     </label>
                     <label>
                         Szczegóły:
-                        <textarea value={editingTask.details} onChange={(e) => setEditingTask({ ...editingTask, details: e.target.value })} />
+                        <textarea value={editingTask.details}
+                                  onChange={(e) => setEditingTask({...editingTask, details: e.target.value})}/>
                     </label>
                     <div className="buttons-container">
                         <button onClick={handleSaveEditTask}>Save</button>
@@ -235,11 +242,12 @@ function TasksList({ tasks, categoryId }) {
                     <h3>Filtruj zadania</h3>
                     <div>
                         Data od:
-                        <input type="date" value={filterStartDate} onChange={(e) => setFilterStartDate(e.target.value)} />
+                        <input type="date" value={filterStartDate}
+                               onChange={(e) => setFilterStartDate(e.target.value)}/>
                     </div>
                     <div>
                         Data do:
-                        <input type="date" value={filterEndDate} onChange={(e) => setFilterEndDate(e.target.value)} />
+                        <input type="date" value={filterEndDate} onChange={(e) => setFilterEndDate(e.target.value)}/>
                     </div>
                     <div>
                         Status:
@@ -262,16 +270,16 @@ function TasksList({ tasks, categoryId }) {
                     <h3>Sortuj zadania</h3>
                     <div className="sortByContainer" onChange={handleSortOptionChange}>
                         <label>
-                            <input type="radio" name="sort" value="dateASC" checked={sortOption === 'dateASC'} /><span> ⭡ wg terminu</span>
+                            <input type="radio" name="sort" value="dateASC" checked={sortOption === 'dateASC'}/><span> ⭡ wg terminu</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="dateDESC" checked={sortOption === 'dateDESC'} /><span> ⭣ wg terminu</span>
+                            <input type="radio" name="sort" value="dateDESC" checked={sortOption === 'dateDESC'}/><span> ⭣ wg terminu</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="nameASC" checked={sortOption === 'nameASC'} /><span> ⭡ wg nazwy</span>
+                            <input type="radio" name="sort" value="nameASC" checked={sortOption === 'nameASC'}/><span> ⭡ wg nazwy</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="nameDESC" checked={sortOption === 'nameDESC'} /><span> ⭣ wg nazwy</span>
+                            <input type="radio" name="sort" value="nameDESC" checked={sortOption === 'nameDESC'}/><span> ⭣ wg nazwy</span>
                         </label>
                     </div>
                     <div className="buttons-container">
@@ -285,15 +293,17 @@ function TasksList({ tasks, categoryId }) {
                     <h3>Dodaj zadanie</h3>
                     <label>
                         Nazwa:
-                        <input type="text" placeholder="Nazwa zadania..." value={taskName} onChange={(e) => setTaskName(e.target.value)} />
+                        <input type="text" placeholder="Nazwa zadania..." value={taskName}
+                               onChange={(e) => setTaskName(e.target.value)}/>
                     </label>
                     <label>
                         Data:
-                        <input type="date" value={taskDate} onChange={(e) => setTaskDate(e.target.value)} />
+                        <input type="date" value={taskDate} onChange={(e) => setTaskDate(e.target.value)}/>
                     </label>
                     <label>
                         Szczegóły:
-                        <textarea placeholder="Szczegóły zadania..." value={taskDetails} onChange={(e) => setTaskDetails(e.target.value)} />
+                        <textarea placeholder="Szczegóły zadania..." value={taskDetails}
+                                  onChange={(e) => setTaskDetails(e.target.value)}/>
                     </label>
                     <div className="buttons-container">
                         <button onClick={handleAddTask}>Dodaj</button>
@@ -335,7 +345,7 @@ function CategoriesList() {
                                     task.status === 'Done' ? 'Zakończone' : task.status,
                             details: task.details,
                             category: category.title // Add category title to each task
-                        }))} categoryId={category.id} />
+                        }))} categoryId={category.id}/>
                     )}
                 </div>
             ))}

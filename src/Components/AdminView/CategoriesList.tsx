@@ -1,5 +1,5 @@
 import TaskManager from '../../Structs/TaskManager.js';
-import { useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 
 // Load data from storage
 TaskManager.loadFromStorage();
@@ -92,7 +92,8 @@ function CategoriesList() {
                     <button className="SearchButton" type="button" onClick={handleSearchButtonClick}>Wyszukaj</button>
                 )}
                 {isSearchInputVisible && (
-                    <input ref={searchInputRef} type="text" className="SearchInput" value={searchQuery} onChange={handleSearchInputChange} />
+                    <input ref={searchInputRef} type="text" className="SearchInput" value={searchQuery}
+                           onChange={handleSearchInputChange}/>
                 )}
                 <button className="AddButton" onClick={handleAddClick}>Dodaj</button>
             </div>
@@ -109,7 +110,9 @@ function CategoriesList() {
                         <td>{category.title}</td>
                         <td className="CategoryModifiers">
                             {category.tasks.length}
-                            <button className="DeleteButton" type="button" onClick={() => handleDeleteCategory(category.id)}>Usuń</button>
+                            <button className="DeleteButton" type="button"
+                                    onClick={() => handleDeleteCategory(category.id)}>Usuń
+                            </button>
                             <button className="EditButton" onClick={() => handleEditClick(category)}>Edytuj</button>
                         </td>
                     </tr>
