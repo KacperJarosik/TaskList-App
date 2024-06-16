@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom/dist";
 import TaskManager from '../Structs/TaskManager.js';
 import taskManagerInstance from "../Structs/TaskManager.js";
-
+import { useState, useEffect } from "react";
 //TaskManager.loadFromStorage();
 const categories = TaskManager.categories;
 

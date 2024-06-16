@@ -14,7 +14,7 @@ const OpinionsView = () => {
             try{
                 const userId = localStorage.getItem("uid");
                 const submissionDate = new Date().toISOString();
-                await createOpinion(userId,opinionTitle,opinionPriority,opinionDetails,submissionDate);
+                await createOpinion(userId,opinionTitle, opinionPriority, opinionDetails, submissionDate);
                 console.log("wykonala sie funkcja createOpinion: ");
                 console.log(submissionDate);
                 setOpinionTitle('');
@@ -34,7 +34,7 @@ const OpinionsView = () => {
                     type="text"
                     className="opinion-input"
                     placeholder="Napisz co myślisz..."
-                    value={opinion}
+                    value={opinionDetails}
                     onChange={(e) => setOpinionDetails(e.target.value)}
                 />
                 <button
