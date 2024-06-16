@@ -44,13 +44,15 @@ function TaskViewInCategories({ tasks }) {
         <>
             <h3>Lista zadań</h3>
             <div className="controls">
-                <input
+                <input 
+                    className="InputSearch"
                     type="text"
                     placeholder="Wyszukaj..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />
                 <select
+                    className="SelectList"
                     value={filterStatus}
                     onChange={(e) => setFilterStatus(e.target.value)}
                 >
@@ -59,9 +61,9 @@ function TaskViewInCategories({ tasks }) {
                     <option value="In Progress">W trakcie</option>
                     <option value="Done">Zakończone</option>
                 </select>
-                <button onClick={() => setSortField('text')}>Sortuj wg Nazwy</button>
-                <button onClick={() => setSortField('date')}>Sortuj wg Terminu</button>
-                <button onClick={() => setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')}>
+                <button className="SearchButton" onClick={() => setSortField('text')}>Sortuj wg Nazwy</button>
+                <button className="SearchButton" onClick={() => setSortField('date')}>Sortuj wg Terminu</button>
+                <button className="SearchButton" onClick={() => setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')}>
                     ⭡  ⭣
                 </button>
             </div>

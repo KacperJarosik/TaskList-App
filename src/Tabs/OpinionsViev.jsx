@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import "../Components/LoginSignup/AfterLogin.css"
 
 const OpinionsViev = () => {
     const [opinion, setOpinion] = useState('');
@@ -14,12 +15,13 @@ const OpinionsViev = () => {
                 <input
                     type="text"
                     className="opinion-input"
+                    placeholder="Napisz co myślisz..."
                     value={opinion}
                     onChange={(e) => setOpinion(e.target.value)}
                 />
                 <button
-                    type="button"
                     className="AddButton"
+                    type="button"
                     onClick={handleSendClick}
                 >
                     Wyślij

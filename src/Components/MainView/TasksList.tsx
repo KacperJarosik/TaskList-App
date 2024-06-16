@@ -4,7 +4,17 @@ import React from 'react';
 import { Category } from '../../Structs/Category.js';
 import { useAuth } from '../../contexts/AuthContext.js'
 import { Task } from '../../Structs/Task.js';
+import TaskManager from '../../Structs/TaskManager.js';
+// @ts-ignore
+import arrow_right from "../Assets/strzalka_prawo.png";
+// @ts-ignore
+import arrow_down from "../Assets/strzalka_dol.png";
 
+// Load data from storage
+//TaskManager.loadFromStorage();
+
+// Get categories from the TaskManager
+const categories = TaskManager.categories;
 
 function TasksList({ tasks, categoryId }) {
     const { currentUser } = useAuth();
@@ -23,7 +33,7 @@ function TasksList({ tasks, categoryId }) {
     const [taskName, setTaskName] = useState('');
     const [taskDate, setTaskDate] = useState('');
     const [taskDetails, setTaskDetails] = useState('');
-    const [sortOption, setSortOption] = useState('');
+    const [sortOption, setSortOption] = useState('dateASC'); // Set default sort option
 
     // States for filtering
     const [filterStartDate, setFilterStartDate] = useState('');
@@ -361,6 +371,8 @@ function CategoriesList() {
             {categories.map(category => (
                 <div key={category.id} className="TaskListActionsBlock">
                     <h4 className="TaskListCategoryTitleBlock" onClick={() => toggleCategoryVisibility(category.id)}>
+                        <img src={visibleCategories[category.id] ? arrow_down : arrow_right} alt="Arrow icon"
+                             className="TaskTitleIcon"/>
                         {category.title}
                     </h4>
                         
