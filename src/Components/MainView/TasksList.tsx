@@ -18,8 +18,11 @@ const categories = TaskManager.categories;
 
 function TasksList({ tasks, categoryId }) {
     const { currentUser } = useAuth();
+    //const [taskList, setTaskList] = useState(tasks);
     const [categories, setCategories] = useState<Category[]>([]);
-    const [taskList, setTaskList] = useState<Task[]>([]);
+    // const [taskList, setTaskList] = useState<Task[]>([]);
+    const [taskList, setTaskList] = useState<Task[]>(tasks);
+
     const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);
     const searchInputRef = useRef(null);
     const [searchQuery, setSearchQuery] = useState('');
@@ -39,13 +42,7 @@ function TasksList({ tasks, categoryId }) {
     const [filterStartDate, setFilterStartDate] = useState('');
     const [filterEndDate, setFilterEndDate] = useState('');
     const [filterStatus, setFilterStatus] = useState('');
-    const loadTasks = async () => {
-        await taskManagerInstance.loadFromFirebase();
-        const category = taskManagerInstance.categories.find(cat => cat.id === categoryId);
-        if (category) {
-            setTaskList(category.tasks);
-        }
-    };
+   
     useEffect(() => {
         async function initializeTaskManager() {
             await taskManagerInstance.loadFromFirebase();
@@ -73,11 +70,11 @@ function TasksList({ tasks, categoryId }) {
     }, [currentUser,categoryId,isSearchInputVisible]);
     // Adding a task
     const handleAddTask = async () => {
-        const name = taskName || 'New Task';
+        const text = taskName || 'New Task';
         const date = taskDate || 'brak';
         const details = taskDetails || '';
 
-        await taskManagerInstance.addTask(categoryId, name, date, 'Do zrobienia', details).then(()=> window.location.reload());
+        await taskManagerInstance.addTask(categoryId, text, date, 'Do zrobienia', details).then(()=> window.location.reload());
         console.log("handleAddtask categoryId: "+ categoryId);
         const updatedTasks = taskManagerInstance.categories.find(cat => cat.id === categoryId).tasks;
         await taskManagerInstance.loadFromFirebase();
@@ -89,7 +86,7 @@ function TasksList({ tasks, categoryId }) {
     // Editing a task
     const handleSaveEditTask = async () => {
         const updatedTask ={
-            name: editingTask.text,
+            text: editingTask.text,
             date: editingTask.date,
             status: editingTask.status,
             details: editingTask.details
@@ -102,7 +99,6 @@ function TasksList({ tasks, categoryId }) {
     };
 
     const handleDeleteTask = async (taskId) => {
-        console.log(taskId);
         await taskManagerInstance.removeTask(categoryId, taskId).then(()=>window.location.reload());
         const updatedTasks = taskManagerInstance.categories.find(cat => cat.id === categoryId).tasks;
         await taskManagerInstance.loadFromFirebase();
@@ -124,12 +120,10 @@ function TasksList({ tasks, categoryId }) {
         setSearchQuery(event.target.value);
     };
 
-    // const filteredTasks = taskList.filter(task =>
-    //     task.text.toLowerCase().includes(searchQuery.toLowerCase())
-    // );
     const filteredTasks = taskList.filter(task =>
-            task.text.includes(searchQuery)
-        );
+        task.text.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+   
     const handleDetailsClick = (task) => {
         setCurrentTask(task);
         setShowDetails(true);
@@ -215,7 +209,7 @@ function TasksList({ tasks, categoryId }) {
                 </tr>
                 </thead>
                 <tbody>
-                {tasks.map(task => (
+                {filteredTasks.map(task => (/*{tasks.map(task => (*/
                     <tr key={task.id}>
                         <td className="TaskName">{task.text}</td>
                         <td className="TaskDeadline">{task.date}</td>
@@ -300,18 +294,18 @@ function TasksList({ tasks, categoryId }) {
             {isSorting && !isAdding && !isEditing && !isFiltering && (
                 <div className="popup">
                     <h3>Sortuj zadania</h3>
-                    <div className="sortByContainer" onChange={handleSortOptionChange}>
+                    <div className="sortByContainer"/* onChange={handleSortOptionChange}*/ >
                         <label>
-                            <input type="radio" name="sort" value="dateASC" checked={sortOption === 'dateASC'} /><span> ⭡ wg terminu</span>
+                            <input type="radio" name="sort" value="dateASC" checked={sortOption === 'dateASC'} onChange={handleSortOptionChange} /><span> ⭡ wg terminu</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="dateDESC" checked={sortOption === 'dateDESC'} /><span> ⭣ wg terminu</span>
+                            <input type="radio" name="sort" value="dateDESC" checked={sortOption === 'dateDESC'}onChange={handleSortOptionChange} /><span> ⭣ wg terminu</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="nameASC" checked={sortOption === 'nameASC'} /><span> ⭡ wg nazwy</span>
+                            <input type="radio" name="sort" value="nameASC" checked={sortOption === 'nameASC'} onChange={handleSortOptionChange}/><span> ⭡ wg nazwy</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="nameDESC" checked={sortOption === 'nameDESC'} /><span> ⭣ wg nazwy</span>
+                            <input type="radio" name="sort" value="nameDESC" checked={sortOption === 'nameDESC'} onChange={handleSortOptionChange}/><span> ⭣ wg nazwy</span>
                         </label>
                     </div>
                     <div className="buttons-container">
