@@ -14,7 +14,6 @@ const CategorisViev = () => {
 
     return (
         <>
-            <h3>Lista kategorii</h3>
             <table className="table">
                 <thead>
                     <tr>

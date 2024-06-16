@@ -6,6 +6,8 @@
     position: relative;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-left: 20px;
+    margin-top: -660px;
   }
   
   .toggle-switch.toggled {
@@ -25,5 +27,60 @@
   
   .toggle-switch.toggled .toggle-knob {
     transform: translateX(25px);
+    
   }
   
+  .NavigationBar2 {
+    display: block;
+    height: 65%;
+    position: relative;
+}
+
+.NavigationBar2 ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.NavigationBar2 li {
+    padding: 10px 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: #f1f1e6;
+    background-color: #0d4d8d;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+
+.NavigationBar2 li:hover {
+    background-color: #4192d9;
+}
+
+.NavigationBar2 li:active {
+    background-color: #77aaf0;
+}
+
+.NavigationBar2 li::before {
+    content: "";
+    display: inline-block;
+    width: 5px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.NavigationBar2Icon {
+    background-color: #0d4d8d;
+    transition: background-color 0.3s ease;
+    width: 20%;
+    height: 20%;
+    padding-right: 20px;
+}
+
+.NavigationBar2 li:hover img {
+    background-color: #4192d9;
+}
+
+.NavigationBar2 li:active img {
+    background-color: #77aaf0;
+}
+ 

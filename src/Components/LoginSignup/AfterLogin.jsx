@@ -8,6 +8,7 @@ import TasksList from "../MainView/TasksList.tsx";
 import UserMenu from "../MainView/UserMenu.tsx";
 import CategoriesList from "../MainView/CategoriesList.tsx";
 import TaskManager from '../../Structs/TaskManager.js'; // Assuming TaskManager.js contains your TaskManager class
+import CategorisViev from '../../Tabs/CategorisViev.jsx';
 
 export const AfterLogin = () => {
     useEffect(() => {
@@ -18,30 +19,18 @@ export const AfterLogin = () => {
         <>
             <div className="leftSide">
                 <div className="AppLogo">
-                    <AppLogo />
-                </div>
-                <div className="NavigationBar">
-                    <NavigationBar />
-                </div>
-                <div className="LogOut">
-                    <LogOut />
+                    <AppLogo/>
                 </div>
             </div>
             <div className="centerSide">
-                <div className="SayHello">
-                    <SayHello />
-                </div>
-                <div className="TasksList">
-                    <TasksList />
-                </div>
-            </div>
-            <div className="rightSide">
-                <div className="UserMenu">
-                    <UserMenu />
-                </div>
-                <div className="CategoriesList">
-                    <CategoriesList />
-                </div>
+                <div className="CategorisViev">
+                    <CategorisViev/>
+                </div> 
+
+                <div className="NavigationBar">
+                    <NavigationBar></NavigationBar>
+                </div>  
+
             </div>
         </>
     );

@@ -10,7 +10,8 @@ import groups from "../Assets/grupy.png";
 import opinions from "../Assets/opinie.png";
 // @ts-ignore
 import settings from "../Assets/ustawienia.png";
-function NavigationBar() {
+import React from "react";
+function NavigationBarInSettings() {
     const navigate = useNavigate();
 
     function handleCategoriesClick() {
@@ -36,10 +37,13 @@ function NavigationBar() {
     return (
         <ul className="list-group">
             {/* <li className="list-group-item" onClick={handleGroupsClick}><img src={groups} alt="Grupy" className="NavigationBarIcon"/>Grupy</li> */}
-            <li className="list-group-item" onClick={handleSettingsClick}><img src={settings} alt="Ustawienia" className="NavigationBarIcon"/>Ustawienia
+            <li className="list-group-item" onClick={handleMainVievClick}><img src={mainView} alt="Panel Główny" className="NavigationBarIcon"/>Panel Główny
             </li>
+            <li className="list-group-item" ><img src={mainView} alt="Panel Główny" className="NavigationBarIcon"/>Panel Główny
+            </li>
+            
         </ul>
     );
 }
 
-export default NavigationBar;
+export default NavigationBarInSettings;

@@ -5,6 +5,7 @@ import AppLogo from "../Components/MainView/AppLogo.tsx";
 import NavigationBar from "../Components/MainView/NavigationBar.tsx";
 import LogOut from "../Components/MainView/LogOut.tsx";
 import SettingsView from "./SettingsView.jsx";
+import NavigationBarInSettings from "../Components/MainView/NavigationBarInSettings.tsx";
 const Settings = () => {
   return (
     <>
@@ -13,18 +14,18 @@ const Settings = () => {
           <AppLogo />
         </div>
 
-        <div className="NavigationBar">
-          <NavigationBar />
+        <div className="NavigationBar2">
+          <NavigationBarInSettings />
         </div>
 
         <div className="LogOut">
           <LogOut />
         </div>
+        <div className="centerSide">
+          <SettingsView />
+        </div>
       </div>
 
-      <div className="centerSide">
-        <SettingsView />
-      </div>
     </>
   );
 };
