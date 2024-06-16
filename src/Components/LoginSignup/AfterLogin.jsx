@@ -12,7 +12,7 @@ import taskManagerInstance from '../../Structs/TaskManager.js'; // Assuming Task
 
 export const AfterLogin = () => {
     const fetchCategories = async () => {
-        await taskManagerInstance.loadFromFirebase();
+         taskManagerInstance.loadFromFirebase();
       };
     useEffect(() => {
         // TaskManager.loadFromStorage(); // Dane testowe
