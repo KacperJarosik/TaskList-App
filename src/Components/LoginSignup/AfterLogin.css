@@ -237,7 +237,6 @@
     color: #f1f1e6; /* Optional: change placeholder color */
 }
 
-
 .SelectList {
     padding: 11px 11px;
     background-color: #4192d9;
@@ -324,11 +323,11 @@
 }
 
 .TaskName {
-    width: 30%;
+    width: 35%;
 }
 
 .TaskDeadline {
-    width: 15%;
+    width: 25%;
 }
 
 .TaskStatus {
@@ -337,6 +336,14 @@
 
 .TaskDetails {
     width: 30%;
+}
+
+.Table_ID {
+    width: 5%;
+}
+
+.Table_Priority {
+    width: 5%;
 }
 
 .TaskDetails span {
@@ -629,6 +636,10 @@
     display: flex;
     justify-content: center;
     width: 100%;
+}
+
+.popup p {
+    text-align: justify;
 }
 
 
