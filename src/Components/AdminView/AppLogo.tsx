@@ -1,8 +1,8 @@
 // @ts-ignore
 import React from "react";
 
-// Displaying app logo - TaskList
 function AppLogo() {
+    // Displaying an app logo - TaskList
     return (
         <h1><span>Task</span>List</h1>
     );
