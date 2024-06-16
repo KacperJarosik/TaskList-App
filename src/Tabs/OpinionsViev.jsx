@@ -169,20 +169,20 @@ const OpinionsViev = () => {
                 <thead>
                 <tr>
                     <th className="Table_ID">ID</th>
-                    <th className="TaskName">Tytuł zgłosznia</th>
+                    <th className="Table_Name">Tytuł zgłosznia</th>
                     <th className="Table_Priority">Priorytet</th>
-                    <th className="TaskDeadline">Data zgłoszenia</th>
-                    <th className="TaskDetails">Dodatkowy opis</th>
+                    <th className="Table_Deadline">Data zgłoszenia</th>
+                    <th className="Table_Details">Dodatkowy opis</th>
                 </tr>
                 </thead>
                 <tbody>
                 {reports.map(report => (
                     <tr key={report.id}>
                         <td className="Table_ID">{report.id}</td>
-                        <td className="TaskName">{report.title}</td>
+                        <td className="Table_Name">{report.title}</td>
                         <td className="Table_Priority">{report.priority}</td>
-                        <td className="TaskDeadline">{report.date}</td>
-                        <td className="TaskDetails">
+                        <td className="Table_Deadline">{report.date}</td>
+                        <td className="Table_Details">
                             <span onClick={() => handleDetailsClick(report)}>Szczegóły</span>
                             <button className="DeleteButton" type="button" onClick={() => handleDeleteTask(report.id)}>Usuń</button>
                         </td>

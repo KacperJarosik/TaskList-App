@@ -180,7 +180,6 @@
     border-radius: 10px;
 }
 
-
 .TasksList > h3 {
     background-color: #0d4d8d;
     margin-bottom: 10px;
@@ -246,8 +245,6 @@
     border-radius: 5px;
     width: calc(15% - 8px);
     margin: 5px;
-
-
 }
 
 .SearchButton:hover,
@@ -322,19 +319,19 @@
     background-color: #0d4d8d;
 }
 
-.TaskName {
+.Table_Name {
     width: 35%;
 }
 
-.TaskDeadline {
+.Table_Deadline {
     width: 25%;
 }
 
-.TaskStatus {
+.Table_Status {
     width: 15%;
 }
 
-.TaskDetails {
+.Table_Details {
     width: 30%;
 }
 
@@ -346,24 +343,24 @@
     width: 5%;
 }
 
-.TaskDetails span {
+.Table_Details span {
     background-color: #0d4d8d;
     font-style: italic;
     color: #4192d9;
     margin-right: 50px;
 }
 
-.TaskDetails span:hover {
+.Table_Details span:hover {
     text-decoration: underline;
     color: #77aaf0;
 }
 
-.TaskDetails span:active {
+.Table_Details span:active {
     text-decoration: underline;
     color: #f1f1e6;
 }
 
-.TaskDetails .EditButton, .TaskDetails .DeleteButton {
+.Table_Details .EditButton, .Table_Details .DeleteButton {
     background-color: #4192d9;
     float: right;
     border: 2px solid transparent;
@@ -643,7 +640,7 @@
 }
 
 
-.CategorisViev {
+.CategoriesView {
     display: block;
     height: 85%;
     position: relative;
@@ -654,29 +651,29 @@
     padding: 10px;
 }
 
-.CategorisViev table {
+.CategoriesView table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.CategorisViev > h3 {
+.CategoriesView > h3 {
     background-color: #0d4d8d;
 }
 
-.CategorisViev th {
+.CategoriesView th {
     border-bottom: 2px solid #1b2230;
     padding: 15px;
     background-color: #0d4d8d;
 }
 
-.CategorisViev td {
+.CategoriesView td {
     border-bottom: 1px solid #1b2230;
     padding: 20px;
     background-color: #0d4d8d;
 }
 
 
-.CategorisViev button {
+.CategoriesView button {
     background: none;
     border: none;
     color: white;
@@ -687,7 +684,7 @@
 }
 
 
-.CategorisVievOnRight button {
+.CategoriesViewOnRight button {
     background: none;
     border: none;
     color: white;
@@ -697,28 +694,28 @@
     font: inherit;
 }
 
-.CategorisVievOnRight table {
+.CategoriesViewOnRight table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.CategorisVievOnRight td {
+.CategoriesViewOnRight td {
     border-bottom: 1px solid #1b2230;
     padding: 20px;
     background-color: #0d4d8d;
 }
 
-.CategorisVievOnRight > h3 {
+.CategoriesViewOnRight > h3 {
     background-color: #0d4d8d;
 }
 
-.CategorisVievOnRight th {
+.CategoriesViewOnRight th {
     border-bottom: 2px solid #1b2230;
     padding: 15px;
     background-color: #0d4d8d;
 }
 
-.CategorisVievOnRight {
+.CategoriesViewOnRight {
     display: block;
     height: 85%;
     position: relative;
@@ -751,7 +748,6 @@
     border-radius: 4px;
     font-size: 16px;
     background-color: #0d4d8d;
-
 }
 
 .Blank {
@@ -781,12 +777,12 @@
 }
 
 .overviewButtons .SearchButton:hover,
-.overviewButtons .FilteringButton:hover, .overviewButtons .SortingButton:hover, .overviewButtons  .AddButton:hover {
+.overviewButtons .FilteringButton:hover, .overviewButtons .SortingButton:hover, .overviewButtons .AddButton:hover {
     background-color: #77aaf0;
 }
 
 .overviewButtons .SearchButton:active,
-.overviewButtons .FilteringButton:active, .overviewButtons  .SortingButton:active, .overviewButtons .AddButton:active {
+.overviewButtons .FilteringButton:active, .overviewButtons .SortingButton:active, .overviewButtons .AddButton:active {
     background-color: #77aaff;
 }
 

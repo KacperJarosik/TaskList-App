@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import "./AfterLogin.css";
+// Importing necessary components
 import AppLogo from '../AdminView/AppLogo.tsx';
 import NavigationBar from '../AdminView/NavigationBar.tsx';
 import LogOut from '../AdminView/LogOut.tsx';
@@ -15,6 +16,7 @@ export const AfterLogin = () => {
         TaskManager.loadFromStorage(); // Dane testowe
     }, []); // Empty dependency array ensures the effect runs only once after mount
 
+    // Main view of TaskList app
     return (
         <>
             <div className="leftSide">

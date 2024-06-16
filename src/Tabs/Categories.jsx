@@ -27,7 +27,7 @@ const Categories = () => {
             </div>
 
             <div className="centerSide">
-                <div className="CategorisViev">
+                <div className="CategoriesView">
                     <CategorisViev/>
                 </div>
             </div>

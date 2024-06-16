@@ -182,19 +182,19 @@ function TasksList({tasks, categoryId}) {
             <table className="TasksListTable">
                 <thead>
                 <tr>
-                    <th className="TaskName">Nazwa</th>
-                    <th className="TaskDeadline">Termin</th>
-                    <th className="TaskStatus">Status</th>
-                    <th className="TaskDetails">Szczegóły</th>
+                    <th className="Table_Name">Nazwa</th>
+                    <th className="Table_Deadline">Termin</th>
+                    <th className="Table_Status">Status</th>
+                    <th className="Table_Details">Szczegóły</th>
                 </tr>
                 </thead>
                 <tbody>
                 {filteredTasks.map(task => (
                     <tr key={task.id}>
-                        <td className="TaskName">{task.text}</td>
-                        <td className="TaskDeadline">{task.date}</td>
-                        <td className="TaskStatus">{task.status}</td>
-                        <td className="TaskDetails">
+                        <td className="Table_Name">{task.text}</td>
+                        <td className="Table_Deadline">{task.date}</td>
+                        <td className="Table_Status">{task.status}</td>
+                        <td className="Table_Details">
                             <span onClick={() => handleDetailsClick(task)}>Szczegóły</span>
                             <button className="DeleteButton" type="button"
                                     onClick={() => handleDeleteTask(task.id)}>Usuń

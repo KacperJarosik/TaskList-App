@@ -178,7 +178,7 @@ const UsersView = () => {
                         <td>{user.id}</td>
                         <td>{user.username}</td>
                         <td>{user.categoriesCount}</td>
-                        <td className="TaskDetails">
+                        <td className="Table_Details">
                             {user.tasksCount}
                             <button className="DeleteButton" type="button" onClick={() => handleDeleteTask(user)}>Usuń
                             </button>
