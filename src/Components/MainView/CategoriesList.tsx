@@ -68,13 +68,14 @@ function CategoriesList() {
     const handleAddCategory =async () => {
         if (newCategoryTitle) {
             taskManagerInstance.addCategory(newCategoryTitle);
+            console.log("HandleAddCategory: "+ newCategoryTitle);
             setNewCategoryTitle('');
             setIsAdding(false);
             await refreshCategories();
            // window.location.reload(); // Refresh the page to update the list
         }
     };
-
+    
     const handleEditCategory =  async () => {
         if (currentCategory && editCategoryTitle) {
             await taskManagerInstance.updateCategoryTitle(currentCategory.id, editCategoryTitle);
@@ -92,7 +93,7 @@ function CategoriesList() {
     };
 
     const filteredCategories = categories.filter(category =>
-        category.title.toLowerCase().includes(searchQuery.toLowerCase())
+        category.title.includes(searchQuery)
     );
 
     return (
