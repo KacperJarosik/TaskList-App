@@ -1,15 +1,16 @@
 import React from 'react'
 import "../Components/LoginSignup/AfterLogin.css";
-// import TestDatabase from '../../testDatabase'
+// Importing necessary components
 import AppLogo from '../Components/AdminView/AppLogo.tsx'
 import NavigationBar from '../Components/AdminView/NavigationBar.tsx'
 import LogOut from '../Components/AdminView/LogOut.tsx';
 import UserMenu from '../Components/AdminView/UserMenu.tsx';
-import OpinionsViev from './OpinionsViev.jsx';
+import OpinionsView from './OpinionsView.jsx';
 import SayHello from "../Components/AdminView/SayHello.tsx";
 import AdminsList from "../Components/AdminView/AdminsList.jsx";
 
 const Opinions = () => {
+    // View of reports/opinions info
     return (
         <>
             <div className="leftSide">
@@ -34,7 +35,7 @@ const Opinions = () => {
                 </div>
 
                 <div className="TasksList">
-                    <OpinionsViev/>
+                    <OpinionsView/>
                 </div>
             </div>
 
@@ -46,7 +47,6 @@ const Opinions = () => {
                     <AdminsList/>
                 </div>
             </div>
-
         </>
     )
 }

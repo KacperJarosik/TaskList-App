@@ -1,18 +1,16 @@
 import React from 'react'
 import "../Components/LoginSignup/AfterLogin.css";
-// import TestDatabase from '../../testDatabase'
+// Importing necessary components
 import AppLogo from '../Components/AdminView/AppLogo.tsx'
 import NavigationBar from '../Components/AdminView/NavigationBar.tsx'
 import LogOut from '../Components/AdminView/LogOut.tsx';
 import SayHello from "../Components/AdminView/SayHello.tsx";
 import UserMenu from '../Components/AdminView/UserMenu.tsx';
-import CategoriesList from "../Components/AdminView/CategoriesList.tsx";
-import CategorisViev from "./CategorisViev";
 import UsersView from "./UsersView";
 import AdminsList from "../Components/AdminView/AdminsList";
 
-
 const Groups = () => {
+    // View of users info
     return (
         <>
             <div className="leftSide">
@@ -49,7 +47,6 @@ const Groups = () => {
                     <AdminsList/>
                 </div>
             </div>
-
         </>
     )
 }

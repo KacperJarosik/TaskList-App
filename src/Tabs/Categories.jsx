@@ -1,14 +1,14 @@
 import React from 'react'
 import "../Components/LoginSignup/AfterLogin.css";
-// import TestDatabase from '../../testDatabase'
+// Importing necessary components
 import AppLogo from '../Components/AdminView/AppLogo.tsx'
 import NavigationBar from '../Components/AdminView/NavigationBar.tsx'
 import LogOut from '../Components/AdminView/LogOut.tsx';
-import CategorisViev from './CategorisViev.jsx';
-import TaskInCat from './TaskVievInCategories.jsx';
+import CategoriesView from './CategoriesView.jsx';
 import UserMenu from '../Components/AdminView/UserMenu.tsx';
 
 const Categories = () => {
+    // View of categories info
     return (
         <>
             <div className="leftSide">
@@ -23,12 +23,12 @@ const Categories = () => {
                 <div className="LogOut">
                     <LogOut/>
                 </div>
-                
+
             </div>
 
             <div className="centerSide">
                 <div className="CategoriesView">
-                    <CategorisViev/>
+                    <CategoriesView/>
                 </div>
             </div>
 
@@ -37,7 +37,6 @@ const Categories = () => {
                     <UserMenu/>
                 </div>
             </div>
-
         </>
     )
 }

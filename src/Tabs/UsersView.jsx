@@ -2,9 +2,8 @@ import React, {useEffect, useRef, useState} from "react";
 import TaskManager from '../Structs/TaskManager.js';
 
 TaskManager.loadFromStorage();
-// const categories = TaskManager.categories;
 
-// Przykładowe dane użytkowników
+// Examples of user data
 const users = [
     {id: 1, username: 'john_doe', categoriesCount: 3, tasksCount: 15},
     {id: 2, username: 'jane_smith', categoriesCount: 5, tasksCount: 25},
@@ -24,56 +23,38 @@ const UsersView = () => {
     const [isSearchInputVisible, setIsSearchInputVisible] = useState(false); // State to manage search input visibility
     const searchInputRef = useRef(null); // Reference to the search input
     const [searchQuery, setSearchQuery] = useState(''); // State to store search query
-    const [isFiltering, setIsFiltering] = useState(false);
-    const [isSorting, setIsSorting] = useState(false);
-    const [isAdding, setIsAdding] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
-    const [editingUser, setEditingUser] = useState(null);
-    const [filterStartID, setFilterStartID] = useState('');
+    const [isFiltering, setIsFiltering] = useState(false);  // Flag to check if data is filtering
+    const [isSorting, setIsSorting] = useState(false);  // Flag to check if data is sorting
+    const [isAdding, setIsAdding] = useState(false);    // Flag to check if data is adding
+    const [isEditing, setIsEditing] = useState(false);  // Flag to check if data is editing
+    const [editingUser, setEditingUser] = useState(null);   // Variable storing user data
+    const [filterStartID, setFilterStartID] = useState(''); // Filtering by user ID
     const [filterEndID, setFilterEndID] = useState('');
-    const [minCategoriesCount, setFilterMinCategoriesCount] = useState('');
+    const [minCategoriesCount, setFilterMinCategoriesCount] = useState(''); // Filtering by categories count
     const [maxCategoriesCount, setFilterMaxCategoriesCount] = useState('');
-    const [minTasksCount, setFilterMinTasksCount] = useState('');
+    const [minTasksCount, setFilterMinTasksCount] = useState('');   // Filtering by tasks count
     const [maxTasksCount, setFilterMaxTasksCount] = useState('');
     const [sortOption, setSortOption] = useState('idASC'); // Set default sort option
     const [username, setUserName] = useState('');
 
-
+    // Handling a click action on search button
     const handleSearchButtonClick = () => {
         setIsSearchInputVisible(true); // Show search input
     };
 
+    // Handling a clicking outside of search input
     const handleClickOutside = (event) => {
         if (searchInputRef.current && !searchInputRef.current.contains(event.target)) {
             setIsSearchInputVisible(false); // Hide search input
         }
     };
 
+    // Handling a change of searching input
     const handleSearchInputChange = (event) => {
         setSearchQuery(event.target.value);
     };
 
-    const handleFilteringClick = () => {
-        setIsFiltering(true);
-    };
-
-    const handleSortingClick = () => {
-        setIsSorting(true);
-    };
-
-    const handleAddClick = () => {
-        setIsAdding(true);
-    };
-
-    const handleEditClick = (user) => {
-        setEditingUser(user);
-        setIsEditing(true);
-    };
-
-    const handleSortOptionChange = (event) => {
-        setSortOption(event.target.value);
-    };
-
+    // Handling a change of search input visibility
     useEffect(() => {
         if (isSearchInputVisible) {
             document.addEventListener('mousedown', handleClickOutside);
@@ -88,66 +69,61 @@ const UsersView = () => {
         };
     }, [isSearchInputVisible]);
 
-    const handleDeleteTask = (userId) => {
-        // TaskManager.removeTask(categoryId, taskId);
-        // const updatedTasks = TaskManager.categories.find(cat => cat.id === categoryId).tasks;
-        // setTaskList([...updatedTasks]); // Update the task list state
+    // Handling a click action on filtering button
+    const handleFilteringClick = () => {
+        setIsFiltering(true);
     };
 
-    const handleSaveEditTask = () => {
-        // TaskManager.updateTask(categoryId, editingTask.id, editingTask);
-        // const updatedTasks = TaskManager.categories.find(cat => cat.id === categoryId).tasks;
-        // setTaskList([...updatedTasks]); // Update the task list state
-        setIsEditing(false); // Close the editing mode
+    // Handling apply of filtering changes
+    const applyFiltering = () => {
+        setIsFiltering(false); // Close the filtering mode
     };
 
-    const handleAddTask = () => {
+    // Handling a click action on sorting button
+    const handleSortingClick = () => {
+        setIsSorting(true);
+    };
+
+    // Handling a change of options in sorting popup
+    const handleSortOptionChange = (event) => {
+        setSortOption(event.target.value);
+    };
+
+    // Handling apply of sorting changes
+    const applySorting = () => {
+        setIsSorting(false); // Close the sorting mode
+    };
+
+    // Handling a click action on adding button
+    const handleAddClick = () => {
+        setIsAdding(true);
+    };
+
+    // Handling adding user
+    const handleAddUser = () => {
         const name = 'New User';
         const categories = 0;
         const tasks = 0;
 
-        // TaskManager.addTask(categoryId, name, date, 'Do zrobienia', details);
-        // const updatedTasks = TaskManager.categories.find(cat => cat.id === categoryId).tasks;
-        // setTaskList([...updatedTasks]); // Update the task list state
         setIsAdding(false); // Close the adding mode
     };
 
-    const applySorting = () => {
-        // const updatedTasks = [...taskList];
-        // switch (sortOption) {
-        //     case 'nameASC':
-        //         updatedTasks.sort((a, b) => a.text.localeCompare(b.text));
-        //         break;
-        //     case 'nameDESC':
-        //         updatedTasks.sort((a, b) => b.text.localeCompare(a.text));
-        //         break;
-        //     case 'dateASC':
-        //         updatedTasks.sort((a, b) => a.date.localeCompare(b.date));
-        //         break;
-        //     case 'dateDESC':
-        //         updatedTasks.sort((a, b) => b.date.localeCompare(a.date));
-        //         break;
-        //     default:
-        //         break;
-        // }
-        // setTaskList(updatedTasks);
-        setIsSorting(false); // Close the sorting mode
+    // Handling a click action on editing button
+    const handleEditClick = (user) => {
+        setEditingUser(user);
+        setIsEditing(true);
     };
 
-    const applyFiltering = () => {
-        // const updatedTasks = tasks.filter(task => {
-        //     const taskDate = new Date(task.date);
-        //     const startDate = filterStartDate ? new Date(filterStartDate) : null;
-        //     const endDate = filterEndDate ? new Date(filterEndDate) : null;
-        //     const matchesStatus = filterStatus ? task.status === filterStatus : true;
-        //     const matchesStartDate = startDate ? taskDate >= startDate : true;
-        //     const matchesEndDate = endDate ? taskDate <= endDate : true;
-        //     return matchesStatus && matchesStartDate && matchesEndDate;
-        // });
-        // setTaskList(updatedTasks);
-        setIsFiltering(false); // Close the filtering mode
+    // Handling a click action on deleting button
+    const handleDeleteTask = (userId) => {
     };
 
+    // Handling edit changes save
+    const handleSaveEditTask = () => {
+        setIsEditing(false); // Close the editing mode
+    };
+
+    // Displaying list of users
     return (
         <>
             <h3>Lista użytkowników</h3>
@@ -301,7 +277,7 @@ const UsersView = () => {
                                onChange={(e) => setUserName(e.target.value)}/>
                     </label>
                     <div className="buttons-container">
-                        <button onClick={handleAddTask}>Dodaj</button>
+                        <button onClick={handleAddUser}>Dodaj</button>
                         <button onClick={() => setIsAdding(false)}>Anuluj</button>
                     </div>
                 </div>
