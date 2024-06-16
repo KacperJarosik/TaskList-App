@@ -105,6 +105,7 @@
     font-size: 12px;
     border-radius: 5px;
     margin: 5px;
+    height: 40px;
 }
 .SearchButton:hover,
 .FilteringButton:hover, .taskButtons .SortingButton:hover, .AddButton:hover {
@@ -126,6 +127,7 @@
     font-size: 12px;
     width: calc(25% - 8px);
     text-align: center;
+    
 }
 
 
@@ -160,6 +162,7 @@
         float: none;
         position: relative;
         padding: 10px 0;
+        border-radius: 10px;
     }
 }
 
