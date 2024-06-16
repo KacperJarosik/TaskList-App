@@ -7,7 +7,7 @@
     cursor: pointer;
     transition: background-color 0.3s;
     margin-left: 20px;
-    margin-top: -580px;
+    margin-top: -600px;
   }
   
   .toggle-switch.toggled {
@@ -27,6 +27,7 @@
   
   .toggle-switch.toggled .toggle-knob {
     transform: translateX(25px);
+    
     
   }
   
@@ -84,7 +85,21 @@
     background-color: #77aaf0;
 }
  
-.darkLight{
-    margin-left: 87px;
-    margin-top: -23px;
+.text1{
+    background-color: #0d4d8d;
+    margin-left: 85px;
+    margin-top: 15px;
+}
+
+.darkLight{ 
+    padding: 10px 5px;
+    cursor: pointer;
+    color: #f1f1e6;
+    background-color: #0d4d8d;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    font-size: 18px;
+    height: 75px;
+    padding-right: 20px;
+    margin-top: -50px;
 }

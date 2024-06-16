@@ -35,7 +35,8 @@
     color: #4192d9;
 }
 
-.BackButton{
+.BackButton {
+    align-self: center; /* Center horizontally */
     background-color: #4192d9;
     border: 2px solid transparent;
     border-radius: 5px;
@@ -47,10 +48,8 @@
     width: 380px;
     text-align: center;
     transition: background-color 0.3s ease;
-    margin-left: 5px;
-    margin-right: 5px;
-    margin-top: 170px;
 }
+
 
 .SearchButton, .FilteringButton, .AddButton {
     background-color: #4192d9;
@@ -172,11 +171,11 @@
 
 .NavigationBar {
     display: block;
-    height: 65%;
+    height: 10px;
     position: relative;
-    margin-top: -60px;
-    margin-left: 47px;
-    width: 301px;
+    margin-top: 25px;
+    width: 380px;
+    margin-left: 3px;
 }
 
 .NavigationBar ul {
@@ -359,7 +358,7 @@
 /* Adjustments for small screens */
 @media screen and (max-width: 768px) {
     .CategorisViev table {
-        width: 150%;
+        width: 170%;
         margin: 0;
     }
 
@@ -375,7 +374,8 @@
     }
 
     .CategorisViev table {
-        width: 125%;
+        margin-left: -46px;
+        width: 160%;
     }
 
     .CategorisViev td, .CategorisViev th {
