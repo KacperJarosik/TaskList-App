@@ -4,6 +4,7 @@ import TaskManager from '../../Structs/TaskManager.js';
 import arrow_right from "../Assets/strzalka_prawo.png";
 // @ts-ignore
 import arrow_down from "../Assets/strzalka_dol.png";
+
 // Load data from storage
 TaskManager.loadFromStorage();
 
@@ -15,16 +16,16 @@ function TasksList({ tasks, categoryId }) {
     const [isSearchInputVisible, setIsSearchInputVisible] = useState(false); // State to manage search input visibility
     const searchInputRef = useRef(null); // Reference to the search input
     const [searchQuery, setSearchQuery] = useState(''); // State to store search query
-    const [showDetails, setShowDetails] = useState(false);
-    const [currentTask, setCurrentTask] = useState(null);
-    const [isEditing, setIsEditing] = useState(false);
-    const [editingTask, setEditingTask] = useState(null);
-    const [isFiltering, setIsFiltering] = useState(false);
-    const [isSorting, setIsSorting] = useState(false);
-    const [isAdding, setIsAdding] = useState(false);
-    const [taskName, setTaskName] = useState('');
-    const [taskDate, setTaskDate] = useState('');
-    const [taskDetails, setTaskDetails] = useState('');
+    const [showDetails, setShowDetails] = useState(false); // State to manage task details visibility
+    const [currentTask, setCurrentTask] = useState(null); // State to store current task for details
+    const [isEditing, setIsEditing] = useState(false); // State to manage editing mode
+    const [editingTask, setEditingTask] = useState(null); // State to store task being edited
+    const [isFiltering, setIsFiltering] = useState(false); // State to manage filtering mode
+    const [isSorting, setIsSorting] = useState(false); // State to manage sorting mode
+    const [isAdding, setIsAdding] = useState(false); // State to manage adding mode
+    const [taskName, setTaskName] = useState(''); // State to store new task name
+    const [taskDate, setTaskDate] = useState(''); // State to store new task date
+    const [taskDetails, setTaskDetails] = useState(''); // State to store new task details
     const [sortOption, setSortOption] = useState('dateASC'); // Set default sort option
 
     // States for filtering
@@ -52,22 +53,26 @@ function TasksList({ tasks, categoryId }) {
         setIsEditing(false); // Close the editing mode
     };
 
+    // Deleting a task
     const handleDeleteTask = (taskId) => {
         TaskManager.removeTask(categoryId, taskId);
         const updatedTasks = TaskManager.categories.find(cat => cat.id === categoryId).tasks;
         setTaskList([...updatedTasks]); // Update the task list state
     };
 
+    // Handle search button click
     const handleSearchButtonClick = () => {
         setIsSearchInputVisible(true); // Show search input
     };
 
+    // Handle click outside search input
     const handleClickOutside = (event) => {
         if (searchInputRef.current && !searchInputRef.current.contains(event.target)) {
             setIsSearchInputVisible(false); // Hide search input
         }
     };
 
+    // Handle search input visibility effect
     useEffect(() => {
         if (isSearchInputVisible) {
             document.addEventListener('mousedown', handleClickOutside);
@@ -82,40 +87,49 @@ function TasksList({ tasks, categoryId }) {
         };
     }, [isSearchInputVisible]);
 
+    // Handle search input change
     const handleSearchInputChange = (event) => {
         setSearchQuery(event.target.value);
     };
 
+    // Filter tasks based on search query
     const filteredTasks = taskList.filter(task =>
         task.text.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+    // Handle task details click
     const handleDetailsClick = (task) => {
         setCurrentTask(task);
         setShowDetails(true);
     };
 
+    // Handle task edit click
     const handleEditClick = (task) => {
         setEditingTask(task);
         setIsEditing(true);
     };
 
+    // Handle filtering click
     const handleFilteringClick = () => {
         setIsFiltering(true);
     };
 
+    // Handle sorting click
     const handleSortingClick = () => {
         setIsSorting(true);
     };
 
+    // Handle add task click
     const handleAddClick = () => {
         setIsAdding(true);
     };
 
+    // Handle sort option change
     const handleSortOptionChange = (event) => {
         setSortOption(event.target.value);
     };
 
+    // Apply sorting to tasks
     const applySorting = () => {
         const updatedTasks = [...taskList];
         switch (sortOption) {
@@ -138,6 +152,7 @@ function TasksList({ tasks, categoryId }) {
         setIsSorting(false); // Close the sorting mode
     };
 
+    // Apply filtering to tasks
     const applyFiltering = () => {
         const updatedTasks = tasks.filter(task => {
             const taskDate = new Date(task.date);
@@ -306,8 +321,9 @@ function TasksList({ tasks, categoryId }) {
 }
 
 function CategoriesList() {
-    const [visibleCategories, setVisibleCategories] = useState({});
+    const [visibleCategories, setVisibleCategories] = useState({}); // State to manage category visibility
 
+    // Toggle category visibility
     const toggleCategoryVisibility = (categoryId) => {
         setVisibleCategories(prevState => ({
             ...prevState,
