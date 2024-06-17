@@ -5,10 +5,10 @@ import user_icon from "../Assets/person.png";
 import email_icon from "../Assets/email.png";
 import password_icon from "../Assets/password.png";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
-
+import { useAuth} from "../../contexts/AuthContext";
+import { AuthProvider } from "../../contexts/AuthContext";
 export const LoginSignup = () => {
-  const [action, setAction, resetPassword] = useState("Zaloguj się");
+  const [action, setAction,resetPassword] = useState("Zaloguj się");
   const { login, signup } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -66,7 +66,7 @@ export const LoginSignup = () => {
 
   async function handleResetPassword() {
     try {
-      await resetPassword(email);
+      await resetPassword(localStorage.getItem("email"));
       console.log("Password reset email sent");
       setAction("Zaloguj się");
     } catch (error) {
