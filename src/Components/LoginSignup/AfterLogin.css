@@ -695,8 +695,12 @@
     display: block;
     width: 22.5%;
     height: 100vh;
-    float: left;
-    position: relative;
+    /*float: left;*/
+    position: fixed;
+    top: 0;
+    left: 77.5%;
+    padding: 0.5%;
+    z-index: 1000;
 }
 
 .UserMenu.dark {
