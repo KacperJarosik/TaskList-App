@@ -18,7 +18,6 @@ const CategorisViev = () => {
                 <thead>
                     <tr>
                         <th>Kategoria</th>
-                        <th>Liczba zadań</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -29,7 +28,6 @@ const CategorisViev = () => {
                                     {category.title}
                                 </button>
                             </td>
-                            <td>{category.tasks.length}</td>
                         </tr>
                     ))}
                 </tbody>
