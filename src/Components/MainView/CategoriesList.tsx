@@ -1,11 +1,13 @@
-import React from 'react';
 import TaskManager from '../../Structs/TaskManager.js';
-import { useEffect, useRef, useState } from "react";
-import taskManagerInstance from '../../Structs/TaskManager.js';
-import { Category } from '../../Structs/Category.js';
+import {useEffect, useRef, useState} from "react";
+
+// Load data from storage
+TaskManager.loadFromStorage();
+
+// Get categories from the TaskManager
+const categories = TaskManager.categories;
 
 function CategoriesList() {
-    const [categories, setCategories] = useState<Category[]>([]);
     const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);    // State to manage search input visibility
     const searchInputRef = useRef(null);    // Reference to the search input
     const [searchQuery, setSearchQuery] = useState(''); // State to store search query
@@ -34,12 +36,6 @@ function CategoriesList() {
 
     // Handling a change of search input visibility
     useEffect(() => {
-        async function initializeTaskManagerCategoryList() {
-            await taskManagerInstance.loadFromFirebase();
-            setCategories(taskManagerInstance.categories);
-          }
-          initializeTaskManagerCategoryList();
-          
         if (isSearchInputVisible) {
             document.addEventListener('mousedown', handleClickOutside);
             if (searchInputRef.current) {
@@ -52,14 +48,11 @@ function CategoriesList() {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [isSearchInputVisible]);
-    const refreshCategories = async () => {
-        await taskManagerInstance.loadFromFirebase();
-        setCategories(taskManagerInstance.categories);
-    };
-    const handleDeleteCategory = async (categoryId) => {
-        await taskManagerInstance.removeCategory(categoryId);
-        taskManagerInstance.saveToStorage();
-        await refreshCategories();
+
+    // Handling a click action on deleting button
+    const handleDeleteCategory = (categoryId) => {
+        TaskManager.removeCategory(categoryId);
+        TaskManager.saveToStorage();
         window.location.reload();
     };
 
@@ -68,37 +61,35 @@ function CategoriesList() {
         setIsAdding(true);
     };
 
+    // Handling add category
+    const handleAddCategory = () => {
+        if (newCategoryTitle.trim()) {
+            TaskManager.addCategory(newCategoryTitle.trim());
+            setNewCategoryTitle('');
+            setIsAdding(false);
+            window.location.reload(); // Refresh the page to update the list
+        }
+    };
+
+    // Handling a click action on editing button
     const handleEditClick = (category) => {
         setCurrentCategory(category);
         setEditCategoryTitle(category.title);
         setIsEditing(true);
     };
 
-    const handleAddCategory =async () => {
-        if (newCategoryTitle) {
-            taskManagerInstance.addCategory(newCategoryTitle);
-            console.log("HandleAddCategory: "+ newCategoryTitle);
-            setNewCategoryTitle('');
-            setIsAdding(false);
-            await refreshCategories();
-           // window.location.reload(); // Refresh the page to update the list
-        }
-    };
-    
-    const handleEditCategory =  async () => {
-        if (currentCategory && editCategoryTitle) {
-            await taskManagerInstance.updateCategoryTitle(currentCategory.id, editCategoryTitle);
+    const handleEditCategory = () => {
+        if (currentCategory && editCategoryTitle.trim()) {
+            TaskManager.updateCategoryTitle(currentCategory.id, editCategoryTitle.trim());
             setCurrentCategory(null);
             setEditCategoryTitle('');
             setIsEditing(false);
-            await refreshCategories();
-
             window.location.reload(); // Refresh the page to update the list
         }
     };
 
     const filteredCategories = categories.filter(category =>
-        category.title.includes(searchQuery)
+        category.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     // Displaying a list of TaskList categories where user can search, filter, sort and add data

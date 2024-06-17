@@ -2,9 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import TaskManager from '../Structs/TaskManager.js';
 
-// TaskManager.loadFromStorage();
-TaskManager.loadFromFirebase();
-
+TaskManager.loadFromStorage();
 const categories = TaskManager.categories;
 
 function TaskViewInCategories({ tasks }) {

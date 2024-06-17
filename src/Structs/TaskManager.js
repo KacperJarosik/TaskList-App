@@ -1,19 +1,8 @@
 import { Category } from "./Category";
 import { Task } from "./Task";
-import { fetchCategories, fetchTasks } from "../contexts/DatabaseHandler";
-import { AuthContext } from "../contexts/AuthContext";
-import { createTask, createCategory, deleteTask, deleteCategory,updateCategory,updateTask } from "../contexts/DatabaseHandler";
 
-export class User {
-    constructor(uid, name, email) {
-        this.uid = uid;
-        this.name = name;
-        this.email = email;
-    }
-}
 export class TaskManager {
-    constructor(currentUser) {
-        this.currentUser = new User(localStorage.getItem("uid"),localStorage.getItem("name"),localStorage.getItem("email"));
+    constructor() {
         this.categories = [];
         this.nextCategoryId = 1;
         this.nextTaskId = 1;
@@ -34,7 +23,7 @@ export class TaskManager {
             this.nextTaskId = Math.max(0, ...parsedCategories.flatMap(category => category.tasks.map(task => task.id))) + 1;
             this.nextCategoryId = Math.max(0, ...parsedCategories.map(category => category.id)) + 1;
         } else {
-           // this.initializeExampleData();
+            this.initializeExampleData();
         }
     }
 
@@ -43,100 +32,55 @@ export class TaskManager {
         localStorage.setItem('categories', JSON.stringify(this.categories));
     }
 
-    async loadFromFirebase() {
-        try {
-            console.log(this.currentUser);
-            // Check if the current user object or its UID is missing
-            if (!this.currentUser || !this.currentUser.uid) {
-                throw new Error("Blad masz w load from firebase not logged in or UID is missing");
-            }
-            // Retrieve the UID of the current user
-            const uid = this.currentUser.uid;
-             // Fetch all categories belonging to the current user
-            const savedCategories = await fetchCategories(uid);
-            // Check if categories were successfully fetched and if there are any categories
-            if (savedCategories && savedCategories.length > 0) {
-                // Create an array of promises to fetch tasks for each category
-                const categoriesPromises = savedCategories.map(async categoryData => {
-                    // Create a new Category object for each fetched category
-                    const category = new Category(categoryData.id, categoryData.title);
-                    // Fetch tasks belonging to the current category
-                    category.tasks = await fetchTasks(uid, category.id);
-                    return category;
-                });
-                // Resolve all category promises to get an array of populated Category objects
-                this.categories = await Promise.all(categoriesPromises);
-                // Determine the next available task ID based on fetched categories
-                this.nextTaskId = savedCategories.reduce((maxId, categoryData) => {
-                    // Find the maximum task ID among all fetched tasks
-                    return Math.max(maxId, ...categoryData.tasks.map(task => task.id));
-                }, 0) + 1;
-                // Determine the next available category ID based on fetched categories
-                this.nextCategoryId = Math.max(...savedCategories.map(categoryData => categoryData.id)) + 1;
-            } else {
-                console.log("No categories found or error related to fetching");
-            }
-        } catch (error) {
-            console.error("Error loading data from Firebase: ", error);
-        }
-    }
-
-    async addCategory(title) {
-        const newCategory = new Category(this.nextCategoryId, title || `Kategoria ${this.nextCategoryId}`);
+    // Add a new category
+    addCategory(title) {
+        const newCategory = new Category(this.nextCategoryId, title || `Category ${this.nextCategoryId}`);
         this.categories.push(newCategory);
         this.nextCategoryId += 1;
-        this.saveToStorage(); // Save updated categories to storage
-        console.log("addCategoryTaskManager" + newCategory);
-        createCategory(localStorage.getItem("uid"), newCategory.title).then(id => {newCategory.id =id},window.location.reload());
+        this.saveToStorage();
     }
 
-    async removeCategory(categoryId) {
+    // Remove a category by ID
+    removeCategory(categoryId) {
         this.categories = this.categories.filter(category => category.id !== categoryId);
-        this.saveToStorage(); // Save updated categories to storage
-        console.log("TaskManager->removeCategory: "+categoryId);
-        await deleteCategory(localStorage.getItem("uid"),categoryId);
-
+        this.saveToStorage();
     }
 
-    async updateCategoryTitle(categoryId, newTitle) {
+    // Update a category's title by ID
+    updateCategoryTitle(categoryId, newTitle) {
         const category = this.categories.find(category => category.id === categoryId);
         if (category) {
             category.title = newTitle;
-            this.saveToStorage(); // Save updated categories to storage
-            await updateCategory(localStorage.getItem("uid"),categoryId,newTitle);
-
+            this.saveToStorage();
         }
     }
 
-   async addTask(categoryId, taskText, taskDate, status = 'To Do', details = '') {
+    // Add a new task to a category by ID
+    addTask(categoryId, taskName, taskDate, status = 'To Do', details = '') {
         const category = this.categories.find(category => category.id === categoryId);
-        console.log("addtask category: "+ category);
         if (category) {
-            const newTask = new Task(2, taskText, taskDate, status, details);
-           // this.nextTaskId += 1;
-            this.saveToStorage(); // Save updated categories to storage
-            const taskid =  await createTask(localStorage.getItem("uid"), category,taskText,taskDate,status,details); // Add task to database
-            newTask.id = taskid;
-            console.log("addtask: "+newTask.id);
+            const newTask = new Task(this.nextTaskId, taskName, taskDate, status, details);
+            category.addTask(newTask);
+            this.nextTaskId += 1;
+            this.saveToStorage();
         }
     }
 
-    async removeTask(categoryId, taskId) {
+    // Remove a task from a category by task ID
+    removeTask(categoryId, taskId) {
         const category = this.categories.find(category => category.id === categoryId);
         if (category) {
-           // category.removeTask(taskId);
-            await deleteTask(localStorage.getItem("uid"), categoryId, taskId);
-            this.saveToStorage(); // Save updated categories to storage
+            category.removeTask(taskId);
+            this.saveToStorage();
         }
     }
 
-    async updateTask(categoryId, taskId, updatedTask) {
+    // Update a task by ID within a category
+    updateTask(categoryId, taskId, updatedTask) {
         const category = this.categories.find(category => category.id === categoryId);
         if (category) {
-           // category.updateTask(taskId, updatedTask);
-            await updateTask(localStorage.getItem("uid"),categoryId,taskId,updatedTask);
-            this.saveToStorage(); // Save updated categories to storage
-
+            category.updateTask(taskId, updatedTask);
+            this.saveToStorage();
         }
     }
 
@@ -145,8 +89,7 @@ export class TaskManager {
         const category = this.categories.find(category => category.id === categoryId);
         if (category) {
             category.updateTaskText(taskId, newText);
-            this.saveToStorage(); // Save updated categories to storage
-
+            this.saveToStorage();
         }
     }
 
@@ -155,32 +98,36 @@ export class TaskManager {
         const category = this.categories.find(category => category.id === categoryId);
         if (category) {
             category.updateTaskDate(taskId, newDate);
-            this.saveToStorage(); // Save updated categories to storage
-
+            this.saveToStorage();
         }
     }
 
-    updateTaskStatus(taskId, newStatus) {
-        const task = this.tasks.find(task => task.id === taskId);
-        if (task) {
-            task.status = newStatus;
-            this.saveToStorage(); // Save updated categories to storage
-
+    // Update task status by task ID
+    updateTaskStatus(categoryId, taskId, newStatus) {
+        const category = this.categories.find(category => category.id === categoryId);
+        if (category) {
+            const task = category.tasks.find(task => task.id === taskId);
+            if (task) {
+                task.status = newStatus;
+                this.saveToStorage();
+            }
         }
     }
 
-    updateTaskDetails(taskId, newDetails) {
-        const task = this.tasks.find(task => task.id === taskId);
-        if (task) {
-            task.details = newDetails;
-            this.saveToStorage(); // Save updated categories to storage
-
+    // Update task details by task ID
+    updateTaskDetails(categoryId, taskId, newDetails) {
+        const category = this.categories.find(category => category.id === categoryId);
+        if (category) {
+            const task = category.tasks.find(task => task.id === taskId);
+            if (task) {
+                task.details = newDetails;
+                this.saveToStorage();
+            }
         }
     }
 
     // Initialize example data for demonstration
     initializeExampleData() {
-        
         const exampleCategories = [
             {
                 id: 1,
@@ -238,5 +185,5 @@ export class TaskManager {
         this.nextTaskId = 13;
     }
 }
-const taskManagerInstance = new TaskManager();
-export default taskManagerInstance;
+
+export default new TaskManager();
