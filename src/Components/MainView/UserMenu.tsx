@@ -1,7 +1,7 @@
 //  Importing icon
 // @ts-ignore
 import user from "../Assets/uzytkownik.png"
-import React from "react";
+
 function UserMenu() {
     // Displaying user infos
     return (
