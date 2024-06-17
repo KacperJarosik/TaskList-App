@@ -25,9 +25,9 @@ function NavigationBar() {
         navigate("/opinions");
     }
 
-    function handleSettingsClick() {
-        navigate("/settings");
-    }
+    // function handleSettingsClick() {
+    //     navigate("/settings");
+    // }
 
     // Displaying a navigate list
     return (
@@ -42,9 +42,9 @@ function NavigationBar() {
             <li className="list-group-item" onClick={handleOpinionsClick}><img src={opinions} alt="Opinie"
                                                                                className="NavigationBarIcon"/>Zgłoszenia
             </li>
-            <li className="list-group-item" onClick={handleSettingsClick}><img src={settings} alt="Ustawienia"
-                                                                               className="NavigationBarIcon"/>Ustawienia
-            </li>
+            {/*<li className="list-group-item" onClick={handleSettingsClick}><img src={settings} alt="Ustawienia"*/}
+            {/*                                                                   className="NavigationBarIcon"/>Ustawienia*/}
+            {/*</li>*/}
         </ul>
     );
 }
