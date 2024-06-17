@@ -32,7 +32,6 @@
   .textInSettings.dark{
     padding: 10px 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
     color: #f1f1e6;
     background-color: #0d4d8d;
     border-radius: 5px;
@@ -47,7 +46,6 @@
   .textInSettings.light{
     padding: 10px 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
     color: #f1f1e6;
     background-color: #94810a;
     border-radius: 5px;

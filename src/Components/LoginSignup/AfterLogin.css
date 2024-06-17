@@ -302,7 +302,7 @@
     left: 4%;
 }
 
-.TasksList {
+.TasksList.dark {
     display: block;
     position: relative;
     margin: 0 10px;
@@ -312,20 +312,42 @@
     border-radius: 10px;
 }
 
-.TasksList > h3 {
+.TasksList.light {
+    display: block;
+    position: relative;
+    margin: 0 10px;
+    padding: 8px 10px;
+    border: 1px solid #94810a;
+    background-color: #94810a;
+    border-radius: 10px;
+}
+
+.TasksList.dark > h3 {
     background-color: #0d4d8d;
     margin-bottom: 10px;
 }
 
-.taskButtons {
+.TasksList.light > h3 {
+    background-color: #94810a;
+    margin-bottom: 10px;
+}
+
+.taskButtons.dark {
     display: flex;
     justify-content: center;
     background-color: #0d4d8d;
     gap: 2px;
 }
 
-.taskButtons .SearchButton,
-.taskButtons .FilteringButton, .taskButtons .SortingButton, .taskButtons .AddButton, .submit-button {
+.taskButtons.light {
+    display: flex;
+    justify-content: center;
+    background-color: #f1f1e6;
+    gap: 2px;
+}
+
+.taskButtons.dark .SearchButton.dark,
+.taskButtons.dark .FilteringButton.dark, .taskButtons.dark .SortingButton.dark, .taskButtons.dark .AddButton.dark, .submit-button.dark {
     background-color: #4192d9;
     border: 2px solid transparent;
     border-radius: 5px;
@@ -338,6 +360,23 @@
     text-align: center;
     transition: background-color 0.3s ease;
 }
+
+.taskButtons.light .SearchButton.light,
+.taskButtons.light .FilteringButton.light, .taskButtons.light .SortingButton.light, .taskButtons.light .AddButton.light, .submit-button.light {
+    background-color: #94810a;
+        border: 2px solid transparent;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 8px 8px;
+    cursor: pointer;
+    color: #f1f1e6;
+    font-size: 18px;
+    width: calc(25% - 8px);
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+
 
 .SearchButton, .FilteringButton, .AddButton {
     background-color: #4192d9;
@@ -352,6 +391,15 @@
     text-align: center;
     transition: background-color 0.3s ease;
 }
+
+.opinion-form.light .AddButton{
+    background-color: #f1f1e6;
+    color: #94810a;
+
+
+}
+
+
 
 .InputSearch {
     padding: 8px 8px;
@@ -379,14 +427,24 @@
     margin: 5px;
 }
 
-.SearchButton:hover,
-.FilteringButton:hover, .taskButtons .SortingButton:hover, .AddButton:hover {
+.SearchButton.dark:hover,
+.FilteringButton.dark:hover, .taskButtons.dark .SortingButton.dark:hover, .AddButton.dark:hover {
     background-color: #77aaf0;
 }
 
-.SearchButton:active,
-.FilteringButton:active, .taskButtons .SortingButton:active, .AddButton:active {
+.SearchButton.light:hover,
+.FilteringButton.light:hover, .taskButtons.light .SortingButton.light:hover, .AddButton.light:hover {
+    background-color: #f1f1e6;
+}
+
+.SearchButton.dark:active,
+.FilteringButton.dark:active, .taskButtons.dark .SortingButton.dark:active, .AddButton.dark:active {
     background-color: #77aaff;
+}
+
+.SearchButton.light:active,
+.FilteringButton.light:active, .taskButtons.light .SortingButton.light:active, .AddButton.light:active {
+    background-color: #f1f1e6;
 }
 
 .taskButtons .SearchInput {
@@ -401,18 +459,42 @@
     text-align: center;
 }
 
-.TasksListTable {
+.TasksListTable.dark {
     position: relative;
     width: 100%;
     border-collapse: collapse;
+    border-radius: 5px;
+
 }
 
-.TaskListActionsBlock {
+.TasksListTable.light{
+    border-radius: 5px;
+
+    position: relative;
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f1f1e6;
+}
+
+.TasksListTable.light table{
+    border-radius: 5px;
+
+    background-color: #f1f1e6;
+}
+
+
+
+.TaskListActionsBlock.dark {
     background-color: #0d4d8d;
     margin-bottom: 30px;
 }
 
-.TaskListCategoryTitleBlock {
+.TaskListActionsBlock.light {
+    background-color: #94810a;
+    margin-bottom: 30px;
+}
+
+.TaskListCategoryTitleBlock.dark {
     background-color: #0d4d8d;
     position: relative;
     left: 10px;
@@ -420,7 +502,16 @@
     width: 70%;
 }
 
-.TaskListActionsBlock .TaskListCategoryTitleBlock {
+
+.TaskListCategoryTitleBlock.light {
+    background-color: #94810a;
+    position: relative;
+    left: 10px;
+    margin-top: 10px;
+    width: 70%;
+}
+
+.TaskListActionsBlock.dark .TaskListCategoryTitleBlock.dark {
     border-radius: 5px;
     width: calc(80%);
     padding: 0.5%;
@@ -431,6 +522,18 @@
     text-overflow: ellipsis;
 }
 
+.TaskListActionsBlock.light .TaskListCategoryTitleBlock.light {
+    border-radius: 5px;
+    width: calc(80%);
+    padding: 0.5%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background-color: #94810a;
+}
+
 .TaskTitleIcon {
     background-color: transparent;
     transition: background-color 0.3s ease;
@@ -439,17 +542,44 @@
     padding-right: 20px;
 }
 
-.TasksList th {
+.TasksList,.dark th {
     border-bottom: 2px solid #1b2230;
     padding: 15px 30px;
     background-color: #0d4d8d;
 }
 
-.TasksList td {
+.TasksList.light th {
+    border-bottom: 2px solid #94810a;
+    padding: 15px 30px;
+    background-color: #f1f1e6;
+    color: #94810a;
+
+}
+
+.TasksList.dark td {
     border-bottom: 1px solid #1b2230;
     padding: 20px 30px;
     background-color: #0d4d8d;
 }
+
+.TasksList.light td {
+    border-bottom: 1px solid #94810a;
+    padding: 20px 30px;
+    background-color: #f1f1e6;
+    color: #94810a;
+
+}
+
+.SayHello.light h3{
+    background-color: #f1f1e6;
+    color: #94810a;
+}
+
+.SayHello.light p{
+    background-color: #f1f1e6;
+    color: #94810a;
+}
+
 
 .Table_Name {
     width: 25%;
@@ -475,12 +605,20 @@
     width: 5%;
 }
 
-.Table_Details span {
+.Table_Details.dark span {
     background-color: #0d4d8d;
     font-style: italic;
     color: #4192d9;
     margin-right: 50px;
 }
+
+.Table_Details.light span {
+    background-color: #f1f1e6;
+    font-style: italic;
+    color: #94810a;
+    margin-right: 50px;
+}
+
 
 .Table_Details span:hover {
     text-decoration: underline;
@@ -492,7 +630,7 @@
     color: #f1f1e6;
 }
 
-.Table_Details .EditButton, .Table_Details .DeleteButton {
+.Table_Details.dark .EditButton.dark, .Table_Details.dark .DeleteButton.dark {
     background-color: #4192d9;
     float: right;
     border: 2px solid transparent;
@@ -506,7 +644,21 @@
     transition: background-color 0.3s ease;
 }
 
-.TaskListActionsBlock .TaskListCategoryTitleBlock {
+.Table_Details.light .EditButton.light, .Table_Details.light .DeleteButton.light {
+    background-color: #94810a;
+    float: right;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    margin-left: 10px;
+    cursor: pointer;
+    color: #f1f1e6;
+    font-size: 14px;
+    width: calc(25% - 8px);
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.TaskListActionsBlock.dark .TaskListCategoryTitleBlock.dark {
     border-radius: 5px;
     width: calc(35%);
     padding: 0.5%;
@@ -514,12 +666,29 @@
     transition: background-color 0.3s ease;
 }
 
-.TaskListActionsBlock .TaskListCategoryTitleBlock:hover {
+.TaskListActionsBlock.light .TaskListCategoryTitleBlock.light {
+    border-radius: 5px;
+    width: calc(35%);
+    padding: 0.5%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    
+}
+
+.TaskListActionsBlock.dark .TaskListCategoryTitleBlock.dark:hover {
     background-color: #4192d9;
 }
 
-.TaskListActionsBlock .TaskListCategoryTitleBlock:active {
+.TaskListActionsBlock.light .TaskListCategoryTitleBlock.light:hover {
+    background-color: #94810a;
+}
+
+.TaskListActionsBlock.dark .TaskListCategoryTitleBlock.dark:active {
     background-color: #77aaf0;
+}
+
+.TaskListActionsBlock.light .TaskListCategoryTitleBlock.light:active {
+    background-color: #94810a;
 }
 
 .rightSide {
@@ -530,7 +699,7 @@
     position: relative;
 }
 
-.UserMenu {
+.UserMenu.dark {
     display: block;
     justify-content: center;
     align-items: center;
@@ -538,7 +707,17 @@
     position: relative;
 }
 
-.UserMenu div {
+.UserMenu.light {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    height: 20%;
+    position: relative;
+    background-color: #f1f1e6;
+
+}
+
+.UserMenu.dark div {
     font-size: 26px;
     font-weight: bold;
     margin: 0 10px;
@@ -548,19 +727,50 @@
     left: 10%;
 }
 
-.UserMenu div > p {
-    margin-top: 8%;
-    float: left;
+.UserMenu.light div {
+    font-size: 26px;
+    font-weight: bold;
+    margin: 0 10px;
+    font-style: italic;
+    position: relative;
+    top: 25%;
+    left: 10%;
+    background-color: #f1f1e6;
+
 }
 
-.UserIcon {
+.UserMenu.dark div > p {
+    margin-top: 8%;
+    float: left;
+
+}
+
+.UserMenu.light div > p {
+    margin-top: 8%;
+    float: left;
+    background-color: #f1f1e6;
+    color: #94810a;
+
+}
+
+.UserIcon.dark {
     width: 30%;
     height: 30%;
     padding-right: 10px;
     float: left;
 }
 
-.CategoriesList {
+.UserIcon.light {
+    width: 30%;
+    height: 30%;
+    padding-right: 10px;
+    float: left;
+    background-color: #94810a;
+}
+
+
+
+.CategoriesList.dark {
     display: block;
     position: relative;
     margin: 1% 10px 15px 10px;
@@ -572,14 +782,33 @@
     overflow: scroll;
 }
 
-.categoryButtons {
+.CategoriesList.light {
+    display: block;
+    position: relative;
+    margin: 1% 10px 15px 10px;
+    border: 1px solid #94810a;
+    background-color: #94810a;
+    border-radius: 10px;
+    padding: 8px 10px;
+    height: 75%;
+    overflow: scroll;
+}
+
+.categoryButtons.dark {
     display: flex;
     justify-content: center;
     background-color: #0d4d8d;
     gap: 2px;
 }
 
-.categoryButtons .SearchButton, .categoryButtons .AddButton {
+.categoryButtons.light {
+    display: flex;
+    justify-content: center;
+    background-color: #94810a;
+    gap: 2px;
+}
+
+.categoryButtons.dark .SearchButton.dark, .categoryButtons.dark .AddButton.dark {
     background-color: #4192d9;
     border: 2px solid transparent;
     border-radius: 5px;
@@ -593,17 +822,42 @@
     transition: background-color 0.3s ease;
 }
 
-.SearchButton:hover,
-.FilteringButton:hover, .AddButton:hover {
+.categoryButtons.light .SearchButton.light, .categoryButtons.light .AddButton.light {
+    background-color: #f1f1e6;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 8px 8px;
+    cursor: pointer;
+    color: #94810a;
+    font-size: 18px;
+    width: calc(50% - 8px);
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.SearchButton.dark:hover,
+.FilteringButton.dark:hover, .AddButton.dark:hover {
     background-color: #77aaf0;
 }
 
-.SearchButton:active,
-.FilteringButton:active, .AddButton:active {
+.SearchButton.light:hover,
+.FilteringButton.light:hover, .AddButton.light:hover {
+    background-color: #f1f1e6;
+}
+
+.SearchButton.dark:active,
+.FilteringButton.dark:active, .AddButton.dark:active {
     background-color: #77aaff;
 }
 
-.categoryButtons .SearchInput {
+.SearchButton.light:active,
+.FilteringButton.light:active, .AddButton.light:active {
+    background-color: #f1f1e6;
+}
+
+
+.categoryButtons.dark .SearchInput.dark {
     border: 2px solid transparent;
     border-radius: 5px;
     margin: 5px;
@@ -615,29 +869,66 @@
     text-align: center;
 }
 
-.CategoriesList table {
+.categoryButtons.light .SearchInput.light {
+    border: 2px solid transparent;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 8px 8px;
+    cursor: pointer;
+    color: #f1f1e6;
+    font-size: 18px;
+    width: calc(50% - 8px);
+    text-align: center;
+}
+
+.CategoriesList.dark table {
     width: 100%;
     border-collapse: collapse;
     margin: 0;
 }
 
-.CategoriesList > h3 {
+.CategoriesList.light table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+    background-color: #94810a;
+}
+
+.CategoriesList.dark > h3 {
     background-color: #0d4d8d;
 }
 
-.CategoriesList th {
+.CategoriesList.light > h3 {
+    background-color: #94810a;
+}
+
+
+
+.CategoriesList.dark th {
     border-bottom: 2px solid #1b2230;
     padding: 10px;
     background-color: #0d4d8d;
 }
 
-.CategoriesList td {
+.CategoriesList.light th {
+    border-bottom: 2px solid #f1f1e6;
+    padding: 10px;
+    background-color: #94810a;
+}
+
+.CategoriesList.dark td {
     border-bottom: 1px solid #1b2230;
     padding: 20px 1px;
     background-color: #0d4d8d;
 }
 
-.CategoryModifiers .EditButton, .CategoryModifiers .DeleteButton {
+.CategoriesList.light td {
+    border-bottom: 1px solid #f1f1e6;
+    padding: 20px 1px;
+    background-color: #94810a;
+}
+
+.CategoryModifiers.dark .EditButton.dark, .CategoryModifiers.dark .DeleteButton.dark {
     background-color: #4192d9;
     float: right;
     border: 2px solid transparent;
@@ -651,14 +942,38 @@
     transition: background-color 0.3s ease;
 }
 
-.EditButton:hover,
-.DeleteButton:hover {
+.CategoryModifiers.light .EditButton.light, .CategoryModifiers.light .DeleteButton.light {
+    background-color: #f1f1e6;
+    float: right;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+    color: #94810a;
+    font-size: 14px;
+    width: calc(40% - 2px);
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.EditButton.dark:hover,
+.DeleteButton.dark {
     background-color: #77aaf0;
+}
+
+.EditButton.light:hover,
+.DeleteButton.light:hover {
+    background-color: #94810a;
 }
 
 .EditButton:active,
 .DeleteButton:active {
     background-color: #77aaff;
+}
+
+.EditButton.dark:active,
+.DeleteButton.dark:active {
+    background-color: #94810a;
 }
 
 .popup {
@@ -772,7 +1087,7 @@
 }
 
 
-.CategoriesView {
+.CategoriesView.dark {
     display: block;
     height: 75%;
     position: relative;
@@ -784,25 +1099,59 @@
     overflow: scroll;
 }
 
-.CategoriesView table {
+.CategoriesView.light {
+    display: block;
+    height: 75%;
+    position: relative;
+    border: 1px solid #94810a;
+    background-color: #94810a;
+    border-radius: 10px;
+    padding: 10px;
+    margin-right: 15px;
+    overflow: scroll;
+}
+
+.CategoriesView.dark table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.CategoriesView > h3 {
+.CategoriesView.light table {
+    width: 100%;
+    background-color: #94810a;
+    border-collapse: collapse;
+}
+
+.CategoriesView.dark > h3 {
     background-color: #0d4d8d;
 }
 
-.CategoriesView th {
+.CategoriesView.light > h3 {
+    background-color: #94810a;
+}
+
+.CategoriesView.dark th {
     border-bottom: 2px solid #1b2230;
     padding: 15px;
     background-color: #0d4d8d;
 }
 
-.CategoriesView td {
+.CategoriesView.light th {
+    border-bottom: 2px solid #f1f1e6;
+    padding: 15px;
+    background-color: #94810a;
+}
+
+.CategoriesView.dark td {
     border-bottom: 1px solid #1b2230;
     padding: 20px;
     background-color: #0d4d8d;
+}
+
+.CategoriesView.light td {
+    border-bottom: 1px solid #f1f1e6;
+    padding: 20px;
+    background-color: #94810a;
 }
 
 
@@ -862,8 +1211,12 @@
     background-color: #0d4d8d;
 }
 
+.back.light {
+    background-color: #94810a;
+}
 
-.opinion-form {
+
+.opinion-form.dark {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -872,7 +1225,16 @@
 
 }
 
-.opinion-input {
+.opinion-form.light {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    background-color: #94810a;
+
+}
+
+.opinion-input.dark {
     width: 80%;
     height: 200px;
     padding: 10px;
@@ -881,6 +1243,18 @@
     border-radius: 4px;
     font-size: 16px;
     background-color: #0d4d8d;
+}
+
+
+.opinion-input.light {
+    width: 80%;
+    height: 200px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #94810a;
 }
 
 .Blank {

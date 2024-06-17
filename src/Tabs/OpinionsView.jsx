@@ -17,16 +17,16 @@ const OpinionsView = () => {
     return (
         <div className={`back ${isDarkMode ? 'dark' : 'light'}`}>
             <h3 className={`back ${isDarkMode ? 'dark' : 'light'}`}>Podziel się z nami swoją opinią</h3>
-            <form className="opinion-form">
+            <form className={`opinion-form ${isDarkMode ? 'dark' : 'light'}`}>
                 <input
                     type="text"
-                    className="opinion-input"
+                    className={`opinion-input ${isDarkMode ? 'dark' : 'light'}`}
                     placeholder="Napisz co myślisz..."
                     value={opinion}
                     onChange={(e) => setOpinion(e.target.value)}
                 />
                 <button
-                    className="AddButton"
+                    className={`AddButton ${isDarkMode ? 'dark' : 'light'}`}
                     type="button"
                     onClick={handleSendClick}
                 >

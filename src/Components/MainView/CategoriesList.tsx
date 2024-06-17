@@ -1,5 +1,6 @@
 import TaskManager from '../../Structs/TaskManager.js';
 import {useEffect, useRef, useState} from "react";
+import { useTheme } from '../../ThemeContex.js';
 
 // Load data from storage
 TaskManager.loadFromStorage();
@@ -92,21 +93,24 @@ function CategoriesList() {
         category.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+    const { isDarkMode } = useTheme(); // Pobieramy stan trybu z hooka
+
+
     // Displaying a list of TaskList categories where user can search, filter, sort and add data
     return (
         <>
             <h3>Lista kategorii</h3>
-            <div className="categoryButtons">
+            <div className={`categoryButtons ${isDarkMode ? 'dark' : 'light'}`}>
                 {!isSearchInputVisible && (
-                    <button className="SearchButton" type="button" onClick={handleSearchButtonClick}>Wyszukaj</button>
+                    <button className={`SearchButton ${isDarkMode ? 'dark' : 'light'}`} type="button" onClick={handleSearchButtonClick}>Wyszukaj</button>
                 )}
                 {isSearchInputVisible && (
-                    <input ref={searchInputRef} type="text" className="SearchInput" value={searchQuery}
+                    <input ref={searchInputRef} type="text" className={`SearchInput ${isDarkMode ? 'dark' : 'light'}`} value={searchQuery}
                            onChange={handleSearchInputChange}/>
                 )}
-                <button className="AddButton" onClick={handleAddClick}>Dodaj</button>
+                <button className={`AddButton ${isDarkMode ? 'dark' : 'light'}`} onClick={handleAddClick}>Dodaj</button>
             </div>
-            <table className="table">
+            <table className={`table ${isDarkMode ? 'dark' : 'light'}`}>
                 <thead>
                 <tr>
                     <th>Kategoria</th>
@@ -117,12 +121,12 @@ function CategoriesList() {
                 {filteredCategories.map(category => (
                     <tr key={category.id}>
                         <td>{category.title}</td>
-                        <td className="CategoryModifiers">
+                        <td className={`CategoryModifiers ${isDarkMode ? 'dark' : 'light'}`} onClick={handleAddClick}>
                             {category.tasks.length}
-                            <button className="DeleteButton" type="button"
+                            <button className={`DeleteButton ${isDarkMode ? 'dark' : 'light'}`} type="button"
                                     onClick={() => handleDeleteCategory(category.id)}>Usuń
                             </button>
-                            <button className="EditButton" onClick={() => handleEditClick(category)}>Edytuj</button>
+                            <button className={`EditButton ${isDarkMode ? 'dark' : 'light'}`} onClick={() => handleEditClick(category)}>Edytuj</button>
                         </td>
                     </tr>
                 ))}
@@ -140,7 +144,7 @@ function CategoriesList() {
                             onChange={(e) => setNewCategoryTitle(e.target.value)}
                         />
                     </label>
-                    <div className="buttons-container">
+                    <div className='buttons-container'>
                         <button onClick={handleAddCategory}>Dodaj</button>
                         <button onClick={() => setIsAdding(false)}>Anuluj</button>
                     </div>
@@ -158,7 +162,7 @@ function CategoriesList() {
                             onChange={(e) => setEditCategoryTitle(e.target.value)}
                         />
                     </label>
-                    <div className="buttons-container">
+                    <div className='buttons-container'>
                         <button onClick={handleEditCategory}>Zapisz</button>
                         <button onClick={() => setIsEditing(false)}>Anuluj</button>
                     </div>
