@@ -1,15 +1,28 @@
 import React from "react";
 import { useNavigate } from "react-router-dom/dist";
 import TaskManager from '../Structs/TaskManager.js';
-
-TaskManager.loadFromStorage();
+import taskManagerInstance from "../Structs/TaskManager.js";
+import { useState, useEffect } from "react";
+//TaskManager.loadFromStorage();
 const categories = TaskManager.categories;
 
-const CategoriesView = () => {
+const CategoriesView =  () => {
     const navigate = useNavigate();
+    const [categories, setCategories] = useState([]); // Stan kategorii
 
-    function handleCategoryClick(categoryId) {
-        navigate(`/categories/tasks/${categoryId}`);
+    const fetchCategories = async () => {
+      await taskManagerInstance.loadFromFirebase();
+      setCategories(taskManagerInstance.categories);
+    };
+
+    useEffect(()=>{
+      fetchCategories(); 
+    },[]);
+
+    const handleCategoryClick = async (categoryId)=> {
+    console.log(categoryId);
+    navigate(`/categories/tasks/${categoryId}`);
+    await fetchCategories();
     }
 
     return (

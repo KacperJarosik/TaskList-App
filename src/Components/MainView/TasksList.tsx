@@ -1,4 +1,9 @@
-import {useState, useEffect, useRef} from 'react';
+import { useState, useEffect, useRef } from 'react';
+import taskManagerInstance from '../../Structs/TaskManager.js';
+import React from 'react';
+import { Category } from '../../Structs/Category.js';
+import { useAuth } from '../../contexts/AuthContext.js'
+import { Task } from '../../Structs/Task.js';
 import TaskManager from '../../Structs/TaskManager.js';
 //  Importing icons
 // @ts-ignore
@@ -6,50 +11,46 @@ import arrow_right from "../Assets/strzalka_prawo.png";
 // @ts-ignore
 import arrow_down from "../Assets/strzalka_dol.png";
 // Load data from storage
-TaskManager.loadFromStorage();
+TaskManager.loadFromFirebase();
 
 // Get categories from the TaskManager
 const categories = TaskManager.categories;
 
-function TasksList({tasks, categoryId}) {
-    const [taskList, setTaskList] = useState(tasks); // State to manage tasks
-    const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);    // State to manage search input visibility
-    const searchInputRef = useRef(null);    // Reference to the search input
-    const [searchQuery, setSearchQuery] = useState(''); // State to store search query
+function TasksList({ tasks, categoryId }) {
+    const { currentUser } = useAuth();
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [taskList, setTaskList] = useState<Task[]>(tasks);
+
+    const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);
+    const searchInputRef = useRef(null);
+    const [searchQuery, setSearchQuery] = useState('');
     const [showDetails, setShowDetails] = useState(false);
-    const [currentTask, setCurrentTask] = useState(null);   // Variable storing task data
-    const [isEditing, setIsEditing] = useState(false);  // Flag to check if data is editing
-    const [editingTask, setEditingTask] = useState(null);   // Variable storing task data
-    const [isFiltering, setIsFiltering] = useState(false);  // Flag to check if data is filtering
-    const [isSorting, setIsSorting] = useState(false);  // Flag to check if data is sorting
-    const [isAdding, setIsAdding] = useState(false);    // Flag to check if data is adding
-    const [taskName, setTaskName] = useState('');   // Tasks data
+    const [currentTask, setCurrentTask] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editingTask, setEditingTask] = useState(null);
+    const [isFiltering, setIsFiltering] = useState(false);
+    const [isSorting, setIsSorting] = useState(false);
+    const [isAdding, setIsAdding] = useState(false);
+    const [taskName, setTaskName] = useState('');
     const [taskDate, setTaskDate] = useState('');
     const [taskDetails, setTaskDetails] = useState('');
     const [sortOption, setSortOption] = useState('dateASC'); // Set default sort option
     const [filterStartDate, setFilterStartDate] = useState(''); // Filtering by deadline date
     const [filterEndDate, setFilterEndDate] = useState('');
-    const [filterStatus, setFilterStatus] = useState('');   // Filtering by task status
-
-    // Handling a click action on search button
-    const handleSearchButtonClick = () => {
-        setIsSearchInputVisible(true);  // Show search input
-    };
-
-    // Handling a clicking outside of search input
-    const handleClickOutside = (event) => {
-        if (searchInputRef.current && !searchInputRef.current.contains(event.target)) {
-            setIsSearchInputVisible(false); // Hide search input
-        }
-    };
-
-    // Handling a change of searching input
-    const handleSearchInputChange = (event) => {
-        setSearchQuery(event.target.value);
-    };
-
-    // Handling a change of search input visibility
+    const [filterStatus, setFilterStatus] = useState('');
+   
     useEffect(() => {
+        async function initializeTaskManager() {
+            await taskManagerInstance.loadFromFirebase();
+        }
+        
+          initializeTaskManager();
+          const handleClickOutside = (event) => {
+            if (searchInputRef.current && !searchInputRef.current.contains(event.target)) {
+                setIsSearchInputVisible(false); // Hide search input
+            }
+        };
+
         if (isSearchInputVisible) {
             document.addEventListener('mousedown', handleClickOutside);
             if (searchInputRef.current) {
@@ -61,35 +62,61 @@ function TasksList({tasks, categoryId}) {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [isSearchInputVisible]);
-
+    }, [currentUser,categoryId,isSearchInputVisible]);
     // Adding a task
-    const handleAddTask = () => {
-        const name = taskName || 'New Task';
+    const handleAddTask = async () => {
+        const text = taskName || 'New Task';
         const date = taskDate || 'brak';
         const details = taskDetails || '';
 
-        TaskManager.addTask(categoryId, name, date, 'Do zrobienia', details);
-        const updatedTasks = TaskManager.categories.find(cat => cat.id === categoryId).tasks;
-        setTaskList([...updatedTasks]); // Update the task list state
-        setIsAdding(false); // Close the adding mode
+        await taskManagerInstance.addTask(categoryId, text, date, 'Do zrobienia', details).then(()=> window.location.reload());
+        console.log("handleAddtask categoryId: "+ categoryId);
+        const updatedTasks = taskManagerInstance.categories.find(cat => cat.id === categoryId).tasks;
+        await taskManagerInstance.loadFromFirebase();
+        setTaskList([...updatedTasks]);
+        setIsAdding(false);
     };
+    
 
     // Editing a task
-    const handleSaveEditTask = () => {
-        TaskManager.updateTask(categoryId, editingTask.id, editingTask);
-        const updatedTasks = TaskManager.categories.find(cat => cat.id === categoryId).tasks;
-        setTaskList([...updatedTasks]); // Update the task list state
-        setIsEditing(false); // Close the editing mode
+    const handleSaveEditTask = async () => {
+        const updatedTask ={
+            text: editingTask.text,
+            date: editingTask.date,
+            status: editingTask.status,
+            details: editingTask.details
+        };
+        await taskManagerInstance.updateTask(categoryId, editingTask.id, updatedTask);
+        const updatedTasks = taskManagerInstance.categories.find(cat => cat.id === categoryId).tasks;
+        await taskManagerInstance.loadFromFirebase();
+        setTaskList([...updatedTasks]);
+        setIsEditing(false);
     };
 
-    // Deleting a task
-    const handleDeleteTask = (taskId) => {
-        TaskManager.removeTask(categoryId, taskId);
-        const updatedTasks = TaskManager.categories.find(cat => cat.id === categoryId).tasks;
-        setTaskList([...updatedTasks]); // Update the task list state
+    const handleDeleteTask = async (taskId) => {
+        await taskManagerInstance.removeTask(categoryId, taskId).then(()=>window.location.reload());
+        const updatedTasks = taskManagerInstance.categories.find(cat => cat.id === categoryId).tasks;
+        await taskManagerInstance.loadFromFirebase();
+        setTaskList([...updatedTasks]);
     };
 
+
+    const handleSearchButtonClick = () => {
+        setIsSearchInputVisible(true); // Show search input
+    };
+
+    const handleClickOutside = (event) => {
+        if (searchInputRef.current && !searchInputRef.current.contains(event.target)) {
+            setIsSearchInputVisible(false); // Hide search input
+        }
+    };
+
+    // Handle search input change
+    const handleSearchInputChange = (event) => {
+        setSearchQuery(event.target.value);
+    };
+
+    // Filter tasks based on search query
     const filteredTasks = taskList.filter(task =>
         task.text.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -189,7 +216,7 @@ function TasksList({tasks, categoryId}) {
                 </tr>
                 </thead>
                 <tbody>
-                {filteredTasks.map(task => (
+                {filteredTasks.map(task => (/*{tasks.map(task => (*/
                     <tr key={task.id}>
                         <td className="Table_Name">{task.text}</td>
                         <td className="Table_Deadline">{task.date}</td>
@@ -215,7 +242,7 @@ function TasksList({tasks, categoryId}) {
                     </div>
                 </div>
             )}
-
+    
             {isEditing && editingTask && !isAdding && !isSorting && !isFiltering && (
                 <div className="popup">
                     <h3>Edycja zadania</h3>
@@ -281,18 +308,18 @@ function TasksList({tasks, categoryId}) {
             {isSorting && !isAdding && !isEditing && !isFiltering && (
                 <div className="popup">
                     <h3>Sortuj zadania</h3>
-                    <div className="sortByContainer" onChange={handleSortOptionChange}>
+                    <div className="sortByContainer"/* onChange={handleSortOptionChange}*/ >
                         <label>
-                            <input type="radio" name="sort" value="dateASC" checked={sortOption === 'dateASC'}/><span> ⭡ wg terminu</span>
+                            <input type="radio" name="sort" value="dateASC" checked={sortOption === 'dateASC'} onChange={handleSortOptionChange} /><span> ⭡ wg terminu</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="dateDESC" checked={sortOption === 'dateDESC'}/><span> ⭣ wg terminu</span>
+                            <input type="radio" name="sort" value="dateDESC" checked={sortOption === 'dateDESC'}onChange={handleSortOptionChange} /><span> ⭣ wg terminu</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="nameASC" checked={sortOption === 'nameASC'}/><span> ⭡ wg nazwy</span>
+                            <input type="radio" name="sort" value="nameASC" checked={sortOption === 'nameASC'} onChange={handleSortOptionChange}/><span> ⭡ wg nazwy</span>
                         </label>
                         <label>
-                            <input type="radio" name="sort" value="nameDESC" checked={sortOption === 'nameDESC'}/><span> ⭣ wg nazwy</span>
+                            <input type="radio" name="sort" value="nameDESC" checked={sortOption === 'nameDESC'} onChange={handleSortOptionChange}/><span> ⭣ wg nazwy</span>
                         </label>
                     </div>
                     <div className="buttons-container">
@@ -319,7 +346,7 @@ function TasksList({tasks, categoryId}) {
                                   onChange={(e) => setTaskDetails(e.target.value)}/>
                     </label>
                     <div className="buttons-container">
-                        <button onClick={handleAddTask}>Dodaj</button>
+                        <button onClick={ handleAddTask}>Dodaj</button>
                         <button onClick={() => setIsAdding(false)}>Anuluj</button>
                     </div>
                 </div>
@@ -330,16 +357,25 @@ function TasksList({tasks, categoryId}) {
 
 function CategoriesList() {
     const [visibleCategories, setVisibleCategories] = useState({});
+    const [categories, setCategories] = useState<Category[]>([]);
+    const fetchCategories = async () => {
+        await taskManagerInstance.loadFromFirebase();
+        setCategories(taskManagerInstance.categories);
+    };
 
-    // Toggling visibility when click on category name
-    const toggleCategoryVisibility = (categoryId) => {
+    // Toggle category visibility
+    const toggleCategoryVisibility = (categoryId: string) => {
         setVisibleCategories(prevState => ({
             ...prevState,
             [categoryId]: !prevState[categoryId]
         }));
+        fetchCategories();
     };
 
-    // Displaying category's tasks
+    useEffect(()=>{
+        fetchCategories(); 
+    },[]);
+    
     return (
         <>
             <h3>Zadania do wykonania</h3>
@@ -350,6 +386,7 @@ function CategoriesList() {
                              className="TaskTitleIcon"/>
                         {category.title}
                     </h4>
+                        
                     {visibleCategories[category.id] && (
                         <TasksList tasks={category.tasks.map(task => ({
                             id: task.id,

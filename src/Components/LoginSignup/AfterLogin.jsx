@@ -8,11 +8,16 @@ import SayHello from "../MainView/SayHello.tsx";
 import TasksList from "../MainView/TasksList.tsx";
 import UserMenu from "../MainView/UserMenu.tsx";
 import CategoriesList from "../MainView/CategoriesList.tsx";
-import TaskManager from '../../Structs/TaskManager.js'; // Assuming TaskManager.js contains your TaskManager class
+import taskManagerInstance from '../../Structs/TaskManager.js'; // Assuming TaskManager.js contains your TaskManager class
 
 export const AfterLogin = () => {
+    const fetchCategories = async () => {
+         taskManagerInstance.loadFromFirebase();
+      };
     useEffect(() => {
-        TaskManager.loadFromStorage(); // Dane testowe
+        // TaskManager.loadFromStorage(); // Dane testowe
+        fetchCategories(); // Dane testowe
+
     }, []); // Empty dependency array ensures the effect runs only once after mount
 
     // Main view of TaskList app

@@ -1,10 +1,11 @@
 import { Task } from "./Task";
 
 export class Category {
-    constructor(id, title) {
+constructor(id, title) {
         this.id = id;
         this.title = title;
         this.tasks = [];
+
     }
 
     // Add a task and sort tasks by date
@@ -14,29 +15,31 @@ export class Category {
     }
 
     // Remove a task by ID
-    removeTask(taskId) {
+    async removeTask(taskId) {
         this.tasks = this.tasks.filter(task => task.id !== taskId);
+
     }
 
     // Update a task by ID and sort tasks by date
-    updateTask(taskId, updatedTask) {
+    async updateTask(taskId, updatedTask) {
         const taskIndex = this.tasks.findIndex(task => task.id === taskId);
         if (taskIndex !== -1) {
             this.tasks[taskIndex] = { ...this.tasks[taskIndex], ...updatedTask };
-            this.sortTasksByDateASC();
+            this.tasks.sort((a, b) => new Date(a.date) - new Date(b.date)); // Sort tasks by date
+
         }
     }
 
-    // Update task text by ID
-    updateTaskText(taskId, newText) {
+    async updateTaskText(taskId, newText) {
         const task = this.tasks.find(task => task.id === taskId);
         if (task) {
             task.text = newText;
+
         }
     }
 
     // Update task date by ID and sort tasks by date
-    updateTaskDate(taskId, newDate) {
+    async updateTaskDate(taskId, newDate) {
         const task = this.tasks.find(task => task.id === taskId);
         if (task) {
             task.date = newDate;
@@ -63,4 +66,9 @@ export class Category {
     sortTasksByNameDESC() {
         this.tasks.sort((a, b) => b.text.localeCompare(a.text));
     }
+    
+}
+export function useCategory(id, title) {
+
+return new Category(id, title);
 }
