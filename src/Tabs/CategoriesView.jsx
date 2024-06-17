@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom/dist";
 import TaskManager from '../Structs/TaskManager.js';
+import { useTheme } from "../ThemeContex.js";
 
 TaskManager.loadFromStorage();
 const categories = TaskManager.categories;
@@ -12,10 +13,14 @@ const CategoriesView = () => {
         navigate(`/categories/tasks/${categoryId}`);
     }
 
+    const { isDarkMode } = useTheme(); // Pobieramy stan trybu z hooka
+
+
+
     return (
         <>
             <h3>Lista kategorii</h3>
-            <table className="table">
+            <table className={`table ${isDarkMode ? 'dark' : 'light'}`}>
                 <thead>
                     <tr>
                         <th>ID kategorii</th>

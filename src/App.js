@@ -10,7 +10,11 @@ import Settings from './Tabs/Settings';
 import CategoriesView from './Tabs/CategoriesView';
 import TaskInCat from './Tabs/TaskViewInCategories';
 
+
+
 function App() {
+
+
   return (
   <div>
     <AuthProvider>

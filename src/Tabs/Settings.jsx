@@ -1,29 +1,43 @@
 import React from "react";
 import "../Components/LoginSignup/AfterLogin.css";
-// import TestDatabase from '../../testDatabase'
 import AppLogo from "../Components/MainView/AppLogo.tsx";
 import NavigationBar from "../Components/MainView/NavigationBar.tsx";
 import LogOut from "../Components/MainView/LogOut.tsx";
 import SettingsView from "./SettingsView.jsx";
+import UserMenu from '../Components/MainView/UserMenu.tsx';
+import CategoriesView from "./CategoriesView.jsx";
+import { useTheme } from '../ThemeContex.js'; // Importujemy hook do użycia tematu
+
 const Settings = () => {
+  const { isDarkMode } = useTheme(); // Pobieramy stan trybu z hooka
+
   return (
     <>
-      <div className="leftSide">
-        <div className="AppLogo">
+      <div className={`leftSide ${isDarkMode ? 'dark' : 'light'}`}>
+        <div className={`AppLogo ${isDarkMode ? 'dark' : 'light'}`}>
           <AppLogo />
         </div>
 
-        <div className="NavigationBar">
+        <div className={`NavigationBar ${isDarkMode ? 'dark' : 'light'}`}>
           <NavigationBar />
         </div>
 
-        <div className="LogOut">
+        <div className={`LogOut ${isDarkMode ? 'dark' : 'light'}`}>
           <LogOut />
         </div>
       </div>
 
-      <div className="centerSide">
+      <div className={`centerSide ${isDarkMode ? 'dark' : 'light'}`}>
         <SettingsView />
+      </div>
+
+      <div className={`rightSide ${isDarkMode ? 'dark' : 'light'}`}>
+          <div className={`UserMenu ${isDarkMode ? 'dark' : 'light'}`}>
+              <UserMenu/>
+          </div>
+          <div className={`CategoriesView ${isDarkMode ? 'dark' : 'light'}`}>
+              <CategoriesView/>
+          </div>
       </div>
     </>
   );

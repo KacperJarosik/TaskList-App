@@ -1,10 +1,12 @@
 import {useState, useEffect, useRef} from 'react';
 import TaskManager from '../../Structs/TaskManager.js';
+import '../../ThemeContex.js'
 //  Importing icons
 // @ts-ignore
 import arrow_right from "../Assets/strzalka_prawo.png";
 // @ts-ignore
 import arrow_down from "../Assets/strzalka_dol.png";
+import { useTheme } from '../../ThemeContex.js';
 // Load data from storage
 TaskManager.loadFromStorage();
 
@@ -30,6 +32,8 @@ function TasksList({tasks, categoryId}) {
     const [filterStartDate, setFilterStartDate] = useState(''); // Filtering by deadline date
     const [filterEndDate, setFilterEndDate] = useState('');
     const [filterStatus, setFilterStatus] = useState('');   // Filtering by task status
+
+
 
     // Handling a click action on search button
     const handleSearchButtonClick = () => {
@@ -164,23 +168,26 @@ function TasksList({tasks, categoryId}) {
         setIsAdding(true);
     };
 
+    const { isDarkMode } = useTheme(); // Pobieramy stan trybu z hooka
+
+
     // Displaying tasks list with categories
     return (
         <>
-            <div className="taskButtons">
+            <div className={`taskButtons ${isDarkMode ? 'dark' : 'light'}`}>
                 {!isSearchInputVisible && (
-                    <button className="SearchButton" type="button" onClick={handleSearchButtonClick}>Wyszukaj</button>
+                    <button className={`SearchButton ${isDarkMode ? 'dark' : 'light'}`} type="button" onClick={handleSearchButtonClick}>Wyszukaj</button>
                 )}
                 {isSearchInputVisible && (
                     <input ref={searchInputRef} type="text" className="SearchInput" value={searchQuery}
                            onChange={handleSearchInputChange}/>
                 )}
-                <button className="FilteringButton" onClick={handleFilteringClick}>Filtruj</button>
-                <button className="SortingButton" onClick={handleSortingClick}>Sortuj</button>
-                <button className="AddButton" onClick={handleAddClick}>Dodaj</button>
+                <button className={`FilteringButton ${isDarkMode ? 'dark' : 'light'}`} onClick={handleFilteringClick} >Filtruj</button>
+                <button className={`SortingButton ${isDarkMode ? 'dark' : 'light'}`} onClick={handleSortingClick}>Sortuj</button>
+                <button className={`AddButton ${isDarkMode ? 'dark' : 'light'}`} onClick={handleAddClick}>Dodaj</button>
             </div>
-            <table className="TasksListTable">
-                <thead>
+            <table className={`TasksListTable ${isDarkMode ? 'dark' : 'light'}`} >
+                <thead className={`TasksListTable ${isDarkMode ? 'dark' : 'light'}`}>
                 <tr>
                     <th className="Table_Name">Nazwa</th>
                     <th className="Table_Deadline">Termin</th>
@@ -194,12 +201,12 @@ function TasksList({tasks, categoryId}) {
                         <td className="Table_Name">{task.text}</td>
                         <td className="Table_Deadline">{task.date}</td>
                         <td className="Table_Status">{task.status}</td>
-                        <td className="Table_Details">
+                        <td className={`Table_Details ${isDarkMode ? 'dark' : 'light'}`}>
                             <span onClick={() => handleDetailsClick(task)}>Szczegóły</span>
-                            <button className="DeleteButton" type="button"
+                            <button className={`DeleteButton ${isDarkMode ? 'dark' : 'light'}`} type="button"
                                     onClick={() => handleDeleteTask(task.id)}>Usuń
                             </button>
-                            <button className="EditButton" onClick={() => handleEditClick(task)}>Edytuj</button>
+                            <button className={`EditButton ${isDarkMode ? 'dark' : 'light'}`} onClick={() => handleEditClick(task)}>Edytuj</button>
                         </td>
                     </tr>
                 ))}
@@ -339,13 +346,16 @@ function CategoriesList() {
         }));
     };
 
+    const { isDarkMode } = useTheme(); // Pobieramy stan trybu z hooka
+
+
     // Displaying category's tasks
     return (
         <>
             <h3>Zadania do wykonania</h3>
             {categories.map(category => (
-                <div key={category.id} className="TaskListActionsBlock">
-                    <h4 className="TaskListCategoryTitleBlock" onClick={() => toggleCategoryVisibility(category.id)}>
+                <div key={category.id} className={`TaskListActionsBlock ${isDarkMode ? 'dark' : 'light'}`}>
+                    <h4 className={`TaskListCategoryTitleBlock ${isDarkMode ? 'dark' : 'light'}`} onClick={() => toggleCategoryVisibility(category.id)}>
                         <img src={visibleCategories[category.id] ? arrow_down : arrow_right} alt="Arrow icon"
                              className="TaskTitleIcon"/>
                         {category.title}
